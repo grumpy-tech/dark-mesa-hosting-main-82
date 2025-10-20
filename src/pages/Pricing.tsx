@@ -27,7 +27,7 @@ const Pricing = () => {
       name: "Standard Multi-Page",
       price: 499,
       features: [
-        "Up to 3 pages",
+        "Up to 5 pages",
         "Custom design",
         "Stock images",
         "Enhanced SEO",
@@ -38,7 +38,7 @@ const Pricing = () => {
       name: "Premium Multi-Page",
       price: 749,
       features: [
-        "Up to 5 pages",
+        "Up to 10 pages",
         "E-commerce basics",
         "Blog functionality",
         "Advanced SEO",
@@ -126,7 +126,6 @@ const Pricing = () => {
   ];
 
   const addOns = [
-    { name: "Custom Logo Design", price: 75 },
     { name: "Extra Page", price: 125 },
     { name: "Advanced SEO Package", price: 200 },
     { name: "Monthly Maintenance", price: 40, recurring: true },
@@ -185,6 +184,11 @@ const Pricing = () => {
                       </li>
                     ))}
                   </ul>
+                  <Link to="/quote" state={{ plan: pkg.name }}>
+                    <Button className="w-full mt-4 bg-primary text-primary-foreground hover:bg-primary/90">
+                      Get Started
+                    </Button>
+                  </Link>
                 </Card>
               </motion.div>
             ))}
@@ -225,6 +229,11 @@ const Pricing = () => {
                       </li>
                     ))}
                   </ul>
+                  <Link to="/quote" state={{ plan: plan.name, needsHosting: true }}>
+                    <Button className="w-full mt-4 bg-accent text-accent-foreground hover:bg-accent/90">
+                      Get Started
+                    </Button>
+                  </Link>
                 </Card>
               </motion.div>
             ))}
@@ -389,7 +398,7 @@ const Pricing = () => {
             <p className="text-lg text-muted-foreground mb-8">
               Get a free consultation and detailed quote for your project
             </p>
-            <Link to="/contact">
+            <Link to="/quote">
               <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
                 Get Free Quote <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
