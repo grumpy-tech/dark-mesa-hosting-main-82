@@ -32,7 +32,7 @@ export function Navigation() {
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 pt-6">
       {/* Brand Logo */}
-      <Link to="/" className="text-xl font-bold text-gradient bg-background/80 backdrop-blur-lg border border-border h-10 px-4 rounded-full shadow-lg inline-flex items-center justify-center leading-none">
+      <Link to="/" className="text-xl font-bold text-gradient bg-background/80 backdrop-blur-lg border border-[#252A34] h-10 px-4 rounded-full shadow-lg hover:shadow-[0_0_20px_rgba(255,46,99,0.6)] transition-shadow duration-300 inline-flex items-center justify-center leading-none">
         Dark Mesa
       </Link>
       
