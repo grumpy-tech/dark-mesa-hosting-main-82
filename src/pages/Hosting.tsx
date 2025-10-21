@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
@@ -239,7 +240,7 @@ const Hosting = () => {
                         </li>
                       ))}
                     </ul>
-                    <Link to="/contact" state={{ plan: plan.name }}>
+                    <Link to="/quote" state={{ plan: plan.name }}>
                       <Button
                         className={`w-full ${
                           plan.popular
@@ -284,7 +285,7 @@ const Hosting = () => {
             <p className="text-lg text-muted-foreground mb-8">
               Join hundreds of businesses trusting us with their online presence
             </p>
-            <Link to="/contact">
+            <Link to="/quote">
               <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
                 Get Started Today <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
@@ -292,6 +293,8 @@ const Hosting = () => {
           </motion.div>
         </div>
       </section>
+      
+      <Footer />
     </div>
   );
 };

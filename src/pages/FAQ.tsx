@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import {
@@ -201,6 +202,8 @@ const FAQ = () => {
           </motion.div>
         </div>
       </section>
+      
+      <Footer />
     </div>
   );
 };

@@ -117,10 +117,14 @@ const Index = () => {
             transition={{ duration: 0.8 }}
             className="space-y-8"
           >
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
-              <span className="block text-primary font-bold mb-2">Dark Mesa</span>
-              <span className="block text-2xl md:text-4xl" style={{ color: "hsl(178 93% 55%)" }}>Design. Speed. Reliability.</span>
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+              <span className="text-foreground/60">Dark Mesa</span>
+              <br />
+              Professional Websites Built Fast
             </h1>
+            <p className="text-xl md:text-2xl mb-4 font-semibold" style={{ color: "hsl(178 93% 60%)" }}>
+              Design. Speed. Reliability.
+            </p>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
               Professional websites from <span className="text-primary font-semibold">$249</span> + hosting at{" "}
               <span className="text-primary font-semibold">$12/month</span>. Delivered in under a week.
@@ -193,28 +197,29 @@ const Index = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <Card className="p-8 h-full border-border hover:border-primary/50 transition-all space-y-6"
-            >
-              <div className="inline-block p-3 bg-primary/10 rounded-lg">
-                <Globe className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="text-3xl font-bold">Website Building</h3>
-              <p className="text-muted-foreground text-lg">
-                Custom-designed websites built with modern technology. Fast, responsive, and beautiful.
-              </p>
-              <ul className="space-y-3">
-                {["Mobile-first design", "SEO optimized", "Lightning fast", "Easy to update"].map((item) => (
-                  <li key={item} className="flex items-center gap-2">
-                    <CheckCircle2 className="w-5 h-5 text-primary" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-                <Link to="/website-building">
-                  <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">
-                    Learn More <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
-                </Link>
+              <Card className="p-8 h-full border-border hover:border-primary/50 transition-all space-y-6 border-2">
+                <div className="inline-block p-3 bg-primary/10 rounded-lg">
+                  <Globe className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-3xl font-bold">Website Building</h3>
+                <p className="text-muted-foreground text-lg mb-6">
+                  Custom-designed websites built with modern technology. Fast, responsive, and beautiful.
+                </p>
+                <ul className="space-y-3">
+                  {["Mobile-first design", "SEO optimized", "Lightning fast", "Easy to update"].map((item) => (
+                    <li key={item} className="flex items-center gap-2">
+                      <CheckCircle2 className="w-5 h-5 text-primary" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="pt-4">
+                  <Link to="/website-building">
+                    <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">
+                      Learn More <ArrowRight className="ml-2 w-4 h-4" />
+                    </Button>
+                  </Link>
+                </div>
               </Card>
             </motion.div>
 
@@ -224,28 +229,29 @@ const Index = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <Card className="p-8 h-full border-border hover:border-accent/50 transition-all space-y-6"
-            >
-              <div className="inline-block p-3 bg-accent/10 rounded-lg">
-                <Server className="w-8 h-8 text-accent" />
-              </div>
-              <h3 className="text-3xl font-bold">Hosting Services</h3>
-              <p className="text-muted-foreground text-lg">
-                Reliable, secure hosting with 99.9% uptime. Your site will always be online when you need it.
-              </p>
-              <ul className="space-y-3">
-                {["99.9% uptime guarantee", "SSL certificate included", "Daily backups", "24/7 monitoring"].map((item) => (
-                  <li key={item} className="flex items-center gap-2">
-                    <CheckCircle2 className="w-5 h-5 text-accent" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-                <Link to="/hosting">
-                  <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
-                    Learn More <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
-                </Link>
+              <Card className="p-8 h-full border-border hover:border-accent/50 transition-all space-y-6 border-2">
+                <div className="inline-block p-3 bg-accent/10 rounded-lg">
+                  <Server className="w-8 h-8 text-accent" />
+                </div>
+                <h3 className="text-3xl font-bold">Hosting Services</h3>
+                <p className="text-muted-foreground text-lg mb-6">
+                  Reliable, secure hosting with 99.9% uptime. Your site will always be online when you need it.
+                </p>
+                <ul className="space-y-3">
+                  {["99.9% uptime guarantee", "SSL certificate included", "Daily backups", "24/7 monitoring"].map((item) => (
+                    <li key={item} className="flex items-center gap-2">
+                      <CheckCircle2 className="w-5 h-5 text-accent" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="pt-4">
+                  <Link to="/hosting">
+                    <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
+                      Learn More <ArrowRight className="ml-2 w-4 h-4" />
+                    </Button>
+                  </Link>
+                </div>
               </Card>
             </motion.div>
           </div>

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
@@ -273,7 +274,7 @@ const WebsiteBuilding = () => {
                         </li>
                       ))}
                     </ul>
-                    <Link to="/contact" state={{ plan: pkg.name }}>
+                    <Link to="/quote" state={{ plan: pkg.name }}>
                       <Button className="w-full mt-4">Get Started</Button>
                     </Link>
                   </div>
@@ -310,7 +311,7 @@ const WebsiteBuilding = () => {
             <p className="text-lg text-muted-foreground mb-8">
               Get started today and have your professional website live in under a week
             </p>
-            <Link to="/contact">
+            <Link to="/quote">
               <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
                 Get Free Quote <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
@@ -318,6 +319,8 @@ const WebsiteBuilding = () => {
           </motion.div>
         </div>
       </section>
+      
+      <Footer />
     </div>
   );
 };

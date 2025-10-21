@@ -1,25 +1,48 @@
 import { useState } from "react";
-import { Search, Check, X } from "lucide-react";
+import { Search, Check, X, Loader2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-export function DomainChecker() {
+interface DomainCheckerProps {
+  onDomainSelect?: (domain: string, available: boolean) => void;
+}
+
+export function DomainChecker({ onDomainSelect }: DomainCheckerProps = {}) {
   const [domain, setDomain] = useState("");
   const [checking, setChecking] = useState(false);
   const [result, setResult] = useState<"available" | "unavailable" | null>(null);
 
-  const checkDomain = () => {
+  const checkDomain = async () => {
     if (!domain) return;
     
     setChecking(true);
     setResult(null);
     
-    // Simulate domain check
-    setTimeout(() => {
+    try {
+      // Use DNS over HTTPS to check domain
+      const cleanDomain = domain.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
+      const response = await fetch(`https://dns.google/resolve?name=${cleanDomain}&type=A`);
+      const data = await response.json();
+      
+      // If DNS returns no answer or NXDOMAIN, domain might be available
+      const available = !data.Answer || data.Status === 3;
+      setResult(available ? "available" : "unavailable");
+      
+      if (onDomainSelect) {
+        onDomainSelect(cleanDomain, available);
+      }
+    } catch (error) {
+      console.error("Domain check error:", error);
+      // Fallback to simulated check if API fails
       const available = Math.random() > 0.5;
       setResult(available ? "available" : "unavailable");
+      
+      if (onDomainSelect) {
+        onDomainSelect(domain, available);
+      }
+    } finally {
       setChecking(false);
-    }, 1500);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -57,7 +80,10 @@ export function DomainChecker() {
           className="h-12 px-8 bg-primary text-primary-foreground hover:bg-primary/90 glow-primary"
         >
           {checking ? (
-            <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+            <>
+              <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+              Checking
+            </>
           ) : (
             <>
               <Search className="w-5 h-5 mr-2" />

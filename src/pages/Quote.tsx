@@ -222,6 +222,7 @@ const Quote = () => {
                     <SelectItem value="Standard Multi-Page">Standard Multi-Page (5 pages) - $499</SelectItem>
                     <SelectItem value="Premium Multi-Page">Premium Multi-Page (10 pages) - $749</SelectItem>
                     <SelectItem value="Custom Enterprise">Custom Enterprise - $999+</SelectItem>
+                    <SelectItem value="Hosting Only">Hosting Only (No website building needed)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -241,27 +242,25 @@ const Quote = () => {
 
               <div>
                 <Label htmlFor="domainName">Domain Name (if you need domain registration)</Label>
-                <Input
-                  id="domainName"
-                  value={formData.domainName}
-                  onChange={(e) => setFormData({ ...formData, domainName: e.target.value })}
-                  placeholder="example.com"
-                />
-                {formData.domainName && (
-                  <p className="text-xs text-muted-foreground mt-2">
-                    Domain registration at registrar's cost + handling fee (typically $25-35 for .com first year)
+                <div className="mt-2">
+                  <DomainChecker 
+                    onDomainSelect={(domain, available) => {
+                      if (available) {
+                        setFormData({ ...formData, domainName: domain });
+                        setDomainAvailable(true);
+                      } else {
+                        setDomainAvailable(false);
+                      }
+                    }}
+                  />
+                </div>
+                {formData.domainName && domainAvailable && (
+                  <p className="text-xs text-success mt-2 flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4" />
+                    Domain available! Cost will depend on domain pricing. Domain registration at registrar's cost + handling fee (typically $25-35 for .com first year)
                   </p>
                 )}
               </div>
-
-              {formData.domainName && (
-                <div>
-                  <Label>Check Domain Availability</Label>
-                  <div className="mt-2">
-                    <DomainChecker />
-                  </div>
-                </div>
-              )}
 
               <div>
                 <Label htmlFor="existingWebsite">Do you have an existing website?</Label>
@@ -301,7 +300,7 @@ const Quote = () => {
                     <SelectValue placeholder="Select option" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="yes">I have a logo</SelectItem>
+                    <SelectItem value="yes">I have a logo - upload below</SelectItem>
                     <SelectItem value="no">I need a logo ($75 add-on)</SelectItem>
                   </SelectContent>
                 </Select>
@@ -309,7 +308,7 @@ const Quote = () => {
 
               {formData.hasLogo === "yes" && (
                 <div>
-                  <Label htmlFor="logo">Upload Logo (Optional)</Label>
+                  <Label htmlFor="logo">Upload Your Logo</Label>
                   <div className="flex items-center gap-4 mt-2">
                     <Input
                       id="logo"

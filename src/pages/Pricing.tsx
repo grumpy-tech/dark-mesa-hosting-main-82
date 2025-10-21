@@ -126,9 +126,9 @@ const Pricing = () => {
   ];
 
   const addOns = [
-    { name: "Extra Page", price: 125 },
+    { name: "Extra Page", price: 100 },
     { name: "Advanced SEO Package", price: 200 },
-    { name: "Monthly Maintenance", price: 40, recurring: true },
+    { name: "Monthly Maintenance & Monitoring", price: 10, recurring: true },
     { name: "Domain Registration Assistance", price: 15 },
   ];
 
@@ -297,7 +297,7 @@ const Pricing = () => {
                       </li>
                     ))}
                   </ul>
-                  <Link to="/contact" state={{ plan: bundle.name }}>
+                  <Link to="/quote" state={{ plan: bundle.name }}>
                     <Button
                       className={`w-full ${
                         bundle.popular ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"
