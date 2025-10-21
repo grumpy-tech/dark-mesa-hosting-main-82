@@ -30,15 +30,19 @@ export function Navigation() {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 pt-6">
-      {/* Brand Logo */}
-      <Link to="/" className="text-xl font-bold text-gradient bg-background/80 backdrop-blur-lg border border-border h-10 px-4 rounded-full shadow-lg inline-flex items-center justify-center leading-none">
-        Dark Mesa
-      </Link>
-      
-      {/* Navigation and Theme Toggle */}
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2 bg-background/80 backdrop-blur-lg border border-border py-2 px-2 rounded-full shadow-lg">
+    <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center px-6 pt-6">
+      {/* Unified Navigation Bar */}
+      <div className="flex items-center gap-2 bg-background/80 backdrop-blur-lg border border-border py-2 px-4 rounded-full shadow-lg">
+        {/* Brand Logo */}
+        <Link to="/" className="text-xl font-bold text-gradient px-2 py-1">
+          Dark Mesa
+        </Link>
+        
+        {/* Spacer */}
+        <div className="flex-1" />
+        
+        {/* Navigation Items */}
+        <div className="flex items-center gap-2">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.name;
@@ -73,6 +77,8 @@ export function Navigation() {
             );
           })}
         </div>
+        
+        {/* Theme Toggle */}
         <ThemeToggle />
       </div>
     </div>
