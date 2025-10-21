@@ -91,7 +91,7 @@ const Index = () => {
         
         {/* Background Text */}
         <div className="absolute top-[18%] left-0 right-0 flex justify-center pointer-events-none">
-          <span className="font-semibold bg-gradient-to-b from-foreground/48 to-transparent bg-clip-text text-transparent border-2 border-border/20 rounded-lg px-4 py-2" 
+          <span className="font-semibold bg-gradient-to-b from-foreground/48 to-transparent bg-clip-text text-transparent" 
                 style={{ fontSize: '10.8rem', lineHeight: '1' }}>
             Dark Mesa
           </span>
