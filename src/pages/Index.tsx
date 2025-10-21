@@ -107,7 +107,7 @@ const Index = () => {
         }} transition={{
           duration: 0.8
         }} className="space-y-8">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+            <h1 className="text-xl md:text-3xl font-bold mb-6 leading-tight">
               Professional Websites Built Fast
             </h1>
             <p className="text-xl md:text-2xl mb-4 font-semibold" style={{
