@@ -158,7 +158,6 @@ const Hosting = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="border-2 border-border rounded-lg p-6"
             >
               <div className="text-4xl font-bold text-accent mb-2">99.9%</div>
               <div className="text-sm text-muted-foreground">Uptime Guarantee</div>
@@ -168,7 +167,6 @@ const Hosting = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
               viewport={{ once: true }}
-              className="border-2 border-border rounded-lg p-6"
             >
               <div className="text-4xl font-bold text-accent mb-2">&lt;1s</div>
               <div className="text-sm text-muted-foreground">Load Time</div>
@@ -178,7 +176,6 @@ const Hosting = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
               viewport={{ once: true }}
-              className="border-2 border-border rounded-lg p-6"
             >
               <div className="text-4xl font-bold text-accent mb-2">24/7</div>
               <div className="text-sm text-muted-foreground">Monitoring</div>
@@ -188,7 +185,6 @@ const Hosting = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
               viewport={{ once: true }}
-              className="border-2 border-border rounded-lg p-6"
             >
               <div className="text-4xl font-bold text-accent mb-2">Daily</div>
               <div className="text-sm text-muted-foreground">Backups</div>
