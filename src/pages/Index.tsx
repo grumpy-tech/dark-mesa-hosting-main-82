@@ -90,14 +90,14 @@ const Index = () => {
         <AnimatedBackground />
         
         {/* Background Text */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="absolute top-[15%] left-0 right-0 flex justify-center pointer-events-none">
           <span className="font-semibold bg-gradient-to-b from-foreground/40 to-transparent bg-clip-text text-transparent" 
                 style={{ fontSize: '10.8rem', lineHeight: '1' }}>
             Dark Mesa
           </span>
         </div>
 
-        <div className="relative z-10 container mx-auto px-6 text-center">
+        <div className="relative z-10 container mx-auto px-6 text-center mt-[20vh]">
           <motion.div initial={{
           opacity: 0,
           y: 30
@@ -106,16 +106,16 @@ const Index = () => {
           y: 0
         }} transition={{
           duration: 0.8
-        }} className="space-y-8">
-            <h1 className="text-xl md:text-3xl font-bold mb-3 leading-tight">
+        }} className="space-y-4">
+            <h1 className="text-xl md:text-3xl font-bold mb-2 leading-tight">
               Professional Websites Built Fast
             </h1>
-            <p className="text-xl md:text-2xl mb-4 font-semibold" style={{
+            <p className="text-xl md:text-2xl mb-2 font-semibold" style={{
             color: "hsl(178 93% 60%)"
           }}>
               Design. Speed. Reliability.
             </p>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-2">
               Professional websites from <span className="text-primary font-semibold">$249</span> + hosting at{" "}
               <span className="text-primary font-semibold">$12/month</span>. Delivered in under a week.
             </p>
