@@ -88,6 +88,15 @@ const Index = () => {
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <AnimatedBackground />
+        
+        {/* Background Text */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <span className="font-semibold bg-gradient-to-b from-foreground/40 to-transparent bg-clip-text text-transparent" 
+                style={{ fontSize: '10.8rem', lineHeight: '1' }}>
+            Dark Mesa
+          </span>
+        </div>
+
         <div className="relative z-10 container mx-auto px-6 text-center">
           <motion.div initial={{
           opacity: 0,
@@ -99,8 +108,6 @@ const Index = () => {
           duration: 0.8
         }} className="space-y-8">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-              <span className="text-foreground/60 text-9xl font-semibold">Dark Mesa</span>
-              <br />
               Professional Websites Built Fast
             </h1>
             <p className="text-xl md:text-2xl mb-4 font-semibold" style={{
