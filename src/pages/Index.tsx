@@ -90,8 +90,8 @@ const Index = () => {
         <AnimatedBackground />
         
         {/* Background Text */}
-        <div className="absolute top-[18%] left-0 right-0 flex justify-center pointer-events-none">
-          <span className="font-semibold bg-gradient-to-b from-foreground/48 to-transparent bg-clip-text text-transparent" 
+        <div className="absolute top-[28%] left-0 right-0 flex justify-center pointer-events-none">
+          <span className="font-semibold bg-gradient-to-b from-foreground/58 to-transparent bg-clip-text text-transparent" 
                 style={{ fontSize: '10.8rem', lineHeight: '1' }}>
             Dark Mesa
           </span>
@@ -336,7 +336,7 @@ const Index = () => {
       </section>
 
       {/* Get Your Free Quote */}
-      <section className="py-14 bg-gradient-to-b from-card/50 to-background">
+      <section className="py-10 bg-gradient-to-b from-card/50 to-background">
         <div className="container mx-auto px-6 text-center">
           <motion.div initial={{
           opacity: 0,
@@ -349,10 +349,10 @@ const Index = () => {
         }} viewport={{
           once: true
         }} className="max-w-3xl mx-auto">
-            <Card className="p-10 border-2 border-primary/20 bg-card/80 backdrop-blur-sm hover:border-primary/40 transition-all glow-primary">
-              <Users className="w-12 h-12 text-primary mx-auto mb-5" />
-              <h2 className="text-2xl md:text-3xl font-bold mb-3">Get Your Free Quote</h2>
-              <p className="text-base text-muted-foreground mb-6">
+            <Card className="p-8 border-2 border-primary/20 bg-card/80 backdrop-blur-sm hover:border-primary/40 transition-all glow-primary">
+              <Users className="w-10 h-10 text-primary mx-auto mb-4" />
+              <h2 className="text-xl md:text-2xl font-bold mb-2">Get Your Free Quote</h2>
+              <p className="text-sm text-muted-foreground mb-5">
                 Answer a few quick questions to get an instant estimate tailored to your business needs
               </p>
               <Link to="/quote">
