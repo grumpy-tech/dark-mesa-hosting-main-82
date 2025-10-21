@@ -90,8 +90,8 @@ const Index = () => {
         <AnimatedBackground />
         
         {/* Background Text */}
-        <div className="absolute top-[20%] left-0 right-0 flex justify-center pointer-events-none">
-          <span className="font-semibold bg-gradient-to-b from-foreground/42 to-transparent bg-clip-text text-transparent" 
+        <div className="absolute top-[15%] left-0 right-0 flex justify-center pointer-events-none">
+          <span className="font-semibold bg-gradient-to-b from-foreground/40 to-transparent bg-clip-text text-transparent"
                 style={{ fontSize: '10.8rem', lineHeight: '1' }}>
             Dark Mesa
           </span>
