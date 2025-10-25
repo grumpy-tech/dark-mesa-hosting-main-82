@@ -31,15 +31,15 @@ export function Navigation() {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center px-3 sm:px-4 md:px-6 pt-4 sm:pt-5 md:pt-6">
+    <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center px-3 sm:px-4 md:px-6 pt-3 sm:pt-3 md:pt-4">
       {/* Unified Navigation Bar */}
-      <div className="flex items-center gap-1 sm:gap-2 bg-background/80 backdrop-blur-lg border border-border py-1.5 sm:py-2 px-2 sm:px-3 md:px-4 rounded-full shadow-lg max-w-full overflow-x-auto">
+      <div className="flex items-center gap-1 sm:gap-2 bg-background/80 backdrop-blur-lg border border-border py-1 sm:py-1 px-2 sm:px-3 md:px-4 rounded-full shadow-lg max-w-full overflow-x-auto">
         {/* Brand Logo */}
-        <Link to="/" className="px-2 py-1 flex items-center">
+        <Link to="/" className="px-2 py-0.5 flex items-center">
           <img 
             src={darkMesaLogo} 
             alt="Dark Mesa" 
-            className="h-9 sm:h-10 md:h-12 w-auto object-contain"
+            className="h-7 sm:h-8 md:h-9 w-auto object-contain"
           />
         </Link>
         
