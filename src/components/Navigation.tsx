@@ -39,7 +39,7 @@ export function Navigation() {
           <img 
             src={darkMesaLogo} 
             alt="Dark Mesa" 
-            className="h-7 sm:h-8 md:h-9 w-auto object-contain"
+            className="h-9 sm:h-10 md:h-12 w-auto object-contain"
           />
         </Link>
         
