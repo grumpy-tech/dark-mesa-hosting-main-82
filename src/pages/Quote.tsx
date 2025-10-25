@@ -37,6 +37,7 @@ const Quote = () => {
     serviceType: location.state?.plan || "",
     needsHosting: false,
     domainName: "",
+    needsDomainHandling: false,
     hasLogo: "",
     companyOverview: "",
     services: "",
@@ -63,19 +64,14 @@ const Quote = () => {
         total += 129;
       }
       
-      // Domain (variable, typically $25-35)
-      if (formData.domainName) {
-        total += 30; // average estimate
+      // Domain handling
+      if (formData.needsDomainHandling) {
+        total += 15; // handling fee only
       }
       
       // Rush delivery
       if (formData.turnaroundTime === "rush") {
         total += 150;
-      }
-      
-      // Logo
-      if (formData.hasLogo === "no") {
-        total += 75;
       }
       
       setEstimate(total);
@@ -257,10 +253,25 @@ const Quote = () => {
                 {formData.domainName && domainAvailable && (
                   <p className="text-xs text-success mt-2 flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4" />
-                    Domain available! Cost will depend on domain pricing. Domain registration at registrar's cost + handling fee (typically $25-35 for .com first year)
+                    Domain available! Domain purchase cost varies depending on the domain.
                   </p>
                 )}
               </div>
+
+              {formData.domainName && domainAvailable && (
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="needsDomainHandling"
+                      checked={formData.needsDomainHandling}
+                      onCheckedChange={(checked) => setFormData({ ...formData, needsDomainHandling: checked as boolean })}
+                    />
+                    <Label htmlFor="needsDomainHandling" className="cursor-pointer">
+                      I need help with domain registration process (+$15 handling fee)
+                    </Label>
+                  </div>
+                </div>
+              )}
 
               <div>
                 <Label htmlFor="existingWebsite">Do you have an existing website?</Label>
@@ -291,41 +302,26 @@ const Quote = () => {
               )}
 
               <div>
-                <Label htmlFor="hasLogo">Logo</Label>
-                <Select
-                  value={formData.hasLogo}
-                  onValueChange={(value) => setFormData({ ...formData, hasLogo: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select option" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="yes">I have a logo - upload below</SelectItem>
-                    <SelectItem value="no">I need a logo ($75 add-on)</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {formData.hasLogo === "yes" && (
-                <div>
-                  <Label htmlFor="logo">Upload Your Logo</Label>
-                  <div className="flex items-center gap-4 mt-2">
-                    <Input
-                      id="logo"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleLogoUpload}
-                      className="cursor-pointer"
-                    />
-                    {logo && (
-                      <span className="text-sm text-muted-foreground flex items-center gap-2">
-                        <Upload className="w-4 h-4" />
-                        {logo.name}
-                      </span>
-                    )}
-                  </div>
+                <Label htmlFor="logo">Upload Your Logo (Optional)</Label>
+                <div className="flex items-center gap-4 mt-2">
+                  <Input
+                    id="logo"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleLogoUpload}
+                    className="cursor-pointer"
+                  />
+                  {logo && (
+                    <span className="text-sm text-muted-foreground flex items-center gap-2">
+                      <Upload className="w-4 h-4" />
+                      {logo.name}
+                    </span>
+                  )}
                 </div>
-              )}
+                <p className="text-xs text-muted-foreground mt-1">
+                  If you don't have a logo yet, that's okay! We can discuss logo options during consultation.
+                </p>
+              </div>
 
               <div>
                 <Label htmlFor="colorScheme">Preferred Color Scheme</Label>

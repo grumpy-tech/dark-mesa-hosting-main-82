@@ -48,7 +48,7 @@ const FAQ = () => {
         },
         {
           q: "Are there any hidden fees?",
-          a: "No hidden fees! Our pricing is transparent. Additional costs only apply for optional add-ons like custom logos ($75), extra pages ($125 each), or domain registration assistance (registrar cost + $15 handling).",
+          a: "No hidden fees! Our pricing is transparent. Additional costs only apply for optional add-ons like extra pages ($100 each), or domain registration assistance (registrar cost + $15 handling).",
         },
         {
           q: "Can I get a refund if I'm not satisfied?",
@@ -65,7 +65,7 @@ const FAQ = () => {
         },
         {
           q: "Can I update my website myself after it's built?",
-          a: "Yes! We can provide you with simple instructions for basic content updates. For more complex changes, we offer monthly maintenance packages starting at $40/month.",
+          a: "Yes! We can provide you with simple instructions for basic content updates. For more complex changes, we offer monthly maintenance packages starting at $15/month.",
         },
         {
           q: "Do you provide content writing?",
@@ -82,7 +82,7 @@ const FAQ = () => {
       questions: [
         {
           q: "What does your hosting include?",
-          a: "Our hosting includes SSL certificates, daily/hourly backups, 99.9% uptime guarantee, DDoS protection, 24/7 monitoring, unlimited bandwidth, and customer support. Basic hosting includes 10GB storage; Advanced includes 50GB plus CDN.",
+          a: "Our hosting includes SSL certificates, daily/hourly backups, 99.9% uptime guarantee, DDoS protection, 24/7 monitoring, unlimited bandwidth, and customer support.",
         },
         {
           q: "Do I need to purchase hosting if I already have a website?",
@@ -116,7 +116,7 @@ const FAQ = () => {
       questions: [
         {
           q: "What kind of support do you offer after launch?",
-          a: "All hosting packages include email support. Advanced hosting includes priority support with faster response times. We also offer optional monthly maintenance ($40/month) for regular updates and changes.",
+          a: "All hosting packages include email support. Advanced hosting includes priority support with faster response times. We also offer optional monthly maintenance ($15/month) for regular updates and changes.",
         },
         {
           q: "What if I need changes after my website is live?",

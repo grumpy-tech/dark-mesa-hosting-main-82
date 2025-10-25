@@ -132,7 +132,7 @@ const Pricing = () => {
   const addOns = [
     { name: "Extra Page", price: 100 },
     { name: "Advanced SEO Package", price: 200 },
-    { name: "Monthly Maintenance & Monitoring", price: 10, recurring: true },
+    { name: "Monthly Maintenance & Monitoring", price: 15, recurring: true },
     { name: "Domain Registration Assistance", price: 15 },
   ];
 
