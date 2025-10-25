@@ -385,8 +385,14 @@ const Quote = () => {
                     <SelectValue placeholder="Select timeline" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="standard">Standard (7-14 days)</SelectItem>
-                    <SelectItem value="rush">Rush (under 7 days) +$150</SelectItem>
+                    {formData.serviceType.includes("Basic One-Pager") ? (
+                      <SelectItem value="rush">Rush (under 7 days) +$150</SelectItem>
+                    ) : (
+                      <>
+                        <SelectItem value="standard">Standard (7-14 days)</SelectItem>
+                        <SelectItem value="rush">Rush (under 7 days) +$150</SelectItem>
+                      </>
+                    )}
                   </SelectContent>
                 </Select>
               </div>

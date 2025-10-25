@@ -53,7 +53,6 @@ const Hosting = () => {
       description: "Perfect for simple websites and landing pages",
       features: [
         "Up to 5 pages",
-        "10GB storage",
         "Unlimited bandwidth",
         "SSL certificate",
         "Daily backups",
@@ -69,13 +68,11 @@ const Hosting = () => {
       description: "For feature-rich sites with higher traffic",
       features: [
         "Unlimited pages",
-        "50GB storage",
         "Unlimited bandwidth",
         "SSL certificate",
-        "Hourly backups",
+        "Daily backups",
         "99.9% uptime",
         "Priority support",
-        "Free domain (first year)",
         "Advanced security",
         "CDN included",
       ],

@@ -63,13 +63,13 @@ const Pricing = () => {
       name: "Basic Hosting",
       monthly: 12,
       yearly: 129,
-      features: ["Up to 5 pages", "10GB storage", "SSL certificate", "Daily backups", "99.9% uptime"],
+      features: ["Up to 5 pages", "SSL certificate", "Daily backups", "99.9% uptime", "Email support"],
     },
     {
       name: "Advanced Hosting",
       monthly: 18,
       yearly: 194,
-      features: ["Unlimited pages", "50GB storage", "Hourly backups", "Priority support", "CDN included"],
+      features: ["Unlimited pages", "Daily backups", "Priority support", "CDN included", "Advanced security"],
     },
   ];
 
@@ -108,7 +108,7 @@ const Pricing = () => {
         "Premium Multi-Page",
         "Advanced Hosting (1 year)",
         "15% build discount",
-        "Free domain (first year)",
+        "Priority support",
       ],
     },
     {

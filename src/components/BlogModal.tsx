@@ -12,7 +12,7 @@ export function BlogModal({ isOpen, onClose, title, content }: BlogModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
+        <DialogHeader className="sticky top-0 bg-background z-50 pb-4">
           <DialogTitle className="text-2xl font-bold">{title}</DialogTitle>
         </DialogHeader>
         <Separator className="my-4" />
