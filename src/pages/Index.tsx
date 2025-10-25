@@ -90,14 +90,13 @@ const Index = () => {
         <AnimatedBackground />
         
         {/* Background Text */}
-        <div className="absolute top-[15%] left-0 right-0 flex justify-center pointer-events-none">
-          <span className="font-semibold bg-gradient-to-b from-foreground/45 to-transparent bg-clip-text text-transparent"
-                style={{ fontSize: '10.8rem', lineHeight: '1' }}>
+        <div className="absolute top-[10%] sm:top-[12%] left-0 right-0 flex justify-center pointer-events-none px-4">
+          <span className="font-semibold bg-gradient-to-b from-foreground/45 to-transparent bg-clip-text text-transparent text-[4rem] sm:text-[6rem] md:text-[8rem] lg:text-[10.8rem] leading-none">
             Dark Mesa
           </span>
         </div>
 
-        <div className="relative z-10 container mx-auto px-6 text-center mt-[20vh]">
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 text-center mt-[16vh] sm:mt-[18vh] md:mt-[20vh]">
           <motion.div initial={{
           opacity: 0,
           y: 30
@@ -106,28 +105,28 @@ const Index = () => {
           y: 0
         }} transition={{
           duration: 0.8
-        }} className="space-y-4">
-            <h1 className="text-xl md:text-3xl font-bold mb-2 leading-tight">
+        }} className="space-y-3 sm:space-y-4">
+            <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-2 leading-tight px-2">
               Professional Websites Built Fast
             </h1>
-            <p className="text-xl md:text-2xl mb-2 font-semibold" style={{
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-2 font-semibold px-2" style={{
             color: "hsl(178 93% 60%)"
           }}>
               Design. Speed. Reliability.
             </p>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-2">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-2 px-2">
               Professional websites from <span className="text-primary font-semibold">$249</span> + hosting at{" "}
               <span className="text-primary font-semibold">$12/month</span>. Delivered in under a week.
             </p>
             <DomainChecker />
-            <div className="flex flex-wrap gap-4 justify-center pt-4">
-              <Link to="/pricing">
-                <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 glow-primary">
-                  View Plans <ArrowRight className="ml-2 w-5 h-5" />
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center pt-4 px-2">
+              <Link to="/pricing" className="w-full sm:w-auto">
+                <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 glow-primary w-full sm:w-auto text-sm sm:text-base">
+                  View Plans <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
                 </Button>
               </Link>
-              <Link to="/quote">
-                <Button size="lg" variant="outline" className="border-border hover:bg-accent/10">
+              <Link to="/quote" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="border-border hover:bg-accent/10 w-full sm:w-auto text-sm sm:text-base">
                   Get Free Quote
                 </Button>
               </Link>

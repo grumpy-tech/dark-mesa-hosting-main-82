@@ -144,6 +144,10 @@ All colors MUST be HSL.
     @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
   }
 
+  .text-gradient-vertical {
+    @apply bg-gradient-to-b from-foreground via-foreground/80 to-foreground/60 bg-clip-text text-transparent;
+  }
+
   .glow-primary {
     box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
   }
