@@ -79,6 +79,7 @@ const Pricing = () => {
       build: 212,
       hosting: 129,
       total: 341,
+      savings: 37,
       features: [
         "Basic One-Pager",
         "Basic Hosting (1 year)",
@@ -91,6 +92,7 @@ const Pricing = () => {
       build: 424,
       hosting: 129,
       total: 553,
+      savings: 75,
       features: [
         "Standard Multi-Page",
         "Basic Hosting (1 year)",
@@ -104,6 +106,7 @@ const Pricing = () => {
       build: 637,
       hosting: 194,
       total: 831,
+      savings: 112,
       features: [
         "Premium Multi-Page",
         "Advanced Hosting (1 year)",
@@ -116,6 +119,7 @@ const Pricing = () => {
       build: "849+",
       hosting: 194,
       total: "1,043+",
+      savings: "148+",
       features: [
         "Custom Enterprise Build",
         "Advanced Hosting (1 year)",
@@ -246,9 +250,9 @@ const Pricing = () => {
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
             <Sparkles className="w-12 h-12 text-primary mx-auto mb-4" />
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Bundle Packages (Save 15%!)</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Bundle Packages</h2>
             <p className="text-lg text-muted-foreground">
-              Get both website building and hosting together for the best value
+              Get both website building and hosting together and save up to $148!
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
@@ -265,7 +269,7 @@ const Pricing = () => {
                     bundle.popular ? "border-2 border-primary shadow-lg shadow-primary/20" : "border-border"
                   } relative`}
                 >
-                  {bundle.popular && (
+                   {bundle.popular && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium">
                       Best Value
                     </div>
@@ -287,6 +291,9 @@ const Pricing = () => {
                         {typeof bundle.total === "number" ? `$${bundle.total}` : `$${bundle.total}`}
                       </div>
                       <div className="text-xs text-muted-foreground">total upfront</div>
+                      <div className="text-sm text-green-600 dark:text-green-400 font-medium mt-1">
+                        Save ${bundle.savings}!
+                      </div>
                     </div>
                   </div>
                   <ul className="space-y-2 mb-4">
