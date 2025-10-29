@@ -38,7 +38,7 @@ export function Navigation() {
         <Link to="/" className="px-2 py-0.5 flex items-center">
           <img 
             src={darkMesaLogo} 
-            alt="Dark Mesa" 
+            alt="Mesa Hosting" 
             className="h-[36px] sm:h-[42px] md:h-[44px] w-auto object-contain"
           />
         </Link>

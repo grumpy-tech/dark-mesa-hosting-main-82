@@ -24,7 +24,7 @@ export function Footer() {
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           {/* Brand */}
           <div className="text-center md:text-left">
-            <p className="text-2xl font-bold text-gradient mb-2">Dark Mesa</p>
+            <p className="text-2xl font-bold text-gradient mb-2">Mesa Hosting</p>
             <p className="text-sm text-muted-foreground">Design. Speed. Reliability.</p>
           </div>
 
@@ -72,7 +72,7 @@ export function Footer() {
 
         <div className="pt-8 border-t border-border text-center">
           <p className="text-sm text-muted-foreground">
-            © 2025 Dark Mesa. All rights reserved.
+            © 2025 Mesa Hosting. All rights reserved.
           </p>
         </div>
       </div>

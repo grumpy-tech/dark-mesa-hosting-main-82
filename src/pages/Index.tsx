@@ -99,8 +99,8 @@ const Index = () => {
         }} transition={{
           duration: 0.8
         }} className="space-y-3 sm:space-y-4">
-            <h2 className="font-semibold bg-gradient-to-b from-foreground/45 to-transparent bg-clip-text text-transparent text-[4rem] sm:text-[6rem] md:text-[8rem] lg:text-[10.8rem] leading-none mb-4">
-              Dark Mesa
+            <h2 className="font-semibold text-[4rem] sm:text-[6rem] md:text-[8rem] lg:text-[10.8rem] leading-none mb-4" style={{ color: 'hsl(0 0% 60%)' }}>
+              Mesa Hosting
             </h2>
             <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-2 leading-tight px-2">
               Professional Websites Built Fast

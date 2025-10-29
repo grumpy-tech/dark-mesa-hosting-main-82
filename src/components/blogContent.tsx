@@ -25,7 +25,7 @@ export const blogArticles = {
       <h3 className="text-lg font-semibold mt-6 mb-3">7. Test It Out</h3>
       <p className="mb-4">Say your domain out loud. Text it to friends. See how it looks in writing. Make sure it's easy to communicate verbally and doesn't have any unfortunate double meanings or awkward letter combinations.</p>
       
-      <p className="mt-6 font-medium">Need help finding and registering the perfect domain? Dark Mesa offers domain registration assistance as part of our website packages. We'll help you search, secure, and set up your ideal domain name.</p>
+      <p className="mt-6 font-medium">Need help finding and registering the perfect domain? Mesa Hosting offers domain registration assistance as part of our website packages. We'll help you search, secure, and set up your ideal domain name.</p>
     </>
   ),
   "top5": (
@@ -56,7 +56,7 @@ export const blogArticles = {
       <h3 className="text-lg font-semibold mt-6 mb-3">Bonus: Website Maintenance Plan</h3>
       <p className="mb-4">Many businesses think the job is done once the site launches. They forget about updates, security patches, content refreshes, and regular backups. A neglected website can become a security risk and provide a poor user experience.</p>
       
-      <p className="mt-6 font-medium">At Dark Mesa, we include all these essential elements in every website package and offer ongoing maintenance to keep your site secure, fast, and effective. Launch the right way from day one.</p>
+      <p className="mt-6 font-medium">At Mesa Hosting, we include all these essential elements in every website package and offer ongoing maintenance to keep your site secure, fast, and effective. Launch the right way from day one.</p>
     </>
   ),
   "business": (
@@ -94,7 +94,7 @@ export const blogArticles = {
       <h3 className="text-lg font-semibold mt-6 mb-3">Scale Your Business</h3>
       <p className="mb-4">A website allows you to reach beyond your local area. You can serve customers nationwide or even globally without opening additional physical locations. This dramatically increases your potential customer base and revenue opportunities.</p>
       
-      <p className="mt-6 font-medium">Ready to establish your online presence? Dark Mesa makes it easy and affordable to get a professional website that works for your business 24/7. Start from just $249 and be online in under a week.</p>
+      <p className="mt-6 font-medium">Ready to establish your online presence? Mesa Hosting makes it easy and affordable to get a professional website that works for your business 24/7. Start from just $249 and be online in under a week.</p>
     </>
   ),
 };
