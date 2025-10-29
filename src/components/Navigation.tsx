@@ -34,18 +34,6 @@ export function Navigation() {
     <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center px-3 sm:px-4 md:px-6 pt-3 sm:pt-3 md:pt-4">
       {/* Unified Navigation Bar */}
       <div className="flex items-center gap-1 sm:gap-2 bg-background/80 backdrop-blur-lg border border-border py-1 sm:py-1 px-2 sm:px-3 md:px-4 rounded-full shadow-lg max-w-full overflow-x-auto">
-        {/* Brand Logo */}
-        <Link to="/" className="px-2 py-0.5 flex items-center">
-          <img 
-            src={darkMesaLogo} 
-            alt="Mesa Hosting" 
-            className="h-[36px] sm:h-[42px] md:h-[44px] w-auto object-contain"
-          />
-        </Link>
-        
-        {/* Spacer */}
-        <div className="flex-1" />
-        
         {/* Navigation Items */}
         <div className="flex items-center gap-1 sm:gap-2">
           {navItems.map((item) => {
