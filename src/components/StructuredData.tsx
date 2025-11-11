@@ -2,7 +2,7 @@ export function StructuredData() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    name: "Mesa Hosting",
+    name: "Dark Mesa Hosting",
     description: "Professional website building and hosting services",
     url: "https://darkmesa.com",
     telephone: "+1-234-567-8900",

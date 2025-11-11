@@ -22,8 +22,8 @@ const FAQ = () => {
       category: "General",
       questions: [
         {
-          q: "What is Mesa Hosting?",
-          a: "Mesa Hosting is a web design and hosting company focused on providing affordable, fast, and reliable websites for small businesses. We build professional websites starting at $249 and offer hosting from $12/month.",
+          q: "What is Dark Mesa Hosting?",
+          a: "Dark Mesa Hosting is a web design and hosting company focused on providing affordable, fast, and reliable websites for small businesses. We build professional websites starting at $249 and offer hosting from $12/month.",
         },
         {
           q: "How long does it take to build a website?",

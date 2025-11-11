@@ -100,7 +100,7 @@ const Index = () => {
           duration: 0.8
         }} className="space-y-3 sm:space-y-4">
             <h2 className="font-semibold bg-gradient-to-b from-foreground/70 to-foreground/10 bg-clip-text text-transparent text-[4rem] sm:text-[6rem] md:text-[8rem] lg:text-[10.8rem] leading-tight mb-6 pb-2">
-              Mesa Hosting
+              Dark Mesa Hosting
             </h2>
             <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-2 leading-tight px-2">
               Professional Websites Built Fast

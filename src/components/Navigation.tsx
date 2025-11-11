@@ -31,49 +31,50 @@ export function Navigation() {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center px-3 sm:px-4 md:px-6 pt-3 sm:pt-3 md:pt-4">
-      {/* Unified Navigation Bar */}
-      <div className="flex items-center gap-1 sm:gap-2 bg-background/80 backdrop-blur-lg border border-border py-1 sm:py-1 px-2 sm:px-3 md:px-4 rounded-full shadow-lg max-w-full overflow-x-auto">
-        {/* Navigation Items */}
-        <div className="flex items-center gap-1 sm:gap-2">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.name;
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-white/10 shadow-lg">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between h-16">
+          {/* Navigation Items */}
+          <div className="flex items-center gap-1 sm:gap-2">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.name;
 
-            return (
-              <Link
-                key={item.name}
-                to={item.url}
-                className={cn(
-                  "relative cursor-pointer text-xs sm:text-sm font-medium px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full transition-colors",
-                  "text-foreground/70 hover:text-primary",
-                  isActive && "text-primary"
-                )}
-              >
-                <span className="hidden lg:inline whitespace-nowrap">{item.name}</span>
-                <span className="lg:hidden">
-                  <Icon size={16} className="sm:w-[18px] sm:h-[18px]" strokeWidth={2.5} />
-                </span>
-                {isActive && (
-                  <motion.div
-                    layoutId="lamp"
-                    className="absolute inset-0 w-full bg-primary/10 rounded-full -z-10 border border-primary/10"
-                    initial={false}
-                    transition={{
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 30,
-                    }}
-                  />
-                )}
-              </Link>
-            );
-          })}
+              return (
+                <Link
+                  key={item.name}
+                  to={item.url}
+                  className={cn(
+                    "relative cursor-pointer text-xs sm:text-sm font-medium px-2 sm:px-3 md:px-4 py-2 transition-colors",
+                    "text-white/70 hover:text-primary",
+                    isActive && "text-primary"
+                  )}
+                >
+                  <span className="hidden lg:inline whitespace-nowrap">{item.name}</span>
+                  <span className="lg:hidden">
+                    <Icon size={16} className="sm:w-[18px] sm:h-[18px]" strokeWidth={2.5} />
+                  </span>
+                  {isActive && (
+                    <motion.div
+                      layoutId="lamp"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
+                      initial={false}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 30,
+                      }}
+                    />
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+          
+          {/* Theme Toggle */}
+          <ThemeToggle />
         </div>
-        
-        {/* Theme Toggle */}
-        <ThemeToggle />
       </div>
-    </div>
+    </nav>
   );
 }
