@@ -99,7 +99,7 @@ const Index = () => {
         }} transition={{
           duration: 0.8
         }} className="space-y-3 sm:space-y-4">
-            <h2 className="font-semibold bg-gradient-to-b from-foreground/70 to-foreground/10 bg-clip-text text-transparent text-[4rem] sm:text-[6rem] md:text-[8rem] lg:text-[10.8rem] leading-tight mb-6 pb-2">
+            <h2 className="font-semibold bg-gradient-to-b from-foreground/70 to-foreground/10 bg-clip-text text-transparent text-[2.5rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] leading-tight mb-6 pb-2 whitespace-nowrap">
               Dark Mesa Hosting
             </h2>
             <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-2 leading-tight px-2">
@@ -289,14 +289,17 @@ const Index = () => {
                     <p className="text-muted-foreground">{plan.description}</p>
                     {showBundlePricing ? <>
                         <div>
-                          <div className="text-sm text-muted-foreground line-through">${plan.price} build</div>
-                          <div className="text-3xl font-bold text-primary">${plan.bundlePrice}</div>
-                          <div className="text-sm text-muted-foreground">discounted build</div>
+                          <div className="text-4xl font-bold text-primary">${plan.bundlePrice + plan.hosting}</div>
+                          <div className="text-sm text-muted-foreground">total bundle price</div>
                         </div>
-                        <div className="text-sm border-t border-border pt-2">
-                          <span className="text-muted-foreground">+ ${plan.hosting}/year hosting</span>
-                          <div className="text-lg font-semibold text-primary mt-1">
-                            Total: ${plan.bundlePrice + plan.hosting}
+                        <div className="text-sm border-t border-border pt-3 mt-2 space-y-1">
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Website build:</span>
+                            <span className="font-medium">${plan.bundlePrice}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Hosting (1 year):</span>
+                            <span className="font-medium">${plan.hosting}</span>
                           </div>
                         </div>
                       </> : <div>

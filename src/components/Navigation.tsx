@@ -33,7 +33,7 @@ export function Navigation() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-white/10 shadow-lg">
       <div className="container mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-end h-16 gap-6">
           {/* Navigation Items */}
           <div className="flex items-center gap-1 sm:gap-2">
             {navItems.map((item) => {
@@ -72,7 +72,7 @@ export function Navigation() {
           </div>
           
           {/* Theme Toggle */}
-          <ThemeToggle />
+          <ThemeToggle className="opacity-60 hover:opacity-100 transition-opacity" />
         </div>
       </div>
     </nav>

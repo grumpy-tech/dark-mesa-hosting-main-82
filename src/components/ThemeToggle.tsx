@@ -32,8 +32,7 @@ export function ThemeToggle({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "flex w-16 h-8 p-1 rounded-full cursor-pointer transition-all duration-300",
-        isDark ? "bg-card border border-border" : "bg-card border border-border",
+        "flex w-12 h-7 p-0.5 rounded-full cursor-pointer transition-all duration-300 bg-background/50 border border-border/30 hover:border-border/60",
         className
       )}
       onClick={toggleTheme}
@@ -41,29 +40,17 @@ export function ThemeToggle({ className }: { className?: string }) {
       tabIndex={0}
       aria-label="Toggle theme"
     >
-      <div className="flex justify-between items-center w-full">
+      <div className="flex justify-between items-center w-full relative">
         <div
           className={cn(
-            "flex justify-center items-center w-6 h-6 rounded-full transition-transform duration-300",
-            isDark ? "transform translate-x-0 bg-secondary" : "transform translate-x-8 bg-secondary"
+            "flex justify-center items-center w-5 h-5 rounded-full transition-all duration-300 absolute",
+            isDark ? "left-0.5 bg-muted" : "left-[calc(100%-22px)] bg-muted"
           )}
         >
           {isDark ? (
-            <Moon className="w-4 h-4 text-primary" strokeWidth={1.5} />
+            <Moon className="w-3 h-3 text-muted-foreground" strokeWidth={2} />
           ) : (
-            <Sun className="w-4 h-4 text-primary" strokeWidth={1.5} />
-          )}
-        </div>
-        <div
-          className={cn(
-            "flex justify-center items-center w-6 h-6 rounded-full transition-transform duration-300",
-            isDark ? "bg-transparent" : "transform -translate-x-8"
-          )}
-        >
-          {isDark ? (
-            <Sun className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
-          ) : (
-            <Moon className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
+            <Sun className="w-3 h-3 text-muted-foreground" strokeWidth={2} />
           )}
         </div>
       </div>

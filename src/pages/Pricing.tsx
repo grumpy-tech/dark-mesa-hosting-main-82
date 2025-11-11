@@ -275,24 +275,26 @@ const Pricing = () => {
                     </div>
                   )}
                   <h3 className="text-xl font-bold mb-4">{bundle.name}</h3>
-                  <div className="space-y-2 mb-4">
-                    <div className="text-sm">
-                      <span className="text-muted-foreground">Build: </span>
-                      <span className="font-semibold">
-                        {typeof bundle.build === "number" ? `$${bundle.build}` : bundle.build}
-                      </span>
-                    </div>
-                    <div className="text-sm">
-                      <span className="text-muted-foreground">Hosting: </span>
-                      <span className="font-semibold">${bundle.hosting}/year</span>
-                    </div>
-                    <div className="pt-2 border-t border-border">
-                      <div className="text-2xl font-bold text-primary">
+                  <div className="space-y-3 mb-4">
+                    <div>
+                      <div className="text-3xl font-bold text-primary">
                         {typeof bundle.total === "number" ? `$${bundle.total}` : `$${bundle.total}`}
                       </div>
-                      <div className="text-xs text-muted-foreground">total upfront</div>
-                      <div className="text-sm text-green-600 dark:text-green-400 font-medium mt-1">
+                      <div className="text-sm text-muted-foreground">total bundle price</div>
+                      <div className="text-sm text-green-600 dark:text-green-400 font-medium">
                         Save ${bundle.savings}!
+                      </div>
+                    </div>
+                    <div className="text-sm border-t border-border pt-3 space-y-1">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Website build:</span>
+                        <span className="font-medium">
+                          {typeof bundle.build === "number" ? `$${bundle.build}` : bundle.build}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Hosting (1 year):</span>
+                        <span className="font-medium">${bundle.hosting}</span>
                       </div>
                     </div>
                   </div>
