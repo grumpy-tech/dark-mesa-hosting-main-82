@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Beam {
   x: number;
@@ -37,9 +37,30 @@ export const AnimatedBackground = () => {
   const noiseRef = useRef<HTMLCanvasElement>(null);
   const beamsRef = useRef<Beam[]>([]);
   const animationFrameRef = useRef<number>(0);
+  const [isDark, setIsDark] = useState(() => 
+    document.documentElement.classList.contains('dark')
+  );
 
   const LAYERS = 3;
   const BEAMS_PER_LAYER = 8;
+
+  useEffect(() => {
+    // Watch for theme changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          setIsDark(document.documentElement.classList.contains('dark'));
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -111,8 +132,13 @@ export const AnimatedBackground = () => {
       if (!canvas || !ctx) return;
 
       const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, "#050505");
-      gradient.addColorStop(1, "#111111");
+      if (isDark) {
+        gradient.addColorStop(0, "#050505");
+        gradient.addColorStop(1, "#111111");
+      } else {
+        gradient.addColorStop(0, "#f5f5f5");
+        gradient.addColorStop(1, "#e8e8e8");
+      }
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -138,7 +164,7 @@ export const AnimatedBackground = () => {
       window.removeEventListener("resize", resizeCanvas);
       cancelAnimationFrame(animationFrameRef.current);
     };
-  }, []);
+  }, [isDark]);
 
   return (
     <>
