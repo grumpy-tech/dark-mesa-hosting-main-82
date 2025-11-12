@@ -35,7 +35,7 @@ export function Navigation() {
       <div className="container mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16 gap-6">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
+          <Link to="/" className="flex items-center cursor-pointer hover:opacity-80 transition-opacity">
             <img 
               src={darkMesaLogoNavbar} 
               alt="Dark Mesa Hosting" 
