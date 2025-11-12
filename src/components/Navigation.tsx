@@ -39,7 +39,7 @@ export function Navigation() {
             <img 
               src={darkMesaLogoNavbar} 
               alt="Dark Mesa Hosting" 
-              className="h-8 sm:h-10 w-auto"
+              className="h-6 sm:h-7 w-auto"
             />
           </Link>
 
