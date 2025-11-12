@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Home, Globe, Server, DollarSign, HelpCircle, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./ThemeToggle";
-import darkMesaLogo from "@/assets/dark-mesa-logo.png";
+import darkMesaLogoNavbar from "@/assets/dark-mesa-logo-navbar.png";
 
 const navItems = [
   { name: "Home", url: "/", icon: Home },
@@ -33,9 +33,19 @@ export function Navigation() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-white/10 shadow-lg">
       <div className="container mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-end h-16 gap-6">
-          {/* Navigation Items */}
-          <div className="flex items-center gap-1 sm:gap-2">
+        <div className="flex items-center justify-between h-16 gap-6">
+          {/* Logo */}
+          <Link to="/" className="flex items-center">
+            <img 
+              src={darkMesaLogoNavbar} 
+              alt="Dark Mesa Hosting" 
+              className="h-8 sm:h-10 w-auto"
+            />
+          </Link>
+
+          {/* Navigation Items & Theme Toggle */}
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-1 sm:gap-2">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.name;
@@ -69,10 +79,11 @@ export function Navigation() {
                 </Link>
               );
             })}
+            </div>
+            
+            {/* Theme Toggle */}
+            <ThemeToggle className="opacity-60 hover:opacity-100 transition-opacity" />
           </div>
-          
-          {/* Theme Toggle */}
-          <ThemeToggle className="opacity-60 hover:opacity-100 transition-opacity" />
         </div>
       </div>
     </nav>
