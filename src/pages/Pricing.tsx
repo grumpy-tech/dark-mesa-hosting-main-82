@@ -63,13 +63,13 @@ const Pricing = () => {
       name: "Basic Hosting",
       monthly: 12,
       yearly: 129,
-      features: ["Up to 5 pages", "SSL certificate", "Daily backups", "99.9% uptime", "Email support"],
+      features: ["Up to 5 pages", "SSL certificate", "Weekly backups", "99.9% uptime", "Email support"],
     },
     {
       name: "Advanced Hosting",
       monthly: 18,
       yearly: 194,
-      features: ["Unlimited pages", "Daily backups", "Priority support", "CDN included", "Advanced security"],
+      features: ["Unlimited pages", "Weekly backups", "Priority support", "CDN included", "Advanced security"],
     },
   ];
 
