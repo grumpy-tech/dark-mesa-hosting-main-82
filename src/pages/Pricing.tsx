@@ -76,7 +76,7 @@ const Pricing = () => {
   const bundles = [
     {
       name: "Basic Bundle",
-      build: 212,
+      build: 249,
       hosting: 129,
       total: 341,
       savings: 37,
@@ -89,7 +89,7 @@ const Pricing = () => {
     },
     {
       name: "Standard Bundle",
-      build: 424,
+      build: 499,
       hosting: 129,
       total: 553,
       savings: 75,
@@ -103,7 +103,7 @@ const Pricing = () => {
     },
     {
       name: "Premium Bundle",
-      build: 637,
+      build: 749,
       hosting: 194,
       total: 831,
       savings: 112,
@@ -116,10 +116,10 @@ const Pricing = () => {
     },
     {
       name: "Custom Bundle",
-      build: "849+",
+      build: "999+",
       hosting: 194,
       total: "1,043+",
-      savings: "148+",
+      savings: "150+",
       features: [
         "Custom Enterprise Build",
         "Advanced Hosting (1 year)",
@@ -132,8 +132,8 @@ const Pricing = () => {
   const addOns = [
     { name: "Extra Page", price: 100 },
     { name: "Advanced SEO Package", price: 200 },
-    { name: "Monthly Maintenance & Monitoring", price: 15, recurring: true },
-    { name: "Domain Registration Assistance", price: 15 },
+    { name: "Monthly Maintenance & Monitoring", price: 9, recurring: true },
+    { name: "Domain Registration Assistance", price: 18 },
   ];
 
   return (
