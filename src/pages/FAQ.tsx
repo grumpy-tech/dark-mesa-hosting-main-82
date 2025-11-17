@@ -44,7 +44,7 @@ const FAQ = () => {
         },
         {
           q: "How does payment work?",
-          a: "For website builds, we require a 50% deposit to start, with the balance due upon launch. Hosting is billed monthly or yearly (10% discount for annual payments). We accept credit cards, with a 3% processing fee.",
+          a: "For website builds, we require a 50% deposit to start, with the balance due upon launch. Hosting is billed monthly or yearly (10% discount for annual payments).",
         },
         {
           q: "Are there any hidden fees?",
@@ -65,11 +65,7 @@ const FAQ = () => {
         },
         {
           q: "Can I update my website myself after it's built?",
-          a: "Yes! We can provide you with simple instructions for basic content updates. For more complex changes, we offer monthly maintenance packages starting at $15/month.",
-        },
-        {
-          q: "Do you provide content writing?",
-          a: "We work with the content you provide. If you need help writing copy for your website, we can recommend professional copywriters or include it as a custom add-on.",
+          a: "Yes! With hosting we can provide you with simple instructions for basic content updates. For more complex changes, we offer monthly maintenance packages starting at $15/month.",
         },
         {
           q: "Will my website work on mobile devices?",
