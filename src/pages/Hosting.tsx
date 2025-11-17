@@ -30,8 +30,8 @@ const Hosting = () => {
     },
     {
       icon: HardDrive,
-      title: "Daily Backups",
-      description: "Automatic daily backups of your website",
+      title: "Weekly Backups",
+      description: "Automatic weekly backups of your website",
     },
     {
       icon: Shield,
@@ -55,7 +55,7 @@ const Hosting = () => {
         "Up to 5 pages",
         "Unlimited bandwidth",
         "SSL certificate",
-        "Daily backups",
+        "Weekly backups",
         "99.9% uptime",
         "Email support",
         "Domain assistance",
@@ -70,7 +70,7 @@ const Hosting = () => {
         "Unlimited pages",
         "Unlimited bandwidth",
         "SSL certificate",
-        "Daily backups",
+        "Weekly backups",
         "99.9% uptime",
         "Priority support",
         "Advanced security",

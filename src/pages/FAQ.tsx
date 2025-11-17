@@ -40,7 +40,7 @@ const FAQ = () => {
       questions: [
         {
           q: "What's included in the pricing?",
-          a: "Our website building packages include design, development, mobile optimization, basic SEO, contact forms, and essential integrations. Hosting packages include SSL certificates, daily backups, 99.9% uptime, and ongoing support. See our Pricing page for detailed breakdowns.",
+          a: "Our website building packages include design, development, mobile optimization, basic SEO, contact forms, and essential integrations. Hosting packages include SSL certificates, weekly backups, 99.9% uptime, and ongoing support. See our Pricing page for detailed breakdowns.",
         },
         {
           q: "How does payment work?",

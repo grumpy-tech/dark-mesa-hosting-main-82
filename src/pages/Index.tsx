@@ -231,7 +231,7 @@ const Index = () => {
                   Reliable, secure hosting with 99.9% uptime. Your site will always be online when you need it.
                 </p>
                 <ul className="space-y-3">
-                  {["99.9% uptime guarantee", "SSL certificate included", "Daily backups", "24/7 monitoring"].map(item => <li key={item} className="flex items-center gap-2">
+                  {["99.9% uptime guarantee", "SSL certificate included", "Weekly backups", "24/7 monitoring"].map(item => <li key={item} className="flex items-center gap-2">
                       <CheckCircle2 className="w-5 h-5 text-accent" />
                       <span>{item}</span>
                     </li>)}
