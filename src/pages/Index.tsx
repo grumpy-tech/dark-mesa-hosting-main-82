@@ -291,6 +291,9 @@ const Index = () => {
                         <div>
                           <div className="text-4xl font-bold text-primary">${plan.bundlePrice + plan.hosting}</div>
                           <div className="text-sm text-muted-foreground">total bundle price</div>
+                          <div className="text-sm font-semibold text-green-600 dark:text-green-400 mt-1">
+                            Save ${plan.price - plan.bundlePrice}
+                          </div>
                         </div>
                         <div className="text-sm border-t border-border pt-3 mt-2 space-y-1">
                           <div className="flex justify-between">
