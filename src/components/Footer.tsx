@@ -22,12 +22,18 @@ export function Footer() {
   const location = useLocation();
 
   const handleLinkClick = (e: MouseEvent, url: string) => {
-    // If clicking on the current page, scroll to top smoothly and avoid pushing a new history entry
-    if (location.pathname === url) {
+    // Normalize paths: remove trailing slashes for comparison
+    const normalize = (p: string) => p.replace(/\/+$/g, "") || "/";
+
+    const current = normalize(location.pathname + (location.search || ""));
+    const target = normalize(url);
+
+    if (current === target) {
       e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Smooth scroll in-page for same path
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
-    // Otherwise, React Router will navigate and the global ScrollToTop handles the scroll
+    // else allow <Link> to navigate; ScrollToTop handles the rest robustly
   };
   return (
     <footer className="py-12 bg-card border-t border-border">
