@@ -38,7 +38,6 @@ export function Footer() {
                   <li key={link.name}>
                     <Link
                       to={link.url}
-                      onClick={() => window.scrollTo(0, 0)}
                       className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
                     >
                       <Icon className="w-4 h-4" />
