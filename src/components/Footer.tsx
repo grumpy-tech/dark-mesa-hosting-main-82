@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Facebook, Linkedin, Twitter, Instagram, Home, Globe, Server, DollarSign, HelpCircle, Mail } from "lucide-react";
 
 const quickLinks = [
@@ -18,6 +18,16 @@ const socials = [
 ];
 
 export function Footer() {
+  const location = useLocation();
+
+  const handleLinkClick = (url: string) => {
+    // If clicking on the current page, scroll to top
+    if (location.pathname === url) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    // Otherwise, let React Router handle it and ScrollToTop component will handle the scroll
+  };
+
   return (
     <footer className="py-12 bg-card border-t border-border">
       <div className="container mx-auto px-6">
@@ -38,6 +48,7 @@ export function Footer() {
                   <li key={link.name}>
                     <Link
                       to={link.url}
+                      onClick={() => handleLinkClick(link.url)}
                       className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
                     >
                       <Icon className="w-4 h-4" />
