@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Home, Globe, Server, DollarSign, HelpCircle, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./ThemeToggle";
+import darkMesaLogoNavbar from "@/assets/dark-mesa-logo-navbar.png";
 
 const navItems = [
   { name: "Home", url: "/", icon: Home },
@@ -44,12 +45,11 @@ export function Navigation() {
               }
             }}
           >
-            <div className="flex items-center gap-2">
-              <Server className="text-primary" size={20} strokeWidth={2.5} />
-              <span className="font-bold text-base sm:text-lg text-foreground whitespace-nowrap">
-                Dark Mesa
-              </span>
-            </div>
+            <img 
+              src={darkMesaLogoNavbar} 
+              alt="Dark Mesa Hosting" 
+              className="h-4 sm:h-5 w-auto"
+            />
           </Link>
 
           {/* Navigation Items & Theme Toggle */}
