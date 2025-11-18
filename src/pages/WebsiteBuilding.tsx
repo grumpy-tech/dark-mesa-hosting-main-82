@@ -1,17 +1,10 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Navigation } from "@/components/Navigation";
-import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { Globe, Zap, Smartphone, Search, Code, Palette, CheckCircle2, ArrowRight } from "lucide-react";
 
 const WebsiteBuilding = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const features = [
     {
       icon: Smartphone,
@@ -128,9 +121,7 @@ const WebsiteBuilding = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Navigation />
-
+    <>
       {/* Hero */}
       <section className="pt-32 pb-20 px-6">
         <div className="container mx-auto max-w-6xl">
@@ -319,9 +310,7 @@ const WebsiteBuilding = () => {
           </motion.div>
         </div>
       </section>
-      
-      <Footer />
-    </div>
+    </>
   );
 };
 

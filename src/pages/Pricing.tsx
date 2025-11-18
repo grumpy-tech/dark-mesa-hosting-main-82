@@ -1,17 +1,10 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Navigation } from "@/components/Navigation";
-import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { CheckCircle2, ArrowRight, DollarSign, Sparkles } from "lucide-react";
 
 const Pricing = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const websitePackages = [
     {
       name: "Basic One-Pager",
@@ -138,9 +131,7 @@ const Pricing = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Navigation />
-
+    <>
       {/* Hero */}
       <section className="pt-32 pb-20 px-6">
         <div className="container mx-auto max-w-6xl">
@@ -416,9 +407,7 @@ const Pricing = () => {
           </motion.div>
         </div>
       </section>
-
-      <Footer />
-    </div>
+    </>
   );
 };
 

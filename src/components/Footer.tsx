@@ -1,6 +1,5 @@
-import { Link, useLocation } from "react-router-dom";
-import type { MouseEvent } from "react";
 import { Facebook, Linkedin, Twitter, Instagram, Home, Globe, Server, DollarSign, HelpCircle, Mail } from "lucide-react";
+import { FooterLink } from "./FooterLink";
 
 const quickLinks = [
   { name: "Home", url: "/", icon: Home },
@@ -19,22 +18,6 @@ const socials = [
 ];
 
 export function Footer() {
-  const location = useLocation();
-
-  const handleLinkClick = (e: MouseEvent, url: string) => {
-    // Normalize paths: remove trailing slashes for comparison
-    const normalize = (p: string) => p.replace(/\/+$/g, "") || "/";
-
-    const current = normalize(location.pathname + (location.search || ""));
-    const target = normalize(url);
-
-    if (current === target) {
-      e.preventDefault();
-      // Smooth scroll in-page for same path
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-    // else allow <Link> to navigate; ScrollToTop handles the rest robustly
-  };
   return (
     <footer className="py-12 bg-card border-t border-border">
       <div className="container mx-auto px-6">
@@ -53,14 +36,13 @@ export function Footer() {
                 const Icon = link.icon;
                 return (
                   <li key={link.name}>
-                    <Link
+                    <FooterLink
                       to={link.url}
-                      onClick={(e) => handleLinkClick(e, link.url)}
                       className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
                     >
                       <Icon className="w-4 h-4" />
                       {link.name}
-                    </Link>
+                    </FooterLink>
                   </li>
                 );
               })}

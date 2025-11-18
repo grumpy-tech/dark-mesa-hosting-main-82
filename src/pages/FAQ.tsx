@@ -1,7 +1,4 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Navigation } from "@/components/Navigation";
-import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import {
@@ -13,10 +10,6 @@ import {
 import { HelpCircle, ArrowRight } from "lucide-react";
 
 const FAQ = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const faqs = [
     {
       category: "General",
@@ -123,9 +116,7 @@ const FAQ = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Navigation />
-
+    <>
       {/* Hero */}
       <section className="pt-32 pb-20 px-6">
         <div className="container mx-auto max-w-4xl">
@@ -198,9 +189,7 @@ const FAQ = () => {
           </motion.div>
         </div>
       </section>
-      
-      <Footer />
-    </div>
+    </>
   );
 };
 

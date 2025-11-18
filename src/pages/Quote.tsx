@@ -1,7 +1,5 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { Navigation } from "@/components/Navigation";
-import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -21,10 +19,6 @@ const Quote = () => {
   const [estimate, setEstimate] = useState<number | null>(null);
   const [logo, setLogo] = useState<File | null>(null);
   const [domainAvailable, setDomainAvailable] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   const [formData, setFormData] = useState({
     companyName: "",
@@ -103,10 +97,7 @@ const Quote = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Navigation />
-      
-      <div className="container mx-auto px-6 py-32">
+    <div className="container mx-auto px-6 py-32">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Get Your Free Quote</h1>
@@ -462,9 +453,6 @@ const Quote = () => {
           </Card>
         </div>
       </div>
-      
-      <Footer />
-    </div>
   );
 };
 
