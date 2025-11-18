@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { AnimatedBackground } from "@/components/AnimatedBackground";
-import { Navigation } from "@/components/Navigation";
 import { DomainChecker } from "@/components/DomainChecker";
 import { ScrollIndicator } from "@/components/ScrollIndicator";
-import { Footer } from "@/components/Footer";
 import { BlogModal } from "@/components/BlogModal";
 import { blogArticles } from "@/components/blogContent";
 import { Button } from "@/components/ui/button";
@@ -16,9 +14,6 @@ import { Globe, Server, Code, ArrowRight, CheckCircle2, FileText, Calendar, Tren
 const Index = () => {
   const [showBundlePricing, setShowBundlePricing] = useState(false);
   const [activeBlog, setActiveBlog] = useState<string | null>(null);
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
   const howItWorks = [{
     step: 1,
     title: "Get a Quote",
@@ -82,9 +77,7 @@ const Index = () => {
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&auto=format&fit=crop",
     key: "business"
   }];
-  return <div className="min-h-screen bg-background text-foreground">
-      <Navigation />
-
+  return <>
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <AnimatedBackground />
@@ -439,11 +432,9 @@ const Index = () => {
           </motion.div>
         </div>
       </section>
-
-      <Footer />
       
       {/* Blog Modals */}
       {activeBlog && <BlogModal isOpen={!!activeBlog} onClose={() => setActiveBlog(null)} title={blogPosts.find(p => p.key === activeBlog)?.title || ""} content={blogArticles[activeBlog as keyof typeof blogArticles]} />}
-    </div>;
+    </>;
 };
 export default Index;

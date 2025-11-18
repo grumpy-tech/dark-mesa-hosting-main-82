@@ -1,15 +1,9 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Navigation } from "@/components/Navigation";
-import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { Server, Shield, Clock, TrendingUp, HardDrive, Lock, CheckCircle2, ArrowRight, Zap } from "lucide-react";
 const Hosting = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
   const features = [{
     icon: TrendingUp,
     title: "99.9% Uptime",
@@ -49,9 +43,7 @@ const Hosting = () => {
     features: ["Unlimited pages", "Unlimited bandwidth", "SSL certificate", "Weekly backups", "99.9% uptime", "Priority support", "Advanced security", "CDN included"],
     popular: true
   }];
-  return <div className="min-h-screen bg-background text-foreground">
-      <Navigation />
-
+  return <>
       {/* Hero */}
       <section className="pt-32 pb-20 px-6">
         <div className="container mx-auto max-w-6xl">
@@ -278,8 +270,6 @@ const Hosting = () => {
           </motion.div>
         </div>
       </section>
-      
-      <Footer />
-    </div>;
+    </>;
 };
 export default Hosting;

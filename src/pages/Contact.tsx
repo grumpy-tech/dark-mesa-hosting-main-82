@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { Navigation } from "@/components/Navigation";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -7,14 +6,9 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
-import { Footer } from "@/components/Footer";
 
 const Contact = () => {
   const { toast } = useToast();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -45,10 +39,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Navigation />
-      
-      <div className="container mx-auto px-6 py-32">
+    <div className="container mx-auto px-6 py-32">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
@@ -175,9 +166,6 @@ const Contact = () => {
           </div>
         </div>
       </div>
-      
-      <Footer />
-    </div>
   );
 };
 

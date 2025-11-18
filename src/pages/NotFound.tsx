@@ -1,22 +1,11 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Navigation } from "@/components/Navigation";
-import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Home, ArrowLeft, Search } from "lucide-react";
 import { motion } from "framer-motion";
 
 const NotFound = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    console.error("404 Error: User attempted to access non-existent route");
-  }, []);
-
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Navigation />
-      
-      <div className="flex min-h-screen items-center justify-center px-6 py-32">
+    <div className="flex min-h-screen items-center justify-center px-6 py-32">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -50,9 +39,6 @@ const NotFound = () => {
           </div>
         </motion.div>
       </div>
-      
-      <Footer />
-    </div>
   );
 };
 
