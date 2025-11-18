@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
@@ -415,6 +416,8 @@ const Pricing = () => {
           </motion.div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 };
