@@ -25,6 +25,7 @@ export function FooterLink({ to, children, className }: FooterLinkProps) {
     const scrollRoot = document.getElementById("scroll-root");
     if (scrollRoot) {
       scrollRoot.scrollTop = 0;
+      scrollRoot.scrollLeft = 0;
     }
 
     // Blur any focused element
@@ -62,7 +63,7 @@ export function FooterLink({ to, children, className }: FooterLinkProps) {
       setTimeout(() => {
         forceScrollToTop();
         requestAnimationFrame(() => forceScrollToTop());
-      }, 50);
+      }, 100);
     }
   };
 

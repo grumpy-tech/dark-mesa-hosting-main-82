@@ -8,7 +8,7 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <div id="scroll-root" className="min-h-screen overflow-y-auto">
+    <div id="scroll-root" className="min-h-screen overflow-y-auto [scroll-behavior:auto]">
       <Navigation />
       <main>{children}</main>
       <Footer />
