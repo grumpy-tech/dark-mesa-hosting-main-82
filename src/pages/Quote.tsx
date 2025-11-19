@@ -61,7 +61,7 @@ const Quote = () => {
       
       // Domain handling
       if (formData.needsDomainHandling) {
-        total += 15; // handling fee only
+        total += 18; // handling fee only
       }
       
       // Rush delivery
@@ -259,7 +259,7 @@ const Quote = () => {
                       onCheckedChange={(checked) => setFormData({ ...formData, needsDomainHandling: checked as boolean })}
                     />
                     <Label htmlFor="needsDomainHandling" className="cursor-pointer">
-                      I need help with domain registration process (+$15 handling fee)
+                      I need help with domain registration process (+$18 handling fee)
                     </Label>
                   </div>
                 </div>
