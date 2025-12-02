@@ -40,6 +40,7 @@ const Index = () => {
     price: 249,
     bundlePrice: 212,
     hosting: 129,
+    hostingType: "Basic",
     description: "Perfect for new businesses",
     features: ["Single-page site", "Mobile optimized", "Contact form", "Basic SEO", "1-week delivery"]
   }, {
@@ -47,6 +48,7 @@ const Index = () => {
     price: 499,
     bundlePrice: 424,
     hosting: 129,
+    hostingType: "Basic",
     description: "Best for growing businesses",
     features: ["Up to 5 pages", "Custom design", "Stock images included", "Enhanced SEO", "Social media integration"],
     popular: true
@@ -55,6 +57,7 @@ const Index = () => {
     price: 749,
     bundlePrice: 637,
     hosting: 194,
+    hostingType: "Advanced",
     description: "For established businesses",
     features: ["Up to 10 pages", "E-commerce basics", "Blog functionality", "Advanced SEO", "Priority support"]
   }];
@@ -294,7 +297,7 @@ const Index = () => {
                             <span className="font-medium">${plan.bundlePrice}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-muted-foreground">Hosting (1 year):</span>
+                            <span className="text-muted-foreground">{plan.hostingType} Hosting (1 year):</span>
                             <span className="font-medium">${plan.hosting}</span>
                           </div>
                         </div>
