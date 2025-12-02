@@ -72,6 +72,7 @@ const Pricing = () => {
       name: "Basic Bundle",
       build: 249,
       hosting: 129,
+      hostingType: "Basic",
       total: 341,
       savings: 37,
       features: [
@@ -85,6 +86,7 @@ const Pricing = () => {
       name: "Standard Bundle",
       build: 499,
       hosting: 129,
+      hostingType: "Basic",
       total: 553,
       savings: 75,
       features: [
@@ -99,6 +101,7 @@ const Pricing = () => {
       name: "Premium Bundle",
       build: 749,
       hosting: 194,
+      hostingType: "Advanced",
       total: 831,
       savings: 112,
       features: [
@@ -112,6 +115,7 @@ const Pricing = () => {
       name: "Custom Bundle",
       build: "999+",
       hosting: 194,
+      hostingType: "Advanced",
       total: "1,043+",
       savings: "150+",
       features: [
@@ -285,7 +289,7 @@ const Pricing = () => {
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Hosting (1 year):</span>
+                        <span className="text-muted-foreground">{bundle.hostingType} Hosting (1 year):</span>
                         <span className="font-medium">${bundle.hosting}</span>
                       </div>
                     </div>

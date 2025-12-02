@@ -223,7 +223,7 @@ const Quote = () => {
                     onCheckedChange={(checked) => setFormData({ ...formData, needsHosting: checked as boolean })}
                   />
                   <Label htmlFor="needsHosting" className="cursor-pointer">
-                    I need hosting (+$129/year for basic hosting)
+                    I need hosting (Basic Hosting: $129/year | Advanced Hosting: $194/year)
                   </Label>
                 </div>
               </div>
