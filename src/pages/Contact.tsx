@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { Mail, MapPin, Send } from "lucide-react";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -54,7 +54,7 @@ const Contact = () => {
               <div>
                 <h3 className="text-xl font-semibold mb-4">Get In Touch</h3>
                 <p className="text-muted-foreground mb-6">
-                  Reach out to us directly via email or phone, or fill out the contact form and we'll get back to you promptly.
+                  Reach out to us directly via email or fill out the contact form and we'll get back to you promptly.
                 </p>
               </div>
               
@@ -65,16 +65,6 @@ const Contact = () => {
                     <div className="font-medium text-lg">Email</div>
                     <a href="mailto:hello@darkmesa.com" className="text-muted-foreground hover:text-primary transition-colors">
                       hello@darkmesa.com
-                    </a>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-3">
-                  <Phone className="w-6 h-6 text-primary mt-1" />
-                  <div>
-                    <div className="font-medium text-lg">Phone</div>
-                    <a href="tel:+1234567890" className="text-muted-foreground hover:text-primary transition-colors">
-                      (123) 456-7890
                     </a>
                   </div>
                 </div>
