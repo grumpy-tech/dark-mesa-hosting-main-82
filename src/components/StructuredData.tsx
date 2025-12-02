@@ -5,7 +5,7 @@ export function StructuredData() {
     name: "Dark Mesa Hosting",
     description: "Professional website building and hosting services",
     url: "https://darkmesa.com",
-    email: "hello@darkmesa.com",
+    email: "info@darkmesahosting.com",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Remote",
