@@ -23,14 +23,18 @@ const Quote = () => {
   const [formData, setFormData] = useState({
     companyName: "",
     companyCategory: "",
+    customCategory: "",
     email: "",
     phone: "",
     location: "",
+    googleMapsLink: "",
     employees: "",
     existingWebsite: "",
     businessUrl: "",
+    serviceCategory: "", // website, hosting, or bundle
     serviceType: location.state?.plan || "",
-    needsHosting: false,
+    hostingPlan: "",
+    needsDomainAssistance: false,
     domainName: "",
     needsDomainHandling: false,
     hasLogo: "",
@@ -47,16 +51,19 @@ const Quote = () => {
     setTimeout(() => {
       let total = 0;
       
-      // Base price based on service type
-      if (formData.serviceType.includes("Basic")) total += 249;
-      else if (formData.serviceType.includes("Standard")) total += 499;
-      else if (formData.serviceType.includes("Premium")) total += 749;
-      else if (formData.serviceType.includes("Custom")) total += 999;
-      else total += 249;
+      // Base price based on service category and type
+      if (formData.serviceCategory === "website" || formData.serviceCategory === "bundle") {
+        if (formData.serviceType.includes("Basic")) total += 249;
+        else if (formData.serviceType.includes("Standard")) total += 499;
+        else if (formData.serviceType.includes("Premium")) total += 749;
+        else if (formData.serviceType.includes("Custom")) total += 999;
+        else total += 249;
+      }
       
       // Hosting
-      if (formData.needsHosting) {
-        total += 129;
+      if (formData.serviceCategory === "hosting" || formData.serviceCategory === "bundle") {
+        if (formData.hostingPlan === "basic") total += 129;
+        else if (formData.hostingPlan === "advanced") total += 194;
       }
       
       // Domain handling
@@ -96,6 +103,15 @@ const Quote = () => {
     console.log("Form submitted:", formData, "Logo:", logo);
   };
 
+  const handleServiceCategoryChange = (value: string) => {
+    setFormData({ 
+      ...formData, 
+      serviceCategory: value,
+      serviceType: "",
+      hostingPlan: "",
+    });
+  };
+
   return (
     <div className="container mx-auto px-6 py-32">
         <div className="max-w-4xl mx-auto">
@@ -123,7 +139,7 @@ const Quote = () => {
                   <Label htmlFor="companyCategory">Business Category *</Label>
                   <Select
                     value={formData.companyCategory}
-                    onValueChange={(value) => setFormData({ ...formData, companyCategory: value })}
+                    onValueChange={(value) => setFormData({ ...formData, companyCategory: value, customCategory: value !== "other" ? "" : formData.customCategory })}
                     required
                   >
                     <SelectTrigger>
@@ -140,6 +156,19 @@ const Quote = () => {
                   </Select>
                 </div>
               </div>
+
+              {formData.companyCategory === "other" && (
+                <div>
+                  <Label htmlFor="customCategory">Specify Your Business Category *</Label>
+                  <Input
+                    id="customCategory"
+                    required
+                    value={formData.customCategory}
+                    onChange={(e) => setFormData({ ...formData, customCategory: e.target.value })}
+                    placeholder="Enter your business category"
+                  />
+                </div>
+              )}
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
@@ -177,80 +206,146 @@ const Quote = () => {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="employees">Number of Employees</Label>
-                  <Select
-                    value={formData.employees}
-                    onValueChange={(value) => setFormData({ ...formData, employees: value })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select range" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1-10">1-10</SelectItem>
-                      <SelectItem value="11-50">11-50</SelectItem>
-                      <SelectItem value="51-200">51-200</SelectItem>
-                      <SelectItem value="200+">200+</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Label htmlFor="googleMapsLink">Google Maps Link (Optional)</Label>
+                  <Input
+                    id="googleMapsLink"
+                    value={formData.googleMapsLink}
+                    onChange={(e) => setFormData({ ...formData, googleMapsLink: e.target.value })}
+                    placeholder="https://maps.google.com/..."
+                  />
                 </div>
               </div>
 
               <div>
-                <Label htmlFor="serviceType">Select Service Package *</Label>
+                <Label htmlFor="employees">Number of Employees</Label>
                 <Select
-                  value={formData.serviceType}
-                  onValueChange={(value) => setFormData({ ...formData, serviceType: value })}
-                  required
+                  value={formData.employees}
+                  onValueChange={(value) => setFormData({ ...formData, employees: value })}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Choose a package" />
+                    <SelectValue placeholder="Select range" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Basic One-Pager">Basic One-Pager - $249</SelectItem>
-                    <SelectItem value="Standard Multi-Page">Standard Multi-Page (5 pages) - $499</SelectItem>
-                    <SelectItem value="Premium Multi-Page">Premium Multi-Page (10 pages) - $749</SelectItem>
-                    <SelectItem value="Custom Enterprise">Custom Enterprise - $999+</SelectItem>
-                    <SelectItem value="Hosting Only">Hosting Only (No website building needed)</SelectItem>
+                    <SelectItem value="1-10">1-10</SelectItem>
+                    <SelectItem value="11-50">11-50</SelectItem>
+                    <SelectItem value="51-200">51-200</SelectItem>
+                    <SelectItem value="200+">200+</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
+              <div>
+                <Label htmlFor="serviceCategory">Select Service Type *</Label>
+                <Select
+                  value={formData.serviceCategory}
+                  onValueChange={handleServiceCategoryChange}
+                  required
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="What do you need?" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="website">Website Building Only</SelectItem>
+                    <SelectItem value="hosting">Hosting Only</SelectItem>
+                    <SelectItem value="bundle">Website + Hosting Bundle</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {(formData.serviceCategory === "website" || formData.serviceCategory === "bundle") && (
+                <div>
+                  <Label htmlFor="serviceType">Select Website Package *</Label>
+                  <Select
+                    value={formData.serviceType}
+                    onValueChange={(value) => setFormData({ ...formData, serviceType: value })}
+                    required
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Choose a website package" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Basic One-Pager">Basic One-Pager - $249</SelectItem>
+                      <SelectItem value="Standard Multi-Page">Standard Multi-Page (5 pages) - $499</SelectItem>
+                      <SelectItem value="Premium Multi-Page">Premium Multi-Page (10 pages) - $749</SelectItem>
+                      <SelectItem value="Custom Enterprise">Custom Enterprise - $999+</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
+              {(formData.serviceCategory === "hosting" || formData.serviceCategory === "bundle") && (
+                <div>
+                  <Label htmlFor="hostingPlan">Select Hosting Plan *</Label>
+                  <Select
+                    value={formData.hostingPlan}
+                    onValueChange={(value) => setFormData({ ...formData, hostingPlan: value })}
+                    required
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Choose a hosting plan" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="basic">Basic Hosting - $129/year</SelectItem>
+                      <SelectItem value="advanced">Advanced Hosting - $194/year</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
               <div className="space-y-4">
                 <div className="flex items-center space-x-2">
                   <Checkbox
-                    id="needsHosting"
-                    checked={formData.needsHosting}
-                    onCheckedChange={(checked) => setFormData({ ...formData, needsHosting: checked as boolean })}
+                    id="needsDomainAssistance"
+                    checked={formData.needsDomainAssistance}
+                    onCheckedChange={(checked) => {
+                      setFormData({ 
+                        ...formData, 
+                        needsDomainAssistance: checked as boolean,
+                        domainName: checked ? formData.domainName : "",
+                        needsDomainHandling: checked ? formData.needsDomainHandling : false
+                      });
+                      if (!checked) {
+                        setDomainAvailable(null);
+                      }
+                    }}
                   />
-                  <Label htmlFor="needsHosting" className="cursor-pointer">
-                    I need hosting (Basic Hosting: $129/year | Advanced Hosting: $194/year)
+                  <Label htmlFor="needsDomainAssistance" className="cursor-pointer">
+                    I need domain registration assistance
                   </Label>
                 </div>
               </div>
 
-              <div>
-                <Label htmlFor="domainName">Domain Name (if you need domain registration)</Label>
-                <div className="mt-2">
-                  <DomainChecker 
-                    onDomainSelect={(domain, available) => {
-                      if (available) {
-                        setFormData({ ...formData, domainName: domain });
-                        setDomainAvailable(true);
-                      } else {
-                        setDomainAvailable(false);
-                      }
-                    }}
-                  />
+              {formData.needsDomainAssistance && (
+                <div>
+                  <Label>Check Domain Availability</Label>
+                  <div className="mt-2">
+                    <DomainChecker 
+                      onDomainSelect={(domain, available) => {
+                        if (available) {
+                          setFormData({ ...formData, domainName: domain });
+                          setDomainAvailable(true);
+                        } else {
+                          setFormData({ ...formData, domainName: "" });
+                          setDomainAvailable(false);
+                        }
+                      }}
+                    />
+                  </div>
+                  {formData.domainName && domainAvailable && (
+                    <div className="mt-3 p-3 bg-primary/10 rounded-md border border-primary/20">
+                      <p className="text-sm text-primary flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4" />
+                        Selected domain: <strong>{formData.domainName}</strong>
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Domain purchase cost varies depending on the domain.
+                      </p>
+                    </div>
+                  )}
                 </div>
-                {formData.domainName && domainAvailable && (
-                  <p className="text-xs text-success mt-2 flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4" />
-                    Domain available! Domain purchase cost varies depending on the domain.
-                  </p>
-                )}
-              </div>
+              )}
 
-              {formData.domainName && domainAvailable && (
+              {formData.needsDomainAssistance && formData.domainName && domainAvailable && (
                 <div className="space-y-4">
                   <div className="flex items-center space-x-2">
                     <Checkbox
@@ -363,34 +458,36 @@ const Quote = () => {
                 </p>
               </div>
 
-              <div>
-                <Label htmlFor="turnaroundTime">Desired Turnaround Time</Label>
-                <Select
-                  value={formData.turnaroundTime}
-                  onValueChange={(value) => setFormData({ ...formData, turnaroundTime: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select timeline" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {formData.serviceType.includes("Basic One-Pager") ? (
-                      <SelectItem value="rush">Rush (under 7 days) +$150</SelectItem>
-                    ) : (
-                      <>
-                        <SelectItem value="standard">Standard (7-14 days)</SelectItem>
+              {(formData.serviceCategory === "website" || formData.serviceCategory === "bundle") && (
+                <div>
+                  <Label htmlFor="turnaroundTime">Desired Turnaround Time</Label>
+                  <Select
+                    value={formData.turnaroundTime}
+                    onValueChange={(value) => setFormData({ ...formData, turnaroundTime: value })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select timeline" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {formData.serviceType.includes("Basic One-Pager") ? (
                         <SelectItem value="rush">Rush (under 7 days) +$150</SelectItem>
-                      </>
-                    )}
-                  </SelectContent>
-                </Select>
-              </div>
+                      ) : (
+                        <>
+                          <SelectItem value="standard">Standard (7-14 days)</SelectItem>
+                          <SelectItem value="rush">Rush (under 7 days) +$150</SelectItem>
+                        </>
+                      )}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
 
               <div className="flex gap-4">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={calculateEstimate}
-                  disabled={!formData.serviceType || calculating}
+                  disabled={!formData.serviceCategory || calculating}
                   className="w-full"
                 >
                   {calculating ? "Calculating..." : "Calculate Estimate"}
@@ -431,28 +528,20 @@ const Quote = () => {
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-                <span>Yearly hosting prepaid for 10% discount</span>
+                <span>Hosting billed annually in advance</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-                <span>Domain registration at registrar's cost + handling fee (typically $25-35 for .com first year)</span>
+                <span>Domain registration cost billed separately based on domain extension</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-                <span>3% processing fee for card payments; taxes extra where applicable</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-                <span>No refunds after website launch</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-                <span>Free initial consultation to discuss your needs</span>
+                <span>All prices in USD</span>
               </li>
             </ul>
           </Card>
         </div>
-      </div>
+    </div>
   );
 };
 
