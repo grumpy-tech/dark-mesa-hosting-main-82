@@ -76,7 +76,7 @@ const Pricing = () => {
       total: 341,
       savings: 37,
       features: [
-        "Basic One-Pager",
+        "Single-page responsive site",
         "Basic Hosting (1 year)",
         "15% build discount",
         "Free domain assistance",
@@ -90,7 +90,7 @@ const Pricing = () => {
       total: 553,
       savings: 75,
       features: [
-        "Standard Multi-Page",
+        "Up to 5 pages",
         "Basic Hosting (1 year)",
         "15% build discount",
         "Free stock images",
@@ -105,7 +105,7 @@ const Pricing = () => {
       total: 831,
       savings: 112,
       features: [
-        "Premium Multi-Page",
+        "Up to 10 pages",
         "Advanced Hosting (1 year)",
         "15% build discount",
         "Priority support",
@@ -119,7 +119,7 @@ const Pricing = () => {
       total: "1,043+",
       savings: "150+",
       features: [
-        "Custom Enterprise Build",
+        "Unlimited pages",
         "Advanced Hosting (1 year)",
         "15% build discount",
         "Custom quote required",
