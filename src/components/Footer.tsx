@@ -1,4 +1,4 @@
-import { Facebook, Linkedin, Twitter, Instagram, Home, Globe, Server, DollarSign, HelpCircle, Mail } from "lucide-react";
+import { Instagram, Home, Globe, Server, DollarSign, HelpCircle, Mail } from "lucide-react";
 import { FooterLink } from "./FooterLink";
 
 const quickLinks = [
@@ -11,9 +11,6 @@ const quickLinks = [
 ];
 
 const socials = [
-  { name: "Facebook", icon: Facebook, url: "#" },
-  { name: "LinkedIn", icon: Linkedin, url: "#" },
-  { name: "Twitter", icon: Twitter, url: "#" },
   { name: "Instagram", icon: Instagram, url: "#" },
 ];
 

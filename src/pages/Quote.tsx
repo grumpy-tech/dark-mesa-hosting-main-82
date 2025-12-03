@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,8 +31,8 @@ const Quote = () => {
     employees: "",
     existingWebsite: "",
     businessUrl: "",
-    serviceCategory: "", // website, hosting, or bundle
-    serviceType: location.state?.plan || "",
+    serviceCategory: "",
+    serviceType: "",
     hostingPlan: "",
     needsDomainAssistance: false,
     domainName: "",
@@ -44,6 +44,150 @@ const Quote = () => {
     turnaroundTime: "standard",
     colorScheme: "",
   });
+
+  // Pre-populate form from navigation state
+  useEffect(() => {
+    const state = location.state as { 
+      plan?: string; 
+      serviceCategory?: string;
+      serviceType?: string;
+      hostingPlan?: string;
+      needsHosting?: boolean;
+    } | null;
+    
+    if (state?.plan) {
+      const plan = state.plan;
+      
+      // Handle bundle selections
+      if (plan.includes("Bundle")) {
+        let websiteType = "";
+        let hosting = "";
+        
+        if (plan === "Basic Bundle") {
+          websiteType = "Basic One-Pager";
+          hosting = "basic";
+        } else if (plan === "Standard Bundle") {
+          websiteType = "Standard Multi-Page";
+          hosting = "basic";
+        } else if (plan === "Premium Bundle") {
+          websiteType = "Premium Multi-Page";
+          hosting = "advanced";
+        } else if (plan === "Custom Bundle") {
+          websiteType = "Custom Enterprise";
+          hosting = "advanced";
+        }
+        
+        setFormData(prev => ({
+          ...prev,
+          serviceCategory: "bundle",
+          serviceType: websiteType,
+          hostingPlan: hosting,
+          turnaroundTime: getDefaultTurnaround(websiteType),
+        }));
+      }
+      // Handle hosting-only selections
+      else if (state.needsHosting || plan === "Basic Hosting" || plan === "Advanced Hosting") {
+        const hosting = plan === "Advanced Hosting" ? "advanced" : "basic";
+        setFormData(prev => ({
+          ...prev,
+          serviceCategory: "hosting",
+          hostingPlan: hosting,
+        }));
+      }
+      // Handle website-only selections
+      else if (["Basic One-Pager", "Standard Multi-Page", "Premium Multi-Page", "Custom Enterprise"].includes(plan)) {
+        setFormData(prev => ({
+          ...prev,
+          serviceCategory: "website",
+          serviceType: plan,
+          turnaroundTime: getDefaultTurnaround(plan),
+        }));
+      }
+    }
+    
+    // Handle direct state props
+    if (state?.serviceCategory) {
+      setFormData(prev => ({
+        ...prev,
+        serviceCategory: state.serviceCategory || prev.serviceCategory,
+        serviceType: state.serviceType || prev.serviceType,
+        hostingPlan: state.hostingPlan || prev.hostingPlan,
+      }));
+    }
+  }, [location.state]);
+
+  // Get default turnaround based on service type
+  const getDefaultTurnaround = (serviceType: string) => {
+    if (serviceType === "Basic One-Pager") return "standard"; // Under 7 days is standard
+    if (serviceType === "Custom Enterprise") return "project";
+    return "standard";
+  };
+
+  // Auto-set hosting plan based on website package
+  const handleWebsitePackageChange = (value: string) => {
+    let hostingPlan = formData.hostingPlan;
+    
+    // Auto-set hosting for bundles
+    if (formData.serviceCategory === "bundle") {
+      if (value === "Basic One-Pager" || value === "Standard Multi-Page") {
+        hostingPlan = "basic";
+      } else if (value === "Premium Multi-Page" || value === "Custom Enterprise") {
+        hostingPlan = "advanced";
+      }
+    }
+    
+    setFormData({ 
+      ...formData, 
+      serviceType: value,
+      hostingPlan,
+      turnaroundTime: getDefaultTurnaround(value),
+    });
+  };
+
+  // Get available hosting plans based on website package
+  const getAvailableHostingPlans = () => {
+    if (formData.serviceCategory === "bundle" && 
+        (formData.serviceType === "Premium Multi-Page" || formData.serviceType === "Custom Enterprise")) {
+      return [{ value: "advanced", label: "Advanced Hosting - $194/year" }];
+    }
+    return [
+      { value: "basic", label: "Basic Hosting - $129/year" },
+      { value: "advanced", label: "Advanced Hosting - $194/year" },
+    ];
+  };
+
+  // Get turnaround options based on service type
+  const getTurnaroundOptions = () => {
+    const serviceType = formData.serviceType;
+    
+    if (serviceType === "Basic One-Pager") {
+      return [{ value: "standard", label: "Under 7 days" }];
+    }
+    
+    if (serviceType === "Standard Multi-Page") {
+      return [
+        { value: "standard", label: "Standard (7-14 days)" },
+        { value: "rush", label: "Rush (under 7 days) +$150" },
+      ];
+    }
+    
+    if (serviceType === "Premium Multi-Page") {
+      return [
+        { value: "standard", label: "Standard (14-21 days)" },
+        { value: "rush", label: "Rush (7-14 days) +$150" },
+      ];
+    }
+    
+    if (serviceType === "Custom Enterprise") {
+      return [{ value: "project", label: "Project Timeline (to be discussed)" }];
+    }
+    
+    // Default fallback
+    return [
+      { value: "standard", label: "Standard (7-14 days)" },
+      { value: "rush", label: "Rush (under 7 days) +$150" },
+    ];
+  };
 
   const calculateEstimate = () => {
     setCalculating(true);
@@ -68,18 +212,18 @@ const Quote = () => {
       
       // Domain handling
       if (formData.needsDomainHandling) {
-        total += 18; // handling fee only
+        total += 18;
       }
       
-      // Rush delivery
-      if (formData.turnaroundTime === "rush") {
+      // Rush delivery (only for Standard Multi-Page and Premium Multi-Page)
+      if (formData.turnaroundTime === "rush" && 
+          (formData.serviceType === "Standard Multi-Page" || formData.serviceType === "Premium Multi-Page")) {
         total += 150;
       }
       
       setEstimate(total);
       setCalculating(false);
       
-      // Scroll to estimate
       setTimeout(() => {
         estimateRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 100);
@@ -109,6 +253,7 @@ const Quote = () => {
       serviceCategory: value,
       serviceType: "",
       hostingPlan: "",
+      turnaroundTime: "standard",
     });
   };
 
@@ -257,7 +402,7 @@ const Quote = () => {
                   <Label htmlFor="serviceType">Select Website Package *</Label>
                   <Select
                     value={formData.serviceType}
-                    onValueChange={(value) => setFormData({ ...formData, serviceType: value })}
+                    onValueChange={handleWebsitePackageChange}
                     required
                   >
                     <SelectTrigger>
@@ -285,8 +430,9 @@ const Quote = () => {
                       <SelectValue placeholder="Choose a hosting plan" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="basic">Basic Hosting - $129/year</SelectItem>
-                      <SelectItem value="advanced">Advanced Hosting - $194/year</SelectItem>
+                      {getAvailableHostingPlans().map(plan => (
+                        <SelectItem key={plan.value} value={plan.value}>{plan.label}</SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -458,7 +604,7 @@ const Quote = () => {
                 </p>
               </div>
 
-              {(formData.serviceCategory === "website" || formData.serviceCategory === "bundle") && (
+              {(formData.serviceCategory === "website" || formData.serviceCategory === "bundle") && formData.serviceType && (
                 <div>
                   <Label htmlFor="turnaroundTime">Desired Turnaround Time</Label>
                   <Select
@@ -469,14 +615,9 @@ const Quote = () => {
                       <SelectValue placeholder="Select timeline" />
                     </SelectTrigger>
                     <SelectContent>
-                      {formData.serviceType.includes("Basic One-Pager") ? (
-                        <SelectItem value="rush">Rush (under 7 days) +$150</SelectItem>
-                      ) : (
-                        <>
-                          <SelectItem value="standard">Standard (7-14 days)</SelectItem>
-                          <SelectItem value="rush">Rush (under 7 days) +$150</SelectItem>
-                        </>
-                      )}
+                      {getTurnaroundOptions().map(option => (
+                        <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
