@@ -1,161 +1,165 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Card } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
-import { Mail, MapPin, Send } from "lucide-react";
+import { useState } from 'react';
+import { Button } from "@/components/ui/button"; // Shadcn button
+import { Input } from "@/components/ui/input";   // Shadcn input
+import { Textarea } from "@/components/ui/textarea"; // Shadcn textarea
+import { Label } from "@/components/ui/label";     // Shadcn label
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Shadcn card
+import { useToast } from "@/hooks/use-toast";       // Your custom hook
+import { Mail, MapPin, Send, Loader2 } from "lucide-react"; // Icons
 
-const Contact = () => {
-  const { toast } = useToast();
+// Define the shape of the form data
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+}
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
+const Contact: React.FC = () => {
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const { toast } = useToast(); // Initialize toast
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    if (formData.message.length > 1000) {
+    setStatus('sending');
+
+    try {
+      const response = await fetch('/send_email.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setStatus('success');
+        setFormData({ name: '', email: '', phone: '', message: '' }); // Clear form
+        toast({
+          title: "Message Sent!",
+          description: "Thank you for reaching out. We'll be in touch soon.",
+          className: "bg-green-500 text-white"
+        });
+      } else {
+        setStatus('error');
+        toast({
+          title: "Submission Failed",
+          description: result.message || 'An unknown error occurred. Please try again.',
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      setStatus('error');
       toast({
-        title: "Message too long",
-        description: "Please limit your message to 1000 characters",
+        title: "Network Error",
+        description: "Could not connect to the server. Please check your network.",
         variant: "destructive",
       });
-      return;
     }
-    
-    toast({
-      title: "Message Sent!",
-      description: "We'll get back to you as soon as possible.",
-    });
-    
-    console.log("Contact form submitted:", formData);
-    setFormData({ name: "", email: "", phone: "", message: "" });
   };
 
   return (
-    <div className="container mx-auto px-6 py-32">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
-            <p className="text-lg text-muted-foreground">
-              Have a question? We're here to help. Send us a message and we'll respond within 24 hours.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            {/* Contact Info */}
-            <Card className="p-8 border-border space-y-6">
-              <div>
-                <h3 className="text-xl font-semibold mb-4">Get In Touch</h3>
-                <p className="text-muted-foreground mb-6">
-                  Reach out to us directly via email or fill out the contact form and we'll get back to you promptly.
-                </p>
+    <div className="flex justify-center p-4 sm:p-8 min-h-screen bg-gray-50">
+      <Card className="w-full max-w-2xl shadow-xl">
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2 text-3xl font-bold text-gray-800">
+            <Mail className="h-7 w-7 text-indigo-600" />
+            <span>Contact Us</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Name Field */}
+              <div className="space-y-2">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  name="name"
+                  placeholder="John Doe"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
               </div>
-              
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <Mail className="w-6 h-6 text-primary mt-1" />
-                  <div>
-                    <div className="font-medium text-lg">Email</div>
-                    <a href="mailto:info@darkmesahosting.com" className="text-muted-foreground hover:text-primary transition-colors">
-                      info@darkmesahosting.com
-                    </a>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-3">
-                  <MapPin className="w-6 h-6 text-primary mt-1" />
-                  <div>
-                    <div className="font-medium text-lg">Location</div>
-                    <div className="text-muted-foreground">Remote & Global</div>
-                  </div>
-                </div>
-              </div>
-            </Card>
 
-            {/* Contact Form */}
-            <Card className="p-8 border-border">
-              <h3 className="text-xl font-semibold mb-6">Send Us a Message</h3>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <Label htmlFor="name">Name *</Label>
-                  <Input
-                    id="name"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Your name"
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="email">Email *</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="your@email.com"
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="phone">Phone (Optional)</Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="(123) 456-7890"
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="message">Message *</Label>
-                  <Textarea
-                    id="message"
-                    required
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="How can we help you?"
-                    rows={5}
-                    maxLength={1000}
-                  />
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {formData.message.length}/1000 characters
-                  </p>
-                </div>
-                
-                <Button
-                  type="submit"
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
-                >
-                  <Send className="w-4 h-4 mr-2" />
-                  Send Message
-                </Button>
-              </form>
-            </Card>
+              {/* Email Field */}
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+            
+            {/* Phone Field */}
+            <div className="space-y-2">
+              <Label htmlFor="phone">Phone (Optional)</Label>
+              <Input
+                id="phone"
+                type="tel"
+                name="phone"
+                placeholder="(555) 123-4567"
+                value={formData.phone}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* Message Field */}
+            <div className="space-y-2">
+              <Label htmlFor="message">Message</Label>
+              <Textarea
+                id="message"
+                name="message"
+                rows={5}
+                placeholder="How can we help you?"
+                value={formData.message}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* Submission Button */}
+            <Button type="submit" className="w-full h-12 text-lg font-semibold" disabled={status === 'sending'}>
+              {status === 'sending' ? (
+                <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Sending...</>
+              ) : (
+                <><Send className="mr-2 h-5 w-5" /> Send Message</>
+              )}
+            </Button>
+          </form>
+
+          {/* Contact Info (Example of using another icon) */}
+          <div className="mt-8 pt-4 border-t border-gray-100 space-y-3 text-sm text-gray-600">
+            <div className="flex items-center space-x-2">
+              <MapPin className="h-4 w-4 text-indigo-500" />
+              <span>123 Main St, Anytown, USA</span>
+            </div>
           </div>
-          
-          <div className="text-center">
-            <p className="text-muted-foreground mb-4">
-              Looking for a quote instead?
-            </p>
-            <a href="/quote">
-              <Button size="lg" variant="outline">
-                Get a Free Quote
-              </Button>
-            </a>
-          </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
