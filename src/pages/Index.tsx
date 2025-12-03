@@ -312,7 +312,10 @@ const Index = () => {
                         </li>)}
                     </ul>
                     <Link to="/quote" state={{
-                  plan: plan.name
+                  plan: showBundlePricing ? `${plan.name.split(' ')[0]} Bundle` : plan.name,
+                  serviceCategory: showBundlePricing ? "bundle" : "website",
+                  serviceType: plan.name,
+                  hostingPlan: showBundlePricing ? (plan.hostingType === "Basic" ? "basic" : "advanced") : "",
                 }}>
                       <Button className={`w-full ${plan.popular ? "bg-primary text-primary-foreground hover:bg-primary/90" : "bg-secondary text-secondary-foreground hover:bg-secondary/80"}`}>
                         Get Started

@@ -184,7 +184,11 @@ const Pricing = () => {
                       </li>
                     ))}
                   </ul>
-                  <Link to="/quote" state={{ plan: pkg.name }}>
+                  <Link to="/quote" state={{ 
+                    plan: pkg.name, 
+                    serviceCategory: "website", 
+                    serviceType: pkg.name 
+                  }}>
                     <Button className="w-full mt-4 bg-primary text-primary-foreground hover:bg-primary/90">
                       Get Started
                     </Button>
@@ -229,7 +233,11 @@ const Pricing = () => {
                       </li>
                     ))}
                   </ul>
-                  <Link to="/quote" state={{ plan: plan.name, needsHosting: true }}>
+                  <Link to="/quote" state={{ 
+                    plan: plan.name, 
+                    serviceCategory: "hosting", 
+                    hostingPlan: plan.name === "Basic Hosting" ? "basic" : "advanced" 
+                  }}>
                     <Button className="w-full mt-4 bg-accent text-accent-foreground hover:bg-accent/90">
                       Get Started
                     </Button>
@@ -302,7 +310,14 @@ const Pricing = () => {
                       </li>
                     ))}
                   </ul>
-                  <Link to="/quote" state={{ plan: bundle.name }}>
+                  <Link to="/quote" state={{ 
+                    plan: bundle.name,
+                    serviceCategory: "bundle",
+                    serviceType: bundle.name === "Basic Bundle" ? "Basic One-Pager" : 
+                                 bundle.name === "Standard Bundle" ? "Standard Multi-Page" :
+                                 bundle.name === "Premium Bundle" ? "Premium Multi-Page" : "Custom Enterprise",
+                    hostingPlan: bundle.hostingType === "Basic" ? "basic" : "advanced"
+                  }}>
                     <Button
                       className={`w-full ${
                         bundle.popular ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"
