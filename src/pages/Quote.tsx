@@ -19,6 +19,7 @@ const Quote = () => {
   const [estimate, setEstimate] = useState<number | null>(null);
   const [logo, setLogo] = useState<File | null>(null);
   const [domainAvailable, setDomainAvailable] = useState<boolean | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
     companyName: "",
@@ -236,15 +237,65 @@ const Quote = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    toast({
-      title: "Quote Request Sent!",
-      description: "We'll get back to you within 24 hours with a detailed proposal.",
-    });
-    
-    console.log("Form submitted:", formData, "Logo:", logo);
+    setIsSubmitting(true);
+
+    try {
+      const formDataToSend = new FormData();
+      
+      // Add all form fields
+      Object.keys(formData).forEach(key => {
+        formDataToSend.append(key, formData[key as keyof typeof formData].toString());
+      });
+      
+      // Add logo if uploaded
+      if (logo) {
+        formDataToSend.append('logo', logo);
+      }
+      
+      // Add estimate if calculated
+      if (estimate !== null) {
+        formDataToSend.append('estimate', estimate.toString());
+      }
+
+      const response = await fetch('/send_quote.php', {
+        method: 'POST',
+        body: formDataToSend,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast({
+          title: "Quote Request Sent!",
+          description: "We'll get back to you within 24 hours with a detailed proposal.",
+        });
+        // Reset form
+        setFormData({
+          companyName: "", companyCategory: "", customCategory: "", email: "", phone: "",
+          location: "", googleMapsLink: "", employees: "", existingWebsite: "", businessUrl: "",
+          serviceCategory: "", serviceType: "", hostingPlan: "", needsDomainAssistance: false,
+          domainName: "", needsDomainHandling: false, hasLogo: "", companyOverview: "",
+          services: "", specialRequirements: "", turnaroundTime: "standard", colorScheme: "",
+        });
+        setLogo(null);
+        setEstimate(null);
+        setDomainAvailable(null);
+      } else {
+        throw new Error(result.message || 'Failed to send quote request');
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send quote request. Please try again or contact us directly.",
+        variant: "destructive",
+      });
+      console.error('Error sending quote:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleServiceCategoryChange = (value: string) => {
@@ -636,9 +687,10 @@ const Quote = () => {
                 <Button
                   type="submit"
                   className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                  disabled={isSubmitting}
                 >
                   <Send className="w-4 h-4 mr-2" />
-                  Submit Quote Request
+                  {isSubmitting ? "Submitting..." : "Submit Quote Request"}
                 </Button>
               </div>
             </form>
