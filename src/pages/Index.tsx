@@ -259,7 +259,7 @@ const Index = () => {
               </Label>
               <Switch id="bundle-toggle" checked={showBundlePricing} onCheckedChange={setShowBundlePricing} />
               <Label htmlFor="bundle-toggle" className="text-sm font-medium">
-                Bundles (Save 15%)
+                Website and Hosting Bundles
               </Label>
             </div>
           </div>
