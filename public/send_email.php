@@ -1,7 +1,7 @@
 <?php
 // Set headers for CORS and JSON response
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *'); // Allows requests from your React app
+header('Access-Control-Allow-Origin: *'); 
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
@@ -43,10 +43,15 @@ if (empty($name) || empty($email) || empty($message) || !filter_var($email, FILT
 }
 
 // 4. Email Configuration
-$to = 'info@darkmesahosting.com'; // <-- *** CHANGE THIS TO YOUR REAL EMAIL ***
+$to = 'YOUR_EMAIL@YOURDOMAIN.COM'; // <-- *** CRITICAL: CHANGE THIS TO YOUR REAL EMAIL ADDRESS ***
 $subject = 'New Contact Form Submission from ' . $name;
-$headers = "From: " . $name . " <" . $email . ">\r\n";
-$headers .= "Reply-To: " . $email . "\r\n";
+
+// IMPORTANT: Using an email hosted on your domain as the 'From' address often prevents spam filters
+// and ensures successful delivery on shared hosting environments like Hostinger.
+$from_email_on_host = 'contact@YOURDOMAIN.COM'; // <-- Optionally change to a generic email on your domain
+
+$headers = "From: Your Website Contact Form <" . $from_email_on_host . ">\r\n";
+$headers .= "Reply-To: " . $email . "\r\n"; // This allows you to reply directly to the visitor
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
