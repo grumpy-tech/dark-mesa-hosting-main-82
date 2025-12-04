@@ -52,54 +52,16 @@ const Quote = () => {
       plan?: string; 
       serviceCategory?: string;
       serviceType?: string;
-      hostingPlan?: string;
-      needsHosting?: boolean;
     } | null;
     
     if (state?.plan) {
       const plan = state.plan;
       
-      // Handle bundle selections
-      if (plan.includes("Bundle")) {
-        let websiteType = "";
-        let hosting = "";
-        
-        if (plan === "Basic Bundle") {
-          websiteType = "Basic One-Pager";
-          hosting = "basic";
-        } else if (plan === "Standard Bundle") {
-          websiteType = "Standard Multi-Page";
-          hosting = "basic";
-        } else if (plan === "Premium Bundle") {
-          websiteType = "Premium Multi-Page";
-          hosting = "advanced";
-        } else if (plan === "Custom Bundle") {
-          websiteType = "Custom Enterprise";
-          hosting = "advanced";
-        }
-        
+      // Handle new plan structure (Starter, Business, Pro)
+      if (["Starter", "Business", "Pro"].includes(plan)) {
         setFormData(prev => ({
           ...prev,
           serviceCategory: "bundle",
-          serviceType: websiteType,
-          hostingPlan: hosting,
-          turnaroundTime: getDefaultTurnaround(websiteType),
-        }));
-      }
-      // Handle hosting-only selections
-      else if (state.needsHosting || plan === "Basic Hosting" || plan === "Advanced Hosting") {
-        const hosting = plan === "Advanced Hosting" ? "advanced" : "basic";
-        setFormData(prev => ({
-          ...prev,
-          serviceCategory: "hosting",
-          hostingPlan: hosting,
-        }));
-      }
-      // Handle website-only selections
-      else if (["Basic One-Pager", "Standard Multi-Page", "Premium Multi-Page", "Custom Enterprise"].includes(plan)) {
-        setFormData(prev => ({
-          ...prev,
-          serviceCategory: "website",
           serviceType: plan,
           turnaroundTime: getDefaultTurnaround(plan),
         }));
@@ -107,86 +69,56 @@ const Quote = () => {
     }
     
     // Handle direct state props
-    if (state?.serviceCategory) {
+    if (state?.serviceCategory && state?.serviceType) {
       setFormData(prev => ({
         ...prev,
         serviceCategory: state.serviceCategory || prev.serviceCategory,
         serviceType: state.serviceType || prev.serviceType,
-        hostingPlan: state.hostingPlan || prev.hostingPlan,
       }));
     }
   }, [location.state]);
 
   // Get default turnaround based on service type
   const getDefaultTurnaround = (serviceType: string) => {
-    if (serviceType === "Basic One-Pager") return "standard"; // Under 7 days is standard
-    if (serviceType === "Custom Enterprise") return "project";
+    if (serviceType === "Starter") return "standard";
+    if (serviceType === "Pro") return "standard";
     return "standard";
   };
 
-  // Auto-set hosting plan based on website package
+  // Handle plan selection
   const handleWebsitePackageChange = (value: string) => {
-    let hostingPlan = formData.hostingPlan;
-    
-    // Auto-set hosting for bundles
-    if (formData.serviceCategory === "bundle") {
-      if (value === "Basic One-Pager" || value === "Standard Multi-Page") {
-        hostingPlan = "basic";
-      } else if (value === "Premium Multi-Page" || value === "Custom Enterprise") {
-        hostingPlan = "advanced";
-      }
-    }
-    
     setFormData({ 
       ...formData, 
       serviceType: value,
-      hostingPlan,
       turnaroundTime: getDefaultTurnaround(value),
     });
-  };
-
-  // Get available hosting plans based on website package
-  const getAvailableHostingPlans = () => {
-    if (formData.serviceCategory === "bundle" && 
-        (formData.serviceType === "Premium Multi-Page" || formData.serviceType === "Custom Enterprise")) {
-      return [{ value: "advanced", label: "Advanced Hosting - $194/year" }];
-    }
-    return [
-      { value: "basic", label: "Basic Hosting - $129/year" },
-      { value: "advanced", label: "Advanced Hosting - $194/year" },
-    ];
   };
 
   // Get turnaround options based on service type
   const getTurnaroundOptions = () => {
     const serviceType = formData.serviceType;
     
-    if (serviceType === "Basic One-Pager") {
-      return [{ value: "standard", label: "Under 7 days" }];
+    if (serviceType === "Starter") {
+      return [{ value: "standard", label: "Standard (7-14 days)" }];
     }
     
-    if (serviceType === "Standard Multi-Page") {
-      return [
-        { value: "standard", label: "Standard (7-14 days)" },
-        { value: "rush", label: "Rush (under 7 days) +$150" },
-      ];
-    }
-    
-    if (serviceType === "Premium Multi-Page") {
+    if (serviceType === "Business") {
       return [
         { value: "standard", label: "Standard (14-21 days)" },
-        { value: "rush", label: "Rush (7-14 days) +$150" },
+        { value: "rush", label: "Rush (7-14 days) - Contact for pricing" },
       ];
     }
     
-    if (serviceType === "Custom Enterprise") {
-      return [{ value: "project", label: "Project Timeline (to be discussed)" }];
+    if (serviceType === "Pro") {
+      return [
+        { value: "standard", label: "Standard (14-21 days)" },
+        { value: "rush", label: "Rush (7-14 days) - Contact for pricing" },
+      ];
     }
     
     // Default fallback
     return [
-      { value: "standard", label: "Standard (7-14 days)" },
-      { value: "rush", label: "Rush (under 7 days) +$150" },
+      { value: "standard", label: "Standard (14-21 days)" },
     ];
   };
 
@@ -194,33 +126,32 @@ const Quote = () => {
     setCalculating(true);
     
     setTimeout(() => {
-      let total = 0;
+      let buildCost = 0;
+      let monthlyCost = 0;
+      let annualCost = 0;
       
-      // Base price based on service category and type
-      if (formData.serviceCategory === "website" || formData.serviceCategory === "bundle") {
-        if (formData.serviceType.includes("Basic")) total += 249;
-        else if (formData.serviceType.includes("Standard")) total += 499;
-        else if (formData.serviceType.includes("Premium")) total += 749;
-        else if (formData.serviceType.includes("Custom")) total += 999;
-        else total += 249;
-      }
-      
-      // Hosting
-      if (formData.serviceCategory === "hosting" || formData.serviceCategory === "bundle") {
-        if (formData.hostingPlan === "basic") total += 129;
-        else if (formData.hostingPlan === "advanced") total += 194;
+      // New pricing structure based on plan
+      if (formData.serviceType === "Starter") {
+        buildCost = 349;
+        monthlyCost = 39;
+        annualCost = 399;
+      } else if (formData.serviceType === "Business") {
+        buildCost = 599;
+        monthlyCost = 69;
+        annualCost = 699;
+      } else if (formData.serviceType === "Pro") {
+        buildCost = 999;
+        monthlyCost = 99;
+        annualCost = 999;
       }
       
       // Domain handling
       if (formData.needsDomainHandling) {
-        total += 18;
+        buildCost += 25; // Estimated domain cost
       }
       
-      // Rush delivery (only for Standard Multi-Page and Premium Multi-Page)
-      if (formData.turnaroundTime === "rush" && 
-          (formData.serviceType === "Standard Multi-Page" || formData.serviceType === "Premium Multi-Page")) {
-        total += 150;
-      }
+      // Calculate total (build + first year hosting)
+      const total = buildCost + annualCost;
       
       setEstimate(total);
       setCalculating(false);
@@ -430,64 +361,24 @@ const Quote = () => {
                 </Select>
               </div>
 
+
               <div>
-                <Label htmlFor="serviceCategory">Select Service Type *</Label>
+                <Label htmlFor="serviceType">Select Plan *</Label>
                 <Select
-                  value={formData.serviceCategory}
-                  onValueChange={handleServiceCategoryChange}
+                  value={formData.serviceType}
+                  onValueChange={handleWebsitePackageChange}
                   required
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="What do you need?" />
+                    <SelectValue placeholder="Choose a plan" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="website">Website Building Only</SelectItem>
-                    <SelectItem value="hosting">Hosting Only</SelectItem>
-                    <SelectItem value="bundle">Website + Hosting Bundle</SelectItem>
+                    <SelectItem value="Starter">🟢 Starter - $39/mo (3 pages, $349 build)</SelectItem>
+                    <SelectItem value="Business">🔵 Business - $69/mo (up to 6 pages, $599 build) ⭐ Popular</SelectItem>
+                    <SelectItem value="Pro">🔴 Pro - $99/mo (up to 9 pages, $999 build)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-
-              {(formData.serviceCategory === "website" || formData.serviceCategory === "bundle") && (
-                <div>
-                  <Label htmlFor="serviceType">Select Website Package *</Label>
-                  <Select
-                    value={formData.serviceType}
-                    onValueChange={handleWebsitePackageChange}
-                    required
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Choose a website package" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Basic One-Pager">Basic One-Pager - $249</SelectItem>
-                      <SelectItem value="Standard Multi-Page">Standard Multi-Page (5 pages) - $499</SelectItem>
-                      <SelectItem value="Premium Multi-Page">Premium Multi-Page (10 pages) - $749</SelectItem>
-                      <SelectItem value="Custom Enterprise">Custom Enterprise - $999+</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
-
-              {(formData.serviceCategory === "hosting" || formData.serviceCategory === "bundle") && (
-                <div>
-                  <Label htmlFor="hostingPlan">Select Hosting Plan *</Label>
-                  <Select
-                    value={formData.hostingPlan}
-                    onValueChange={(value) => setFormData({ ...formData, hostingPlan: value })}
-                    required
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Choose a hosting plan" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {getAvailableHostingPlans().map(plan => (
-                        <SelectItem key={plan.value} value={plan.value}>{plan.label}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
 
               <div className="space-y-4">
                 <div className="flex items-center space-x-2">
