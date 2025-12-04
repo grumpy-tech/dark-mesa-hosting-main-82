@@ -8,11 +8,8 @@ import { BlogModal } from "@/components/BlogModal";
 import { blogArticles } from "@/components/blogContent";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
 import { Globe, Server, Code, ArrowRight, CheckCircle2, FileText, Calendar, TrendingUp, Users, Database } from "lucide-react";
 const Index = () => {
-  const [showBundlePricing, setShowBundlePricing] = useState(false);
   const [activeBlog, setActiveBlog] = useState<string | null>(null);
   const howItWorks = [{
     step: 1,
@@ -36,30 +33,30 @@ const Index = () => {
     icon: TrendingUp
   }];
   const pricingPlans = [{
-    name: "Basic One-Pager",
-    price: 249,
-    bundlePrice: 212,
-    hosting: 129,
-    hostingType: "Basic",
+    name: "Starter",
+    emoji: "🟢",
+    monthly: 39,
+    annual: 399,
+    buildPrice: 349,
     description: "Perfect for new businesses",
-    features: ["Single-page site", "Mobile optimized", "Contact form", "Basic SEO", "1-week delivery"]
+    features: ["3 pages included", "Template-based design", "Mobile optimized", "Basic SEO", "Monthly backups"]
   }, {
-    name: "Standard Multi-Page",
-    price: 499,
-    bundlePrice: 424,
-    hosting: 129,
-    hostingType: "Basic",
+    name: "Business",
+    emoji: "🔵",
+    monthly: 69,
+    annual: 699,
+    buildPrice: 599,
     description: "Best for growing businesses",
-    features: ["Up to 5 pages", "Custom design", "Stock images included", "Enhanced SEO", "Social media integration"],
+    features: ["Up to 6 pages", "Full custom branding", "Enhanced SEO", "Multi-step forms", "Priority support"],
     popular: true
   }, {
-    name: "Premium Multi-Page",
-    price: 749,
-    bundlePrice: 637,
-    hosting: 194,
-    hostingType: "Advanced",
+    name: "Pro",
+    emoji: "🔴",
+    monthly: 99,
+    annual: 999,
+    buildPrice: 999,
     description: "For established businesses",
-    features: ["Up to 10 pages", "E-commerce basics", "Blog functionality", "Advanced SEO", "Priority support"]
+    features: ["Up to 9 pages", "Bespoke UI/UX", "Full local SEO pack", "Blog OR e-commerce included", "Same-day support"]
   }];
   const blogPosts = [{
     title: "Top 5 things businesses forget when launching online",
@@ -107,8 +104,8 @@ const Index = () => {
               Design. Speed. Reliability.
             </p>
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-2 px-2">
-              Professional websites from <span className="text-primary font-semibold">$249</span> + hosting at{" "}
-              <span className="text-primary font-semibold">$12/month</span>. Delivered in under a week.
+              Professional websites from <span className="text-primary font-semibold">$349</span> + hosting from{" "}
+              <span className="text-primary font-semibold">$39/month</span>. Prepay 12 months = FREE build!
             </p>
             <DomainChecker />
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center pt-4 px-2">
@@ -251,17 +248,8 @@ const Index = () => {
           <div className="text-center mb-8">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">Simple, Transparent Pricing</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
-              {showBundlePricing ? "Save 15% with our bundle packages" : "Website building packages - hosting available separately"}
+              Everything you need: website build + hosting. Prepay 12 months = FREE build!
             </p>
-            <div className="flex items-center justify-center gap-3">
-              <Label htmlFor="bundle-toggle" className="text-sm font-medium">
-                Website Only
-              </Label>
-              <Switch id="bundle-toggle" checked={showBundlePricing} onCheckedChange={setShowBundlePricing} />
-              <Label htmlFor="bundle-toggle" className="text-sm font-medium">
-                Website and Hosting Bundles
-              </Label>
-            </div>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {pricingPlans.map((plan, i) => <motion.div key={i} initial={{
@@ -278,33 +266,23 @@ const Index = () => {
           }}>
                 <Card className={`p-8 h-full border-2 ${plan.popular ? "border-primary shadow-lg shadow-primary/20" : "border-border"} relative`}>
                   {plan.popular && <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-medium">
-                      Most Popular
+                      ⭐ Most Popular
                     </div>}
                   <div className="space-y-4">
-                    <h3 className="text-2xl font-bold">{plan.name}</h3>
-                    <p className="text-muted-foreground">{plan.description}</p>
-                    {showBundlePricing ? <>
-                        <div>
-                          <div className="text-4xl font-bold text-primary">${plan.bundlePrice + plan.hosting}</div>
-                          <div className="text-sm text-muted-foreground">total bundle price</div>
-                          <div className="text-sm font-semibold text-green-600 dark:text-green-400 mt-1">
-                            Save ${plan.price - plan.bundlePrice}
-                          </div>
-                        </div>
-                        <div className="text-sm border-t border-border pt-3 mt-2 space-y-1">
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">Website build:</span>
-                            <span className="font-medium">${plan.bundlePrice}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">{plan.hostingType} Hosting (1 year):</span>
-                            <span className="font-medium">${plan.hosting}</span>
-                          </div>
-                        </div>
-                      </> : <div>
-                        <div className="text-4xl font-bold text-primary">${plan.price}</div>
-                        <div className="text-sm text-muted-foreground">one-time build cost</div>
-                      </div>}
+                    <div className="text-center">
+                      <span className="text-2xl mr-2">{plan.emoji}</span>
+                      <h3 className="text-2xl font-bold inline">{plan.name}</h3>
+                    </div>
+                    <p className="text-muted-foreground text-center">{plan.description}</p>
+                    <div className="text-center">
+                      <div className="text-4xl font-bold text-primary">${plan.monthly}<span className="text-lg text-muted-foreground">/mo</span></div>
+                      <div className="text-sm text-muted-foreground">or ${plan.annual}/yr (save ~15%)</div>
+                    </div>
+                    <div className="text-center border-t border-border pt-3">
+                      <div className="text-sm text-muted-foreground">One-Time Build</div>
+                      <div className="text-2xl font-bold text-accent">${plan.buildPrice}</div>
+                      <div className="text-xs text-green-600 dark:text-green-400 font-medium">Prepay 12mo = FREE build!</div>
+                    </div>
                     <ul className="space-y-3 py-4">
                       {plan.features.map(feature => <li key={feature} className="flex items-start gap-2">
                           <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
@@ -312,11 +290,10 @@ const Index = () => {
                         </li>)}
                     </ul>
                     <Link to="/quote" state={{
-                  plan: showBundlePricing ? `${plan.name.split(' ')[0]} Bundle` : plan.name,
-                  serviceCategory: showBundlePricing ? "bundle" : "website",
-                  serviceType: plan.name,
-                  hostingPlan: showBundlePricing ? (plan.hostingType === "Basic" ? "basic" : "advanced") : "",
-                }}>
+                      plan: plan.name,
+                      serviceCategory: "bundle",
+                      serviceType: plan.name,
+                    }}>
                       <Button className={`w-full ${plan.popular ? "bg-primary text-primary-foreground hover:bg-primary/90" : "bg-secondary text-secondary-foreground hover:bg-secondary/80"}`}>
                         Get Started
                       </Button>
