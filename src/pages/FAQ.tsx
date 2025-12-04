@@ -16,11 +16,11 @@ const FAQ = () => {
       questions: [
         {
           q: "What is Dark Mesa Hosting?",
-          a: "Dark Mesa Hosting is a web design and hosting company focused on providing affordable, fast, and reliable websites for small businesses. We build professional websites starting at $249 and offer hosting from $12/month.",
+          a: "Dark Mesa Hosting is a web design and hosting company focused on providing affordable, fast, and reliable websites for small businesses. We offer three plans—Starter, Business, and Pro—with hosting starting at $39/month and website builds from $349.",
         },
         {
           q: "How long does it take to build a website?",
-          a: "Standard turnaround is 5-7 business days for most projects. We also offer rush delivery (2-3 days) for an additional $150. Complex custom projects may take longer, which we'll discuss during consultation.",
+          a: "Standard turnaround is 5-7 business days for most projects. Complex custom projects may take longer, which we'll discuss during consultation.",
         },
         {
           q: "Do I need technical knowledge to work with you?",
@@ -29,23 +29,44 @@ const FAQ = () => {
       ],
     },
     {
-      category: "Pricing & Payments",
+      category: "Pricing Plans",
       questions: [
         {
-          q: "What's included in the pricing?",
-          a: "Our website building packages include design, development, mobile optimization, basic SEO, contact forms, and essential integrations. Hosting packages include SSL certificates, weekly backups, 99.9% uptime, and ongoing support. See our Pricing page for detailed breakdowns.",
+          q: "What plans do you offer?",
+          a: "We offer three plans: Starter ($39/mo, 3 pages, $349 build), Business ($69/mo, up to 6 pages, $599 build), and Pro ($99/mo, up to 9 pages, $999 build). All plans include hosting, SSL, backups, and support. Business is our most popular plan for growing businesses.",
         },
         {
-          q: "How does payment work?",
-          a: "For website builds, we require a 50% deposit to start, with the balance due upon launch. Hosting is billed monthly or yearly (10% discount for annual payments).",
+          q: "What's the difference between the plans?",
+          a: "Starter is template-based with basic features. Business includes full custom branding, enhanced SEO, multi-step forms, and priority support. Pro offers bespoke UI/UX, advanced SEO pack, blog or e-commerce, unlimited edits, same-day support, and up to 5 professional email inboxes.",
         },
         {
-          q: "Are there any hidden fees?",
-          a: "No hidden fees! Our pricing is transparent. Additional costs only apply for optional add-ons like extra pages ($100 each), or domain registration assistance (registrar cost + $15 handling).",
+          q: "Can I upgrade my plan later?",
+          a: "Yes! You can upgrade at any time. We'll prorate the difference and help migrate your site to the new plan features.",
         },
         {
-          q: "Can I get a refund if I'm not satisfied?",
-          a: "We work closely with you during the design process to ensure satisfaction. Once your website is launched, we don't offer refunds. However, we do provide revision rounds before launch to make sure you're happy with the result.",
+          q: "Do you offer annual pricing?",
+          a: "Yes! Annual plans save approximately 15%: Starter $399/yr (vs $468 monthly), Business $699/yr (vs $828 monthly), and Pro $999/yr (vs $1,188 monthly).",
+        },
+      ],
+    },
+    {
+      category: "Prepay Discounts",
+      questions: [
+        {
+          q: "How do prepay discounts work?",
+          a: "When you prepay your hosting, you get discounts on the website build cost. Prepay 6 months = 50% off your build. Prepay 12 months = FREE build! This applies to all three plans.",
+        },
+        {
+          q: "What's an example of prepay savings?",
+          a: "Example with Business plan: Regular cost is $599 build + $69/mo hosting. Prepay 6 months ($414 hosting) + 50% off build ($299.50) = $713.50 total, saving $299.50. Prepay 12 months ($699 annual) = FREE build, saving $599!",
+        },
+        {
+          q: "Can I combine prepay with annual pricing?",
+          a: "Yes! When you prepay 12 months, you automatically get the annual rate ($399, $699, or $999) plus a FREE website build—the best value we offer.",
+        },
+        {
+          q: "Is the prepay discount available for upgrades?",
+          a: "Prepay discounts apply to new builds. If you're upgrading an existing site, contact us for a custom quote.",
         },
       ],
     },
@@ -58,24 +79,28 @@ const FAQ = () => {
         },
         {
           q: "Can I update my website myself after it's built?",
-          a: "Yes! With hosting we can provide you with simple instructions for basic content updates. For more complex changes, we offer monthly maintenance packages starting at $15/month.",
+          a: "With Starter, you get 1 small edit/month. Business includes up to 5 edits/month (≤2 hours total). Pro offers unlimited edits within fair use (≤4 hours). For more extensive changes, contact us.",
         },
         {
           q: "Will my website work on mobile devices?",
           a: "Absolutely! All our websites are mobile-first and fully responsive, meaning they look great and function perfectly on phones, tablets, and desktops.",
         },
+        {
+          q: "Do you include professional email addresses?",
+          a: "Starter doesn't include email. Business includes 1 professional inbox (e.g., info@yourcompany.com). Pro includes up to 5 inboxes for your team.",
+        },
       ],
     },
     {
-      category: "Hosting & Domains",
+      category: "Hosting & Technical",
       questions: [
         {
           q: "What does your hosting include?",
-          a: "Our hosting includes SSL certificates, daily/hourly backups, 99.9% uptime guarantee, DDoS protection, 24/7 monitoring, unlimited bandwidth, and customer support.",
+          a: "All plans include SSL certificates, backups (monthly for Starter, bi-weekly for Business, daily for Pro), uptime guarantee (99.9% Starter, 99.99% Business/Pro), security monitoring, and support.",
         },
         {
-          q: "Do I need to purchase hosting if I already have a website?",
-          a: "Not necessarily. If you're happy with your current hosting provider, we can work with that. However, our hosting is optimized for the websites we build and comes with excellent support.",
+          q: "How often do you update and back up my site?",
+          a: "Starter: monthly updates and backups. Business: daily updates, bi-weekly backups with 30-day retention. Pro: daily updates with staging environment, weekly off-site + daily on-site backups.",
         },
         {
           q: "Can you help me choose and register a domain?",
@@ -83,7 +108,7 @@ const FAQ = () => {
         },
         {
           q: "What happens if my website goes down?",
-          a: "Our 99.9% uptime guarantee means downtime is rare. If issues occur, our 24/7 monitoring alerts us immediately, and we work to restore service quickly. Advanced hosting customers get priority support.",
+          a: "Our uptime guarantee means downtime is rare. Starter includes basic monitoring. Business includes advanced firewall and cleanup. Pro gets proactive scans with instant fixes. Business and Pro customers receive uptime credits if we fail to meet 99.99% uptime.",
         },
       ],
     },
@@ -91,25 +116,33 @@ const FAQ = () => {
       category: "SEO & Marketing",
       questions: [
         {
-          q: "Is SEO included?",
-          a: "Basic SEO is included in all packages (meta tags, mobile optimization, fast loading). Premium packages include enhanced SEO. For advanced SEO (keyword research, ongoing optimization), we offer a $200 add-on.",
+          q: "What SEO is included in each plan?",
+          a: "Starter includes basic SEO structure (meta tags, mobile optimization). Business includes enhanced SEO with schema markup and local signals. Pro includes a full local SEO pack with advanced optimization.",
+        },
+        {
+          q: "Is Google Analytics included?",
+          a: "Starter offers it as an optional add-on. Business includes basic Google Analytics + Search Console setup. Pro includes advanced funnel tracking for conversion optimization.",
         },
         {
           q: "Will my website rank on Google?",
-          a: "We build SEO-friendly websites, but ranking depends on many factors including competition, content quality, and ongoing SEO efforts. We set you up for success, but ongoing marketing and content are key to improving rankings over time.",
+          a: "We build SEO-friendly websites, but ranking depends on many factors including competition, content quality, and ongoing SEO efforts. Higher-tier plans include more comprehensive SEO to give you the best starting position.",
         },
       ],
     },
     {
-      category: "Support & Maintenance",
+      category: "Support & Guarantees",
       questions: [
         {
-          q: "What kind of support do you offer after launch?",
-          a: "All hosting packages include email support. Advanced hosting includes priority support with faster response times. We also offer optional monthly maintenance ($15/month) for regular updates and changes.",
+          q: "What kind of support do you offer?",
+          a: "Starter: Email support 48-72 hours. Business: Priority email within 24 hours. Pro: Same-day response plus phone/text/WhatsApp access for urgent issues.",
+        },
+        {
+          q: "What guarantees do you offer?",
+          a: "Starter: 30-day money-back guarantee on hosting. Business: Unlimited revisions on the build until you're satisfied. Pro: Unlimited revisions plus 90 days of post-launch support.",
         },
         {
           q: "What if I need changes after my website is live?",
-          a: "Minor tweaks during the first month are included. After that, you can hire us for individual updates or sign up for monthly maintenance, which includes regular updates and changes.",
+          a: "Each plan includes monthly edits (1 for Starter, 5 for Business, unlimited for Pro within fair use). Additional changes can be requested anytime—we'll quote based on complexity.",
         },
       ],
     },
