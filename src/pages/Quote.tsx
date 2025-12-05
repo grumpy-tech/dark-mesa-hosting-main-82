@@ -99,26 +99,29 @@ const Quote = () => {
     const serviceType = formData.serviceType;
     
     if (serviceType === "Starter") {
-      return [{ value: "standard", label: "Standard (7-14 days)" }];
+      return [
+        { value: "standard", label: "Standard (5-7 business days)" },
+        { value: "rush", label: "Rush (3 days) +$199" },
+      ];
     }
     
     if (serviceType === "Business") {
       return [
-        { value: "standard", label: "Standard (14-21 days)" },
-        { value: "rush", label: "Rush (7-14 days) - Contact for pricing" },
+        { value: "standard", label: "Standard (7-10 business days)" },
+        { value: "rush", label: "Rush (5 days) +$299" },
       ];
     }
     
     if (serviceType === "Pro") {
       return [
-        { value: "standard", label: "Standard (14-21 days)" },
-        { value: "rush", label: "Rush (7-14 days) - Contact for pricing" },
+        { value: "standard", label: "Standard (10-14 business days)" },
+        { value: "rush", label: "Rush (7 days) +$399" },
       ];
     }
     
     // Default fallback
     return [
-      { value: "standard", label: "Standard (14-21 days)" },
+      { value: "standard", label: "Standard (7-10 business days)" },
     ];
   };
 

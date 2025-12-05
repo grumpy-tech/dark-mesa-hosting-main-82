@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -5,6 +6,7 @@ import { motion } from "framer-motion";
 import { CheckCircle2, ArrowRight, DollarSign, X, Star, Sparkles } from "lucide-react";
 
 const Pricing = () => {
+  const [isYearly, setIsYearly] = useState(false);
   const plans = [
     {
       name: "Starter",
@@ -120,17 +122,31 @@ const Pricing = () => {
         <div className="container mx-auto max-w-6xl">
           <div className="flex justify-center items-center gap-4 mb-8">
             <div className="inline-flex items-center bg-card border-2 border-border rounded-full p-1">
-              <button className="px-6 py-2 rounded-full bg-primary text-primary-foreground font-medium text-sm">
+              <button 
+                onClick={() => setIsYearly(false)}
+                className={`px-6 py-2 rounded-full font-medium text-sm transition-all ${
+                  !isYearly 
+                    ? 'bg-primary text-primary-foreground' 
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
                 Monthly
               </button>
-              <button className="px-6 py-2 rounded-full text-muted-foreground font-medium text-sm hover:text-foreground transition-colors">
+              <button 
+                onClick={() => setIsYearly(true)}
+                className={`px-6 py-2 rounded-full font-medium text-sm transition-all ${
+                  isYearly 
+                    ? 'bg-primary text-primary-foreground' 
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
                 Yearly
               </button>
             </div>
             <div className="hidden sm:flex items-center gap-2 text-sm">
               <Sparkles className="w-4 h-4 text-yellow-500" />
               <span className="font-semibold text-green-600 dark:text-green-400">
-                Pay 12 months = FREE website build!
+                {isYearly ? "Save ~15% + FREE website build!" : "Pay 12 months = FREE website build!"}
               </span>
             </div>
           </div>
@@ -169,13 +185,26 @@ const Pricing = () => {
                               <div className="pt-2">
                                 <div className="flex items-baseline justify-center gap-1">
                                   <span className="text-2xl font-bold text-foreground">$</span>
-                                  <span className="text-5xl font-bold text-foreground">{plan.monthly}</span>
+                                  <span className="text-5xl font-bold text-foreground">
+                                    {isYearly ? Math.round(plan.annual / 12) : plan.monthly}
+                                  </span>
                                   <span className="text-sm text-muted-foreground">/month</span>
                                 </div>
+                                {isYearly && (
+                                  <div className="text-xs text-green-600 dark:text-green-400 mt-1">
+                                    ${plan.annual}/year (save ~15%)
+                                  </div>
+                                )}
                               </div>
                               <div className="pt-2 border-t border-border/50">
                                 <div className="text-xs text-muted-foreground">One-time build</div>
-                                <div className="text-2xl font-bold text-foreground">${plan.buildPrice}</div>
+                                <div className="text-2xl font-bold text-foreground">
+                                  {isYearly ? (
+                                    <span className="text-green-600 dark:text-green-400">FREE</span>
+                                  ) : (
+                                    `$${plan.buildPrice}`
+                                  )}
+                                </div>
                               </div>
                               <Link
                                 to="/quote"
@@ -192,7 +221,7 @@ const Pricing = () => {
                                       : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
                                   }`}
                                 >
-                                  Try for free
+                                  Get Started
                                 </Button>
                               </Link>
                             </div>
