@@ -4,10 +4,17 @@ import { Link } from "react-router-dom";
 import { AnimatedBackground } from "@/components/AnimatedBackground";
 import { DomainChecker } from "@/components/DomainChecker";
 import { ScrollIndicator } from "@/components/ScrollIndicator";
-import { BlogModal } from "@/components/BlogModal";
+// Removed BlogModal import as we are using a better inline Dialog structure
 import { blogArticles } from "@/components/blogContent";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogDescription 
+} from "@/components/ui/dialog";
 import { Globe, Server, Code, ArrowRight, CheckCircle2, FileText, Calendar, TrendingUp, Users, BookOpen } from "lucide-react";
 
 const Index = () => {
@@ -81,6 +88,9 @@ const Index = () => {
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&auto=format&fit=crop",
     key: "business"
   }];
+
+  // Helper to find the current active post
+  const activePostData = blogPosts.find(p => p.key === activeBlog);
   
   return <>
       {/* Hero Section */}
@@ -319,10 +329,10 @@ const Index = () => {
                         </li>)}
                     </ul>
                     <Link to="/quote" state={{
-                      plan: plan.name,
-                      serviceCategory: "bundle",
-                      serviceType: plan.name,
-                    }}>
+                    plan: plan.name,
+                    serviceCategory: "bundle",
+                    serviceType: plan.name
+                  }}>
                       <Button className={`w-full ${plan.popular ? "bg-primary text-primary-foreground hover:bg-primary/90" : "bg-secondary text-secondary-foreground hover:bg-secondary/80"}`}>
                         Get Started
                       </Button>
@@ -445,8 +455,41 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Blog Modals */}
-      {activeBlog && <BlogModal isOpen={!!activeBlog} onClose={() => setActiveBlog(null)} title={blogPosts.find(p => p.key === activeBlog)?.title || ""} content={blogArticles[activeBlog as keyof typeof blogArticles]} />}
+      {/* IMPROVED BLOG MODAL IMPLEMENTATION */}
+      <Dialog open={!!activeBlog} onOpenChange={(open) => !open && setActiveBlog(null)}>
+        <DialogContent className="sm:max-w-3xl max-h-[85vh] overflow-hidden flex flex-col p-0 gap-0">
+          <div className="p-6 pb-4 border-b">
+            <DialogHeader>
+              <div className="flex items-center gap-2 text-sm text-primary font-medium mb-2">
+                 <Calendar className="w-4 h-4" />
+                 {activePostData?.date}
+              </div>
+              {/* Padding right ensures title doesn't overlap the close button */}
+              <DialogTitle className="text-2xl font-bold leading-tight pr-8">
+                 {activePostData?.title}
+              </DialogTitle>
+              <DialogDescription className="hidden">
+                 {activePostData?.excerpt}
+              </DialogDescription>
+            </DialogHeader>
+          </div>
+          
+          <div className="flex-1 overflow-y-auto p-6 pt-4">
+              {activePostData?.image && (
+                <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-6 shadow-sm border bg-muted">
+                   <img 
+                     src={activePostData.image} 
+                     alt={activePostData.title} 
+                     className="w-full h-full object-cover"
+                   />
+                </div>
+              )}
+              <div className="prose prose-slate dark:prose-invert max-w-none text-base leading-relaxed text-muted-foreground">
+                 {activeBlog && blogArticles[activeBlog as keyof typeof blogArticles]}
+              </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>;
 };
 
