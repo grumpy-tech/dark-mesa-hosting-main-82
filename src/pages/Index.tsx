@@ -9,8 +9,10 @@ import { blogArticles } from "@/components/blogContent";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Globe, Server, Code, ArrowRight, CheckCircle2, FileText, Calendar, TrendingUp, Users, Database } from "lucide-react";
+
 const Index = () => {
   const [activeBlog, setActiveBlog] = useState<string | null>(null);
+  
   const howItWorks = [{
     step: 1,
     title: "Get a Quote",
@@ -32,6 +34,7 @@ const Index = () => {
     desc: "We keep your site fast, secure, and up to date",
     icon: TrendingUp
   }];
+  
   const pricingPlans = [{
     name: "Starter",
     emoji: "🟢",
@@ -58,6 +61,7 @@ const Index = () => {
     description: "For established businesses",
     features: ["Up to 9 pages", "Bespoke UI/UX", "Full local SEO pack", "Blog OR e-commerce included", "Same-day support"]
   }];
+  
   const blogPosts = [{
     title: "Top 5 things businesses forget when launching online",
     excerpt: "Avoid these common mistakes when building your first website...",
@@ -77,6 +81,7 @@ const Index = () => {
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&auto=format&fit=crop",
     key: "business"
   }];
+  
   return <>
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
@@ -248,7 +253,7 @@ const Index = () => {
           <div className="text-center mb-8">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">Simple, Transparent Pricing</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
-              Everything you need: website build + hosting. Prepay 12 months = FREE build!
+              Choose your hosting plan. Pay for 12 months upfront and get your website built completely FREE!
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -268,21 +273,40 @@ const Index = () => {
                   {plan.popular && <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-medium">
                       ⭐ Most Popular
                     </div>}
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     <div className="text-center">
                       <span className="text-2xl mr-2">{plan.emoji}</span>
                       <h3 className="text-2xl font-bold inline">{plan.name}</h3>
                     </div>
                     <p className="text-muted-foreground text-center">{plan.description}</p>
-                    <div className="text-center">
+                    
+                    {/* Monthly Hosting */}
+                    <div className="text-center pb-4 border-b border-border">
+                      <div className="text-sm text-muted-foreground uppercase tracking-wide mb-2">Monthly Hosting</div>
                       <div className="text-4xl font-bold text-primary">${plan.monthly}<span className="text-lg text-muted-foreground">/mo</span></div>
-                      <div className="text-sm text-muted-foreground">or ${plan.annual}/yr (save ~15%)</div>
                     </div>
-                    <div className="text-center border-t border-border pt-3">
-                      <div className="text-sm text-muted-foreground">One-Time Build</div>
-                      <div className="text-2xl font-bold text-accent">${plan.buildPrice}</div>
-                      <div className="text-xs text-green-600 dark:text-green-400 font-medium">Prepay 12mo = FREE build!</div>
+
+                    {/* Website Build Cost */}
+                    <div className="text-center pb-4 border-b border-border">
+                      <div className="text-sm text-muted-foreground uppercase tracking-wide mb-2">Website Build (One-Time)</div>
+                      <div className="text-3xl font-bold text-foreground">${plan.buildPrice}</div>
                     </div>
+
+                    {/* Special Offer */}
+                    <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-2 border-green-500/30 rounded-lg p-4 text-center">
+                      <div className="text-sm font-semibold text-green-600 dark:text-green-400 uppercase tracking-wide mb-1">
+                        💰 SPECIAL OFFER
+                      </div>
+                      <div className="text-lg font-bold mb-1">Pay 12 Months Upfront</div>
+                      <div className="text-2xl font-bold text-primary mb-1">${plan.annual}</div>
+                      <div className="text-base font-bold text-green-600 dark:text-green-400">
+                        + Website Build FREE
+                      </div>
+                      <div className="text-xs text-muted-foreground mt-2">
+                        (Save ${plan.buildPrice + (plan.monthly * 12 - plan.annual)})
+                      </div>
+                    </div>
+
                     <ul className="space-y-3 py-4">
                       {plan.features.map(feature => <li key={feature} className="flex items-start gap-2">
                           <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
@@ -420,4 +444,5 @@ const Index = () => {
       {activeBlog && <BlogModal isOpen={!!activeBlog} onClose={() => setActiveBlog(null)} title={blogPosts.find(p => p.key === activeBlog)?.title || ""} content={blogArticles[activeBlog as keyof typeof blogArticles]} />}
     </>;
 };
+
 export default Index;
