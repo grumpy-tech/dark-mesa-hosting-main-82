@@ -50,7 +50,7 @@ const Pricing = () => {
         { name: "Analytics Setup", value: true, included: true },
         { name: "Blog or Online Store", value: "Add-on available", included: true },
         { name: "Free Updates Per Month", value: "5 updates (2 hrs)", included: true },
-        { name: "Site Backups", value: "Twice monthly", included: true },
+        { name: "Site Backups", value: "Weekly", included: true },
         { name: "Security Protection", value: "Advanced firewall", included: true },
         { name: "Support Speed", value: "24 hours", included: true },
         { name: "Professional Email", value: "1 inbox", included: true },
@@ -75,7 +75,7 @@ const Pricing = () => {
         { name: "Analytics Setup", value: true, included: true },
         { name: "Blog or Online Store", value: "Included", included: true },
         { name: "Free Updates Per Month", value: "Unlimited (4 hrs)", included: true },
-        { name: "Site Backups", value: "Weekly + daily", included: true },
+        { name: "Site Backups", value: "Daily", included: true },
         { name: "Security Protection", value: "Proactive scans", included: true },
         { name: "Support Speed", value: "Same day", included: true },
         { name: "Professional Email", value: "Up to 5 inboxes", included: true },
@@ -89,7 +89,7 @@ const Pricing = () => {
       return <CheckCircle2 className="w-5 h-5 text-green-500" />;
     }
     if (feature.value === false) {
-      return <X className="w-5 h-5 text-muted-foreground/30" />;
+      return <X className="w-5 h-5 text-red-500" />;
     }
     return <span className="text-sm font-medium">{feature.value}</span>;
   };
@@ -245,7 +245,7 @@ const Pricing = () => {
                   </div>
                   <Link to="/quote" state={{ plan: plan.name }}>
                     <Button className={`w-full ${plan.popular ? 'bg-primary' : 'bg-secondary'}`}>
-                      Try for free
+                      Get Started
                     </Button>
                   </Link>
                 </div>
