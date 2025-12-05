@@ -8,26 +8,18 @@ import { BlogModal } from "@/components/BlogModal";
 import { blogArticles } from "@/components/blogContent";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { TooltipProvider } from "@/components/ui/tooltip";
-// New icons and standard imports
-import { Globe, Server, Code, ArrowRight, CheckCircle2, FileText, Calendar, TrendingUp, Users, Database, Zap, Repeat, Star } from "lucide-react";
-
-// Define a type for the pricing view toggle
-type PriceView = "annual_bundle" | "monthly_separate";
-
+import { Globe, Server, Code, ArrowRight, CheckCircle2, FileText, Calendar, TrendingUp, Users, Database } from "lucide-react";
 const Index = () => {
   const [activeBlog, setActiveBlog] = useState<string | null>(null);
-  const [priceView, setPriceView] = useState<PriceView>("annual_bundle");
-
   const howItWorks = [{
     step: 1,
     title: "Get a Quote",
-    desc: "Fill out our quick form for an instant, accurate estimate",
+    desc: "Fill out our quick form to get an instant estimate",
     icon: FileText
   }, {
     step: 2,
-    title: "Rapid Development",
-    desc: "Our team builds and refines your custom site (3-5 days)",
+    title: "We Build",
+    desc: "Our team creates your beautiful, modern website",
     icon: Code
   }, {
     step: 3,
@@ -37,17 +29,16 @@ const Index = () => {
   }, {
     step: 4,
     title: "Ongoing Support",
-    desc: "We handle maintenance, updates, and 24/7 monitoring",
+    desc: "We keep your site fast, secure, and up to date",
     icon: TrendingUp
   }];
-
   const pricingPlans = [{
     name: "Starter",
     emoji: "🟢",
     monthly: 39,
     annual: 399,
     buildPrice: 349,
-    description: "Perfect for new businesses and startups",
+    description: "Perfect for new businesses",
     features: ["3 pages included", "Template-based design", "Mobile optimized", "Basic SEO", "Monthly backups"]
   }, {
     name: "Business",
@@ -55,8 +46,8 @@ const Index = () => {
     monthly: 69,
     annual: 699,
     buildPrice: 599,
-    description: "Best for growing businesses needing custom branding",
-    features: ["Up to 6 pages", "Full custom branding", "Enhanced SEO package", "Multi-step forms", "Priority support"],
+    description: "Best for growing businesses",
+    features: ["Up to 6 pages", "Full custom branding", "Enhanced SEO", "Multi-step forms", "Priority support"],
     popular: true
   }, {
     name: "Pro",
@@ -64,10 +55,9 @@ const Index = () => {
     monthly: 99,
     annual: 999,
     buildPrice: 999,
-    description: "For established businesses needing scale and features",
+    description: "For established businesses",
     features: ["Up to 9 pages", "Bespoke UI/UX", "Full local SEO pack", "Blog OR e-commerce included", "Same-day support"]
   }];
-
   const blogPosts = [{
     title: "Top 5 things businesses forget when launching online",
     excerpt: "Avoid these common mistakes when building your first website...",
@@ -87,31 +77,8 @@ const Index = () => {
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&auto=format&fit=crop",
     key: "business"
   }];
-
-  const testimonials = [{
-    quote: "Dark Mesa Hosting delivered our new e-commerce site in under a week. The traffic uplift was immediate, and the support has been stellar.",
-    name: "Sarah L.",
-    title: "CEO, Artisan Goods",
-  }, {
-    quote: "Switching to their annual bundle was a no-brainer. Free build saved us nearly $600! The website design looks incredible.",
-    name: "Mike D.",
-    title: "Owner, Local Fitness Studio",
-  }, {
-    quote: "Fast, professional, and zero headaches. We finally have a website that looks modern and works on every device.",
-    name: "Jessica P.",
-    title: "Marketing Manager, Tech Startup",
-  }];
-
-  // Helper function to calculate annual price and savings
-  const getAnnualBundlePrice = (plan: typeof pricingPlans[0]) => {
-    const annualHosting = plan.monthly * 12; 
-    const totalBundleCost = annualHosting; 
-    const savings = plan.buildPrice; 
-    return { totalBundleCost, savings };
-  };
-
-  return <TooltipProvider>
-      {/* Hero Section - Restored original name and technical focus */}
+  return <>
+      {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <AnimatedBackground />
 
@@ -125,24 +92,31 @@ const Index = () => {
         }} transition={{
           duration: 0.8
         }} className="space-y-3 sm:space-y-4">
-            <h2 className="font-semibold text-sm sm:text-base md:text-xl lg:text-2xl text-primary mb-2 tracking-widest uppercase">
-              Dark Mesa Hosting: Secure, Reliable, Built for Speed
+            <h2 className="font-semibold bg-gradient-to-b from-foreground/70 to-foreground/10 bg-clip-text text-transparent text-[2.5rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] leading-tight mb-6 pb-2 whitespace-nowrap">
+              Dark Mesa Hosting
             </h2>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 leading-tight px-2 text-foreground">
-              Professional Websites Built on <span className="text-primary glow-primary">Modern Hosting Infrastructure.</span>
+            <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-2 leading-tight px-2 text-foreground">
+              Professional Websites Built Fast
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto mb-6 px-2">
-              Get a custom-designed, SEO-optimized website built for FREE when you choose our best-value annual hosting plan.
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-2 font-semibold px-2" style={{
+            color: "hsl(178 93% 60%)"
+          }}>
+              Design. Speed. Reliability.
             </p>
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-2 px-2">
+              Professional websites from <span className="text-primary font-semibold">$349</span> + hosting from{" "}
+              <span className="text-primary font-semibold">$39/month</span>. Prepay 12 months = FREE build!
+            </p>
+            <DomainChecker />
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center pt-4 px-2">
-              <Link to="/quote" className="w-full sm:w-auto">
-                <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 glow-primary w-full sm:w-auto text-base sm:text-lg">
-                  Start Your Free Quote <ArrowRight className="ml-2 w-5 h-5" />
+              <Link to="/pricing" className="w-full sm:w-auto">
+                <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 glow-primary w-full sm:w-auto text-sm sm:text-base">
+                  View Plans <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
                 </Button>
               </Link>
-              <Link to="/pricing" className="w-full sm:w-auto">
-                <Button size="lg" variant="secondary" className="border-secondary hover:bg-secondary/80 w-full sm:w-auto text-base sm:text-lg">
-                  View All Plans
+              <Link to="/quote" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="border-border hover:bg-accent/10 w-full sm:w-auto text-sm sm:text-base">
+                  Get Free Quote
                 </Button>
               </Link>
             </div>
@@ -156,7 +130,7 @@ const Index = () => {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">The Fast Track to Online Presence</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">How It Works</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               From concept to launch in 4 simple steps
             </p>
@@ -223,7 +197,7 @@ const Index = () => {
                 <div className="pt-4">
                   <Link to="/website-building">
                     <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">
-                      See Design Gallery <ArrowRight className="ml-2 w-4 h-4" />
+                      Learn More <ArrowRight className="ml-2 w-4 h-4" />
                     </Button>
                   </Link>
                 </div>
@@ -245,12 +219,12 @@ const Index = () => {
                 <div className="inline-block p-3 bg-accent/10 rounded-lg">
                   <Server className="w-8 h-8 text-accent" />
                 </div>
-                <h3 className="text-3xl font-bold">Hosting & Maintenance</h3>
+                <h3 className="text-3xl font-bold">Hosting Services</h3>
                 <p className="text-muted-foreground text-lg mb-6">
                   Reliable, secure hosting with 99.9% uptime. Your site will always be online when you need it.
                 </p>
                 <ul className="space-y-3">
-                  {["99.9% uptime guarantee", "Free SSL certificate", "Weekly automated backups", "24/7 monitoring"].map(item => <li key={item} className="flex items-center gap-2">
+                  {["99.9% uptime guarantee", "SSL certificate included", "Weekly backups", "24/7 monitoring"].map(item => <li key={item} className="flex items-center gap-2">
                       <CheckCircle2 className="w-5 h-5 text-accent" />
                       <span>{item}</span>
                     </li>)}
@@ -258,7 +232,7 @@ const Index = () => {
                 <div className="pt-4">
                   <Link to="/hosting">
                     <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
-                      View Hosting Details <ArrowRight className="ml-2 w-4 h-4" />
+                      Learn More <ArrowRight className="ml-2 w-4 h-4" />
                     </Button>
                   </Link>
                 </div>
@@ -267,195 +241,78 @@ const Index = () => {
           </div>
         </div>
       </section>
-      
-      {/* Testimonials/Social Proof */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Trusted by Growing Businesses</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Don't just take our word for it. See what our clients are saying.
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {testimonials.map((t, i) => (
-              <motion.div key={i} initial={{
-              opacity: 0,
-              scale: 0.95
-            }} whileInView={{
-              opacity: 1,
-              scale: 1
-            }} transition={{
-              delay: i * 0.1,
-              duration: 0.5
-            }} viewport={{
-              once: true
-            }}>
-                <Card className="p-6 h-full border-border bg-card/50">
-                  <div className="flex text-yellow-500 mb-3">
-                    <Star className="w-5 h-5 fill-yellow-500" />
-                    <Star className="w-5 h-5 fill-yellow-500" />
-                    <Star className="w-5 h-5 fill-yellow-500" />
-                    <Star className="w-5 h-5 fill-yellow-500" />
-                    <Star className="w-5 h-5 fill-yellow-500" />
-                  </div>
-                  <p className="text-lg italic mb-4 text-foreground">
-                    "{t.quote}"
-                  </p>
-                  <div className="font-semibold text-primary">{t.name}</div>
-                  <div className="text-sm text-muted-foreground">{t.title}</div>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-          <div className="text-center mt-12">
-             <Link to="/reviews">
-              <Button variant="link" className="text-lg">Read More Success Stories →</Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
 
       {/* Pricing Plans */}
-      <section className="py-20 bg-card/30">
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-6">
           <div className="text-center mb-8">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">Simple, Transparent Pricing</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
-              Choose your package: Best-Value Annual Bundle or Flexible Monthly Hosting.
+              Everything you need: website build + hosting. Prepay 12 months = FREE build!
             </p>
           </div>
-
-          {/* Pricing Toggle Switch */}
-          <div className="flex justify-center mb-10">
-            <div className="inline-flex rounded-full bg-muted p-1 relative">
-              <Button
-                variant={priceView === "annual_bundle" ? "default" : "ghost"}
-                onClick={() => setPriceView("annual_bundle")}
-                className={`rounded-full px-6 py-2 transition-all duration-300 ${priceView === "annual_bundle" ? "bg-primary text-primary-foreground hover:bg-primary/90" : "text-muted-foreground hover:bg-background"}`}
-              >
-                <Zap className="w-4 h-4 mr-2" /> Annual Bundle
-              </Button>
-              <div className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
-                <span className="inline-flex items-center rounded-full bg-green-500 px-3 py-1 text-xs font-medium text-white shadow-lg">
-                  FREE Build!
-                </span>
-              </div>
-              <Button
-                variant={priceView === "monthly_separate" ? "default" : "ghost"}
-                onClick={() => setPriceView("monthly_separate")}
-                className={`rounded-full px-6 py-2 transition-all duration-300 ${priceView === "monthly_separate" ? "bg-primary text-primary-foreground hover:bg-primary/90" : "text-muted-foreground hover:bg-background"}`}
-              >
-                <Repeat className="w-4 h-4 mr-2" /> Monthly + Build Fee
-              </Button>
-            </div>
-          </div>
-          {/* End Pricing Toggle Switch */}
-
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {pricingPlans.map((plan, i) => {
-              const { totalBundleCost, savings } = getAnnualBundlePrice(plan);
-
-              let subtitle, savingsDisplay, callToAction, linkState;
-
-              if (priceView === "annual_bundle") {
-                subtitle = "Prepaid Annually (12 Months)";
-                savingsDisplay = (
-                  <div className="text-center pt-3 border-t border-border">
-                    <div className="text-xl font-bold text-green-500 dark:text-green-400">
-                      FREE Website Build!
+            {pricingPlans.map((plan, i) => <motion.div key={i} initial={{
+            opacity: 0,
+            y: 30
+          }} whileInView={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            delay: i * 0.15,
+            duration: 0.6
+          }} viewport={{
+            once: true
+          }}>
+                <Card className={`p-8 h-full border-2 ${plan.popular ? "border-primary shadow-lg shadow-primary/20" : "border-border"} relative`}>
+                  {plan.popular && <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-medium">
+                      ⭐ Most Popular
+                    </div>}
+                  <div className="space-y-4">
+                    <div className="text-center">
+                      <span className="text-2xl mr-2">{plan.emoji}</span>
+                      <h3 className="text-2xl font-bold inline">{plan.name}</h3>
                     </div>
-                    <div className="text-sm text-green-700 dark:text-green-300 font-medium">
-                      Total Build Savings: ${savings}
+                    <p className="text-muted-foreground text-center">{plan.description}</p>
+                    <div className="text-center">
+                      <div className="text-4xl font-bold text-primary">${plan.monthly}<span className="text-lg text-muted-foreground">/mo</span></div>
+                      <div className="text-sm text-muted-foreground">or ${plan.annual}/yr (save ~15%)</div>
                     </div>
+                    <div className="text-center border-t border-border pt-3">
+                      <div className="text-sm text-muted-foreground">One-Time Build</div>
+                      <div className="text-2xl font-bold text-accent">${plan.buildPrice}</div>
+                      <div className="text-xs text-green-600 dark:text-green-400 font-medium">Prepay 12mo = FREE build!</div>
+                    </div>
+                    <ul className="space-y-3 py-4">
+                      {plan.features.map(feature => <li key={feature} className="flex items-start gap-2">
+                          <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                          <span className="text-sm">{feature}</span>
+                        </li>)}
+                    </ul>
+                    <Link to="/quote" state={{
+                      plan: plan.name,
+                      serviceCategory: "bundle",
+                      serviceType: plan.name,
+                    }}>
+                      <Button className={`w-full ${plan.popular ? "bg-primary text-primary-foreground hover:bg-primary/90" : "bg-secondary text-secondary-foreground hover:bg-secondary/80"}`}>
+                        Get Started
+                      </Button>
+                    </Link>
                   </div>
-                );
-                callToAction = "Select Annual Bundle";
-                linkState = { plan: plan.name, serviceCategory: "bundle", serviceType: plan.name, duration: "annual" };
-              } else { // monthly_separate view
-                subtitle = "Monthly Hosting Cost";
-                savingsDisplay = (
-                  <div className="text-center pt-3 border-t border-border">
-                    <div className="text-sm text-muted-foreground">One-Time Website Build Fee</div>
-                    <div className="text-2xl font-bold text-accent">${plan.buildPrice}</div>
-                  </div>
-                );
-                callToAction = "Start Monthly Hosting";
-                linkState = { plan: plan.name, serviceCategory: "hosting", serviceType: plan.name, duration: "monthly" };
-              }
-
-              return (
-                <motion.div key={i} initial={{
-                opacity: 0,
-                y: 30
-              }} whileInView={{
-                opacity: 1,
-                y: 0
-              }} transition={{
-                delay: i * 0.15,
-                duration: 0.6
-              }} viewport={{
-                once: true
-              }}>
-                  <Card className={`p-8 h-full border-2 ${plan.popular ? "border-primary shadow-lg shadow-primary/20" : "border-border"} relative`}>
-                    {plan.popular && <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-medium">
-                        ⭐ Most Popular
-                      </div>}
-                    <div className="space-y-4">
-                      <div className="text-center">
-                        <span className="text-2xl mr-2">{plan.emoji}</span>
-                        <h3 className="text-2xl font-bold inline">{plan.name}</h3>
-                      </div>
-                      <p className="text-muted-foreground text-center">{plan.description}</p>
-                      <div className="text-center">
-                        <div className="text-sm text-muted-foreground font-semibold uppercase">{subtitle}</div>
-                        
-                        {/* SAFE Price Display using regular JSX */}
-                        <div className="text-4xl font-bold text-primary">
-                          {priceView === "annual_bundle" ? (
-                            <div>${totalBundleCost}</div>
-                          ) : (
-                            <div>
-                              ${plan.monthly}
-                              <span className="text-lg text-muted-foreground">/mo</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Savings/Build Price Display */}
-                      {savingsDisplay}
-
-                      {/* Features remain the same */}
-                      <ul className="space-y-3 py-4">
-                        {plan.features.map(feature => <li key={feature} className="flex items-start gap-2">
-                            <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                            <span className="text-sm">{feature}</span>
-                          </li>)}
-                      </ul>
-                      <Link to="/quote" state={linkState}>
-                        <Button className={`w-full ${plan.popular ? "bg-primary text-primary-foreground hover:bg-primary/90" : "bg-secondary text-secondary-foreground hover:bg-secondary/80"}`}>
-                          {callToAction}
-                        </Button>
-                      </Link>
-                    </div>
-                  </Card>
-                </motion.div>
-              )
-            })}
+                </Card>
+              </motion.div>)}
           </div>
           <div className="text-center mt-12">
             <Link to="/pricing">
               <Button size="lg" variant="outline">
-                Compare Plan Features <ArrowRight className="ml-2 w-5 h-5" />
+                View All Plans & Bundles <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Domain Checker - MOVED HERE, Integrated with Quote CTA */}
+      {/* Get Your Free Quote */}
       <section className="py-14 bg-gradient-to-b from-card/50 to-background">
         <div className="container mx-auto px-6 text-center">
           <motion.div initial={{
@@ -468,19 +325,24 @@ const Index = () => {
           duration: 0.6
         }} viewport={{
           once: true
-        }} className="max-w-4xl mx-auto">
+        }} className="max-w-3xl mx-auto">
             <Card className="p-10 border-2 border-primary/20 bg-card/80 backdrop-blur-sm hover:border-primary/40 transition-all glow-primary">
-              <h2 className="text-2xl md:text-3xl font-bold mb-3">Check Availability & Get Your Quote</h2>
+              <Users className="w-12 h-12 text-primary mx-auto mb-5" />
+              <h2 className="text-2xl md:text-3xl font-bold mb-3">Get Your Free Quote</h2>
               <p className="text-base text-muted-foreground mb-6">
-                Enter your desired domain name to check availability and start your project quote immediately.
+                Answer a few quick questions to get an instant estimate tailored to your business needs
               </p>
-              <DomainChecker />
+              <Link to="/quote">
+                <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 glow-primary">
+                  Get Instant Estimate <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
             </Card>
           </motion.div>
         </div>
       </section>
 
-      {/* Blog Section - Reverting to "From the Server Room" */}
+      {/* Blog Section */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
@@ -534,19 +396,19 @@ const Index = () => {
         }} viewport={{
           once: true
         }} className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Launch Your Website?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
             <p className="text-lg text-muted-foreground mb-8">
-              Let's build something amazing together. Contact us today for a free, personalized consultation.
+              Let's build something amazing together. Get in touch today for a free consultation.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link to="/contact">
                 <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-                  Speak to a Specialist <ArrowRight className="ml-2 w-5 h-5" />
+                  Contact Us <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
               <Link to="/faq">
                 <Button size="lg" variant="outline">
-                  View FAQs
+                  View FAQ
                 </Button>
               </Link>
             </div>
@@ -556,6 +418,6 @@ const Index = () => {
       
       {/* Blog Modals */}
       {activeBlog && <BlogModal isOpen={!!activeBlog} onClose={() => setActiveBlog(null)} title={blogPosts.find(p => p.key === activeBlog)?.title || ""} content={blogArticles[activeBlog as keyof typeof blogArticles]} />}
-    </TooltipProvider>;
+    </>;
 };
 export default Index;
