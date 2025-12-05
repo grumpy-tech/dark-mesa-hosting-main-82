@@ -8,7 +8,8 @@ import { BlogModal } from "@/components/BlogModal";
 import { blogArticles } from "@/components/blogContent";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Globe, Server, Code, ArrowRight, CheckCircle2, FileText, Calendar, TrendingUp, Users, Database, Zap, Repeat2 } from "lucide-react";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Globe, Server, Code, ArrowRight, CheckCircle2, FileText, Calendar, TrendingUp, Users, Database, Zap, Repeat } from "lucide-react";
 
 // Define a type for the pricing view toggle
 type PriceView = "annual_bundle" | "monthly_separate";
@@ -96,7 +97,7 @@ const Index = () => {
     return { totalBundleCost, savings };
   };
 
-  return <>
+  return <TooltipProvider>
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <AnimatedBackground />
@@ -286,7 +287,7 @@ const Index = () => {
                 onClick={() => setPriceView("monthly_separate")}
                 className={`rounded-full px-6 py-2 transition-all duration-300 ${priceView === "monthly_separate" ? "bg-primary text-primary-foreground hover:bg-primary/90" : "text-muted-foreground hover:bg-background"}`}
               >
-                <Repeat2 className="w-4 h-4 mr-2" /> Monthly (Hosting + Separate Build)
+                <Repeat className="w-4 h-4 mr-2" /> Monthly (Hosting + Separate Build)
               </Button>
             </div>
           </div>
@@ -501,6 +502,6 @@ const Index = () => {
       
       {/* Blog Modals */}
       {activeBlog && <BlogModal isOpen={!!activeBlog} onClose={() => setActiveBlog(null)} title={blogPosts.find(p => p.key === activeBlog)?.title || ""} content={blogArticles[activeBlog as keyof typeof blogArticles]} />}
-    </>;
+    </TooltipProvider>;
 };
 export default Index;
