@@ -8,7 +8,7 @@ import { BlogModal } from "@/components/BlogModal";
 import { blogArticles } from "@/components/blogContent";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Globe, Server, Code, ArrowRight, CheckCircle2, FileText, Calendar, TrendingUp, Users, Database } from "lucide-react";
+import { Globe, Server, Code, ArrowRight, CheckCircle2, FileText, Calendar, TrendingUp, Users, BookOpen } from "lucide-react";
 
 const Index = () => {
   const [activeBlog, setActiveBlog] = useState<string | null>(null);
@@ -39,27 +39,27 @@ const Index = () => {
     name: "Starter",
     emoji: "🟢",
     monthly: 39,
-    annual: 399,
+    annual: 468,
     buildPrice: 349,
     description: "Perfect for new businesses",
-    features: ["3 pages included", "Template-based design", "Mobile optimized", "Basic SEO", "Monthly backups"]
+    features: ["3 pages included", "Professional template design", "Works on all devices", "Get found on Google", "Monthly website backups"]
   }, {
     name: "Business",
     emoji: "🔵",
     monthly: 69,
-    annual: 699,
+    annual: 828,
     buildPrice: 599,
     description: "Best for growing businesses",
-    features: ["Up to 6 pages", "Full custom branding", "Enhanced SEO", "Multi-step forms", "Priority support"],
+    features: ["Up to 6 pages", "Custom design for your brand", "Better search rankings", "Contact forms that work", "Priority support"],
     popular: true
   }, {
     name: "Pro",
     emoji: "🔴",
     monthly: 99,
-    annual: 999,
+    annual: 1188,
     buildPrice: 999,
     description: "For established businesses",
-    features: ["Up to 9 pages", "Bespoke UI/UX", "Full local SEO pack", "Blog OR e-commerce included", "Same-day support"]
+    features: ["Up to 9 pages", "Unique design just for you", "Dominate local search results", "Online store OR blog included", "Same-day support"]
   }];
   
   const blogPosts = [{
@@ -96,32 +96,27 @@ const Index = () => {
           y: 0
         }} transition={{
           duration: 0.8
-        }} className="space-y-3 sm:space-y-4">
-            <h2 className="font-semibold bg-gradient-to-b from-foreground/70 to-foreground/10 bg-clip-text text-transparent text-[2.5rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] leading-tight mb-6 pb-2 whitespace-nowrap">
+        }} className="space-y-6 sm:space-y-8">
+            <h2 className="font-semibold bg-gradient-to-b from-foreground/70 to-foreground/10 bg-clip-text text-transparent text-[2.5rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] leading-tight mb-4 pb-2 whitespace-nowrap">
               Dark Mesa Hosting
             </h2>
-            <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-2 leading-tight px-2 text-foreground">
-              Professional Websites Built Fast
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-tight px-2 text-foreground max-w-4xl mx-auto">
+              Get A Professional Website Without The Headaches
             </h1>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-2 font-semibold px-2" style={{
-            color: "hsl(178 93% 60%)"
-          }}>
-              Design. Speed. Reliability.
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto px-2">
+              From <span className="text-primary font-semibold">$39/month</span> with hosting included.
+              <br />
+              <span className="text-green-600 dark:text-green-400 font-semibold">Pay 12 months upfront = FREE website build!</span>
             </p>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-2 px-2">
-              Professional websites from <span className="text-primary font-semibold">$349</span> + hosting from{" "}
-              <span className="text-primary font-semibold">$39/month</span>. Prepay 12 months = FREE build!
-            </p>
-            <DomainChecker />
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center pt-4 px-2">
-              <Link to="/pricing" className="w-full sm:w-auto">
+              <Link to="/quote" className="w-full sm:w-auto">
                 <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 glow-primary w-full sm:w-auto text-sm sm:text-base">
-                  View Plans <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
+                  Get Free Quote <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
                 </Button>
               </Link>
-              <Link to="/quote" className="w-full sm:w-auto">
+              <Link to="/pricing" className="w-full sm:w-auto">
                 <Button size="lg" variant="outline" className="border-border hover:bg-accent/10 w-full sm:w-auto text-sm sm:text-base">
-                  Get Free Quote
+                  View Plans
                 </Button>
               </Link>
             </div>
@@ -191,10 +186,15 @@ const Index = () => {
                 </div>
                 <h3 className="text-3xl font-bold">Website Building</h3>
                 <p className="text-muted-foreground text-lg mb-6">
-                  Custom-designed websites built with modern technology. Fast, responsive, and beautiful.
+                  Modern, professional websites that make your business look great and work perfectly on every device.
                 </p>
                 <ul className="space-y-3">
-                  {["Mobile-first design", "SEO optimized", "Lightning fast", "Easy to update"].map(item => <li key={item} className="flex items-center gap-2">
+                  {[
+                    "Looks great on phones & tablets", 
+                    "Customers can find you on Google", 
+                    "Loads super fast", 
+                    "Easy for you to update"
+                  ].map(item => <li key={item} className="flex items-center gap-2">
                       <CheckCircle2 className="w-5 h-5 text-primary" />
                       <span>{item}</span>
                     </li>)}
@@ -226,10 +226,15 @@ const Index = () => {
                 </div>
                 <h3 className="text-3xl font-bold">Hosting Services</h3>
                 <p className="text-muted-foreground text-lg mb-6">
-                  Reliable, secure hosting with 99.9% uptime. Your site will always be online when you need it.
+                  Reliable, secure hosting that keeps your website online 24/7. We handle all the technical stuff.
                 </p>
                 <ul className="space-y-3">
-                  {["99.9% uptime guarantee", "SSL certificate included", "Weekly backups", "24/7 monitoring"].map(item => <li key={item} className="flex items-center gap-2">
+                  {[
+                    "Your site stays online 99.9% of the time", 
+                    "Secure & protected from hackers", 
+                    "We save copies of your site weekly", 
+                    "We watch your site around the clock"
+                  ].map(item => <li key={item} className="flex items-center gap-2">
                       <CheckCircle2 className="w-5 h-5 text-accent" />
                       <span>{item}</span>
                     </li>)}
@@ -303,7 +308,7 @@ const Index = () => {
                         + Website Build FREE
                       </div>
                       <div className="text-xs text-muted-foreground mt-2">
-                        (Save ${plan.buildPrice + (plan.monthly * 12 - plan.annual)})
+                        (Save ${plan.buildPrice})
                       </div>
                     </div>
 
@@ -370,10 +375,10 @@ const Index = () => {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
-            <Database className="w-12 h-12 text-primary mx-auto mb-4" />
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">From the Server Room</h2>
+            <BookOpen className="w-12 h-12 text-primary mx-auto mb-4" />
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Helpful Guides</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Tips, insights, and guides to help your business thrive online
+              Tips and insights to help your business succeed online
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
