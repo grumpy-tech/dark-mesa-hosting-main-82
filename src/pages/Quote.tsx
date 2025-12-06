@@ -109,6 +109,7 @@ const Quote = () => {
       if (formData.purchaseOption === "website-only") {
         buildCost = pricing.build;
       } else if (formData.purchaseOption === "hosting-only") {
+        // Hosting-only: just show annual hosting cost, actual price TBD after review
         hostingCost = pricing.annual;
       } else if (formData.purchaseOption === "prepay-6months") {
         buildCost = pricing.build * 0.5;
@@ -124,7 +125,9 @@ const Quote = () => {
         rushFee = getDeliveryDetails().rush.fee;
       }
 
-      if (formData.needsDomainHandling) {
+      // No domain handling fee anymore - it's free with hosting plans
+      // Only applies to website-only if they want us to handle it
+      if (formData.needsDomainHandling && formData.purchaseOption === "website-only") {
         domainFee = 18;
       }
 
@@ -266,6 +269,7 @@ const Quote = () => {
                   <Input required value={formData.companyCategory} onChange={(e) => setFormData({ ...formData, companyCategory: e.target.value })} placeholder="e.g., Legal, Construction, Education" />
                 </div>
               )}
+              </div>
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
@@ -315,25 +319,50 @@ const Quote = () => {
                 </Select>
               </div>
 
-              <div>
-                <Label>Plan Level *</Label>
-                <Select value={formData.planLevel} onValueChange={(v) => setFormData({ ...formData, planLevel: v })} required>
-                  <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Starter">🟢 Starter - 3 pages</SelectItem>
-                    <SelectItem value="Business">🔵 Business - 6 pages ⭐ Popular</SelectItem>
-                    <SelectItem value="Pro">🔴 Pro - 9 pages</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {formData.planLevel && (
-                <Card className="p-4 bg-muted/30">
-                  <div className="text-sm space-y-1">
-                    <div className="flex justify-between"><span className="text-muted-foreground">Build:</span><span className="font-semibold">${getPricing(formData.planLevel).build}</span></div>
-                    <div className="flex justify-between"><span className="text-muted-foreground">Hosting:</span><span className="font-semibold">${getPricing(formData.planLevel).monthly}/mo</span></div>
+              {formData.purchaseOption !== "hosting-only" && (
+                <>
+                  <div>
+                    <Label>Plan Level *</Label>
+                    <Select value={formData.planLevel} onValueChange={(v) => setFormData({ ...formData, planLevel: v })} required>
+                      <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Starter">🟢 Starter - 3 pages</SelectItem>
+                        <SelectItem value="Business">🔵 Business - 6 pages ⭐ Popular</SelectItem>
+                        <SelectItem value="Pro">🔴 Pro - 9 pages</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
-                </Card>
+
+                  {formData.planLevel && (
+                    <Card className="p-4 bg-muted/30">
+                      <div className="text-sm space-y-1">
+                        <div className="flex justify-between"><span className="text-muted-foreground">Build:</span><span className="font-semibold">${getPricing(formData.planLevel).build}</span></div>
+                        <div className="flex justify-between"><span className="text-muted-foreground">Hosting:</span><span className="font-semibold">${getPricing(formData.planLevel).monthly}/mo</span></div>
+                      </div>
+                    </Card>
+                  )}
+                </>
+              )}
+
+              {formData.purchaseOption === "hosting-only" && (
+                <div>
+                  <Label>Plan Level *</Label>
+                  <Select value={formData.planLevel} onValueChange={(v) => setFormData({ ...formData, planLevel: v })} required>
+                    <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Starter">🟢 Starter - $39/mo</SelectItem>
+                      <SelectItem value="Business">🔵 Business - $69/mo ⭐ Popular</SelectItem>
+                      <SelectItem value="Pro">🔴 Pro - $99/mo</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {formData.planLevel && (
+                    <Card className="p-4 bg-muted/30">
+                      <div className="text-sm">
+                        <div className="flex justify-between"><span className="text-muted-foreground">Hosting:</span><span className="font-semibold">${getPricing(formData.planLevel).monthly}/mo</span></div>
+                      </div>
+                    </Card>
+                  )}
+                </div>
               )}
             </div>
           </div>
@@ -381,6 +410,11 @@ const Quote = () => {
                           <p className="text-sm text-green-600 dark:text-green-400 flex items-center gap-2">
                             <CheckCircle2 className="w-4 h-4" /> <strong>{domainInput}</strong> is available!
                           </p>
+                          {formData.purchaseOption !== "website-only" && (
+                            <p className="text-xs text-green-600 dark:text-green-400 mt-1">
+                              ✨ Free for the first year (up to $20 value)
+                            </p>
+                          )}
                         </div>
                       )}
                       
@@ -394,12 +428,14 @@ const Quote = () => {
                     </div>
 
                     {domainStatus === "available" && (
-                      <div className="flex items-start space-x-3 p-4 bg-muted/50 rounded-lg border">
-                        <Checkbox id="needsDomainHandling" checked={formData.needsDomainHandling} onCheckedChange={(c) => setFormData({ ...formData, needsDomainHandling: c as boolean })} />
-                        <div>
-                          <Label htmlFor="needsDomainHandling" className="cursor-pointer font-semibold">Register for me (+$18 fee)</Label>
-                          <p className="text-xs text-muted-foreground">We'll buy and set up {domainInput}. Domain cost ($15-35/yr) added to invoice.</p>
-                        </div>
+                      <div className="p-4 bg-muted/50 rounded-lg border">
+                        <p className="text-sm text-muted-foreground">
+                          {formData.purchaseOption === "website-only" ? (
+                            <>We'll provide instructions for registering <strong>{domainInput}</strong> yourself, or we can handle it for you with an $18 setup fee. Domain cost ($15-35/yr) is separate.</>
+                          ) : (
+                            <>We'll register <strong>{domainInput}</strong> for you at no additional cost for the first year (up to $20 value). Domain renewal will be billed annually after the first year.</>
+                          )}
+                        </p>
                       </div>
                     )}
                   </div>
@@ -486,11 +522,27 @@ const Quote = () => {
           </h3>
           <div className="text-5xl font-bold text-primary mb-4">${estimate.total}</div>
           <div className="space-y-2 text-sm">
-            {estimate.buildCost > 0 && <div className="flex justify-between"><span>Website Build:</span><span>${estimate.buildCost}</span></div>}
+            {estimate.buildCost >= 0 && (
+              <div className="flex justify-between">
+                <span>Website Build:</span>
+                <span>
+                  {estimate.savings > 0 && (
+                    <span className="line-through text-muted-foreground mr-2">
+                      ${getPricing(formData.planLevel).build}
+                    </span>
+                  )}
+                  {estimate.buildCost === 0 ? (
+                    <span className="text-green-600 dark:text-green-400 font-semibold">FREE!</span>
+                  ) : (
+                    <span>${estimate.buildCost}</span>
+                  )}
+                </span>
+              </div>
+            )}
             {estimate.hostingCost > 0 && <div className="flex justify-between"><span>Hosting:</span><span>${estimate.hostingCost}</span></div>}
             {estimate.rushFee > 0 && <div className="flex justify-between"><span>Rush Fee:</span><span>${estimate.rushFee}</span></div>}
             {estimate.domainFee > 0 && <div className="flex justify-between"><span>Domain Handling:</span><span>${estimate.domainFee}</span></div>}
-            {estimate.savings > 0 && <div className="flex justify-between text-green-600 dark:text-green-400 font-semibold"><span>You Save:</span><span>${estimate.savings}</span></div>}
+            {estimate.savings > 0 && <div className="flex justify-between text-green-600 dark:text-green-400 font-semibold border-t border-border pt-2 mt-2"><span>💰 Total Savings:</span><span>-${estimate.savings}</span></div>}
           </div>
         </Card>
       )}
@@ -503,7 +555,8 @@ const Quote = () => {
             "50% deposit required to start",
             "12-month prepay = FREE website build",
             "6-month prepay = 50% off build",
-            "Domain costs billed separately"
+            "FREE domain for first year with hosting plans (up to $20 value)",
+            "Hosting-only pricing finalized after website review"
           ].map(item => (
             <li key={item} className="flex gap-2">
               <CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
