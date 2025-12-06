@@ -1,147 +1,156 @@
 <?php
-// Prevent direct access
+// send_quote.php - updated to accept new fields and create a detailed project summary email
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['success' => false, 'message' => 'Method not allowed']);
     exit;
 }
 
-// Enable CORS
+// CORS headers (adjust origin for security in prod)
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 
-// Get form data
-$companyName = isset($_POST['companyName']) ? strip_tags(trim($_POST['companyName'])) : '';
-$companyCategory = isset($_POST['companyCategory']) ? strip_tags(trim($_POST['companyCategory'])) : '';
-$customCategory = isset($_POST['customCategory']) ? strip_tags(trim($_POST['customCategory'])) : '';
-$email = isset($_POST['email']) ? trim($_POST['email']) : '';
-$phone = isset($_POST['phone']) ? strip_tags(trim($_POST['phone'])) : '';
-$location = isset($_POST['location']) ? strip_tags(trim($_POST['location'])) : '';
-$googleMapsLink = isset($_POST['googleMapsLink']) ? trim($_POST['googleMapsLink']) : '';
-$employees = isset($_POST['employees']) ? strip_tags(trim($_POST['employees'])) : '';
-$existingWebsite = isset($_POST['existingWebsite']) ? strip_tags(trim($_POST['existingWebsite'])) : '';
-$businessUrl = isset($_POST['businessUrl']) ? trim($_POST['businessUrl']) : '';
-$serviceCategory = isset($_POST['serviceCategory']) ? strip_tags(trim($_POST['serviceCategory'])) : '';
-$serviceType = isset($_POST['serviceType']) ? strip_tags(trim($_POST['serviceType'])) : '';
-$hostingPlan = isset($_POST['hostingPlan']) ? strip_tags(trim($_POST['hostingPlan'])) : '';
-$needsDomainAssistance = isset($_POST['needsDomainAssistance']) ? $_POST['needsDomainAssistance'] : 'false';
-$domainName = isset($_POST['domainName']) ? strip_tags(trim($_POST['domainName'])) : '';
-$needsDomainHandling = isset($_POST['needsDomainHandling']) ? $_POST['needsDomainHandling'] : 'false';
-$companyOverview = isset($_POST['companyOverview']) ? strip_tags(trim($_POST['companyOverview'])) : '';
-$services = isset($_POST['services']) ? strip_tags(trim($_POST['services'])) : '';
-$specialRequirements = isset($_POST['specialRequirements']) ? strip_tags(trim($_POST['specialRequirements'])) : '';
-$turnaroundTime = isset($_POST['turnaroundTime']) ? strip_tags(trim($_POST['turnaroundTime'])) : '';
-$colorScheme = isset($_POST['colorScheme']) ? strip_tags(trim($_POST['colorScheme'])) : '';
-$estimate = isset($_POST['estimate']) ? strip_tags(trim($_POST['estimate'])) : 'Not calculated';
+// Simple helper to get POST value safely
+function post($key, $default = '') {
+    return isset($_POST[$key]) ? trim($_POST[$key]) : $default;
+}
 
-// Validate required fields
-if (empty($companyName) || empty($email) || empty($phone) || empty($companyOverview)) {
+// Fetch basic fields
+$companyName = strip_tags(post('companyName'));
+$email = filter_var(post('email'), FILTER_SANITIZE_EMAIL);
+$phone = strip_tags(post('phone'));
+$location = strip_tags(post('location'));
+$googleMapsLink = strip_tags(post('googleMapsLink'));
+$employees = strip_tags(post('employees'));
+$existingWebsite = strip_tags(post('existingWebsite'));
+$businessUrl = strip_tags(post('businessUrl'));
+
+// New / content fields
+$companyOverview = strip_tags(post('companyOverview'));
+$services = strip_tags(post('servicesOffered'));
+$specialRequirements = strip_tags(post('specialRequirements'));
+$colorScheme = strip_tags(post('colorScheme'));
+$competitors = strip_tags(post('competitors'));
+
+// Product / pricing fields
+$serviceType = strip_tags(post('serviceType'));
+$planTier = strip_tags(post('planTier'));
+$turnaroundTime = strip_tags(post('turnaroundTime'));
+$prepayOption = strip_tags(post('prepayOption')); // 6months | 12months | ""
+$needsDomain = isset($_POST['needsDomain']) && $_POST['needsDomain'] === 'true' ? 'Yes' : 'No';
+$domainName = strip_tags(post('domainName'));
+$needsDomainHandling = isset($_POST['needsDomainHandling']) && $_POST['needsDomainHandling'] === 'true' ? 'Yes' : 'No';
+
+$estimate = strip_tags(post('estimate', 'Not calculated'));
+$estimateBreakdown = post('estimateBreakdown', ''); // JSON string if present
+
+$industry = strip_tags(post('industry'));
+$analyticsOptIn = isset($_POST['analyticsOptIn']) && $_POST['analyticsOptIn'] === 'true' ? 'Yes' : 'No';
+
+// Basic validation
+if (empty($companyName) || empty($email) || empty($companyOverview)) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Please fill in all required fields']);
+    echo json_encode(['success' => false, 'message' => 'Please fill in required fields: company name, email, company overview.']);
     exit;
 }
 
-// Validate email format
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     http_response_code(400);
     echo json_encode(['success' => false, 'message' => 'Invalid email address']);
     exit;
 }
 
-// YOUR COMPANY EMAIL (Change this to your actual email)
+// Recipient - change to your real inbox
 $to = 'info@darkmesahosting.com';
 
-// Email subject
-$subject = 'New Quote Request from ' . $companyName;
+// Subject
+$subject = "New Quote Request: $companyName";
 
-// Build detailed email content
-$email_content = "=== COMPANY INFORMATION ===\n";
-$email_content .= "Company: $companyName\n";
-$email_content .= "Category: $companyCategory" . ($customCategory ? " ($customCategory)" : "") . "\n";
-$email_content .= "Email: $email\n";
-$email_content .= "Phone: $phone\n";
-if (!empty($location)) {
-    $email_content .= "Location: $location\n";
-}
-if (!empty($googleMapsLink)) {
-    $email_content .= "Google Maps: $googleMapsLink\n";
-}
-if (!empty($employees)) {
-    $email_content .= "Employees: $employees\n";
-}
-if (!empty($existingWebsite)) {
-    $email_content .= "Existing Website: " . ucfirst($existingWebsite) . "\n";
-}
-if (!empty($businessUrl)) {
-    $email_content .= "Current Website: $businessUrl\n";
-}
+// Build email message
+$message = "=== NEW QUOTE REQUEST ===\n\n";
+$message .= "Submitted: " . date('Y-m-d H:i:s') . "\n\n";
 
-$email_content .= "\n=== SERVICE DETAILS ===\n";
-$email_content .= "Service Type: $serviceCategory\n";
-if (!empty($serviceType)) {
-    $email_content .= "Website Package: $serviceType\n";
-}
-if (!empty($hostingPlan)) {
-    $hostingLabel = $hostingPlan === 'basic' ? 'Basic Hosting - $129/year' : 'Advanced Hosting - $194/year';
-    $email_content .= "Hosting Plan: $hostingLabel\n";
-}
-if (!empty($turnaroundTime)) {
-    $email_content .= "Turnaround Time: $turnaroundTime\n";
-}
+$message .= "=== COMPANY DETAILS ===\n";
+$message .= "Company: $companyName\n";
+$message .= "Email: $email\n";
+$message .= "Phone: $phone\n";
+if ($location) $message .= "Location: $location\n";
+if ($googleMapsLink) $message .= "Google Maps: $googleMapsLink\n";
+if ($employees) $message .= "Employees: $employees\n";
+$message .= "Existing Website: " . ($existingWebsite ? ucfirst($existingWebsite) : 'No') . "\n";
+if ($businessUrl) $message .= "Current Website: $businessUrl\n";
 
-$email_content .= "\n=== DOMAIN INFORMATION ===\n";
-$email_content .= "Needs Domain Assistance: " . ($needsDomainAssistance === 'true' ? 'Yes' : 'No') . "\n";
-if (!empty($domainName)) {
-    $email_content .= "Selected Domain: $domainName\n";
-}
-$email_content .= "Domain Handling Service: " . ($needsDomainHandling === 'true' ? 'Yes (+$18)' : 'No') . "\n";
+$message .= "\n=== PROJECT SUMMARY ===\n";
+$message .= "Industry: " . ($industry ? $industry : 'Not specified') . "\n";
+$message .= "Service Type: " . ($serviceType ? $serviceType : 'Not specified') . "\n";
+$message .= "Plan Tier: " . ($planTier ? $planTier : 'Not specified') . "\n";
+$message .= "Turnaround Preference: " . ($turnaroundTime ? $turnaroundTime : 'Standard') . "\n";
+$message .= "Prepay Option: " . ($prepayOption ? $prepayOption : 'None (pay monthly)') . "\n";
+$message .= "Analytics Opt-In: $analyticsOptIn\n";
 
-$email_content .= "\n=== DESIGN PREFERENCES ===\n";
-if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
-    $email_content .= "Has Logo: Yes (file attached)\n";
-} else {
-    $email_content .= "Has Logo: No\n";
-}
-if (!empty($colorScheme)) {
-    $email_content .= "Color Scheme: $colorScheme\n";
+$message .= "\n=== DESIGN & CONTENT ===\n";
+$message .= "Company Overview:\n$companyOverview\n\n";
+if ($services) $message .= "Services / Products:\n$services\n\n";
+if ($specialRequirements) $message .= "Special Requirements:\n$specialRequirements\n\n";
+if ($colorScheme) $message .= "Preferred Colors: $colorScheme\n";
+if ($competitors) $message .= "Competitor / Inspiration Links: $competitors\n";
+
+// Domain
+$message .= "\n=== DOMAIN ===\n";
+$message .= "Needs Domain: $needsDomain\n";
+if ($domainName) $message .= "Desired Domain: $domainName\n";
+$message .= "Domain Handling Service: $needsDomainHandling\n";
+$message .= "Note: First-year domain registration is free when eligible per offer. Renewal billed separately.\n";
+
+// Estimate details
+$message .= "\n=== ESTIMATE ===\n";
+$message .= "Total Estimate (due now): $" . $estimate . "\n";
+if ($estimateBreakdown) {
+    $message .= "Estimate Breakdown (JSON):\n" . $estimateBreakdown . "\n";
 }
 
-$email_content .= "\n=== PROJECT DETAILS ===\n";
-$email_content .= "Company Overview:\n$companyOverview\n";
-
-if (!empty($services)) {
-    $email_content .= "\nProducts/Services:\n$services\n";
+// File upload handling note
+$hasLogo = (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) ? 'Yes' : 'No';
+$message .= "\nHas Logo File: $hasLogo\n";
+if ($hasLogo === 'Yes') {
+    // Save uploaded file to a safe directory with timestamped name (optional)
+    $uploadDir = __DIR__ . '/uploads';
+    if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+    $fileTmp = $_FILES['logo']['tmp_name'];
+    $fileName = basename($_FILES['logo']['name']);
+    $safeName = preg_replace('/[^a-zA-Z0-9._-]/', '_', $fileName);
+    $target = $uploadDir . '/' . time() . '_' . $safeName;
+    if (move_uploaded_file($fileTmp, $target)) {
+        $message .= "Logo file saved to: $target\n";
+    } else {
+        $message .= "Logo file uploaded but failed to save on server.\n";
+    }
 }
 
-if (!empty($specialRequirements)) {
-    $email_content .= "\nSpecial Requirements:\n$specialRequirements\n";
+// Add compliance note
+if ($industry) {
+    $regulated = in_array(strtolower($industry), ['healthcare', 'medical', 'finance', 'legal', 'financial']);
+    if ($regulated) {
+        $message .= "\n*** Compliance Notice: Client selected a regulated industry. Client is responsible for regulatory compliance (HIPAA, PHIPA, PCI, etc.). Developer will implement technical safeguards on request but is not legal counsel. ***\n";
+    }
 }
-
-$email_content .= "\n=== ESTIMATED COST ===\n";
-$email_content .= "Total Estimate: $$estimate\n";
-$email_content .= "\nNote: Domain registration cost and special requirements may add additional charges\n";
 
 // Email headers
 $headers = "From: $companyName <$email>\r\n";
 $headers .= "Reply-To: $email\r\n";
 $headers .= "X-Mailer: PHP/" . phpversion();
 
-// Handle logo attachment if present
-$attachmentSaved = false;
-if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
-    // Note: For file attachments, you may want to use PHPMailer library instead
-    // This basic implementation will just note the logo was uploaded
-    $attachmentSaved = true;
-}
+// Send email (note: for production use authenticated SMTP/PHPMailer)
+$sent = mail($to, $subject, $message, $headers);
 
-// Send email
-if (mail($to, $subject, $email_content, $headers)) {
+if ($sent) {
     http_response_code(200);
-    echo json_encode(['success' => true, 'message' => 'Quote request sent successfully!']);
+    echo json_encode(['success' => true, 'message' => 'Quote request sent successfully']);
 } else {
     http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Sorry, there was an error sending your quote request. Please try again.']);
+    echo json_encode(['success' => false, 'message' => 'Failed to send quote request via mail()']);
 }
 ?>
