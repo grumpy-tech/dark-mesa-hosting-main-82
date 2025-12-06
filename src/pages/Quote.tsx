@@ -18,7 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 type PrepayOption = "" | "6months" | "12months";
 type ServiceType = "build" | "hosting" | "bundle";
 
-const Quote: React.FC = () => {
+export default function Quote() {
   const { toast } = useToast();
   const estimateRef = useRef<HTMLDivElement | null>(null);
 
@@ -27,6 +27,7 @@ const Quote: React.FC = () => {
   const [calculating, setCalculating] = useState(false);
   const [estimate, setEstimate] = useState<number | null>(null);
   const [estimateBreakdown, setEstimateBreakdown] = useState<Record<string, number>>({});
+  const [logoFile, setLogoFile] = useState<File | null>(null);
 
   const [form, setForm] = useState({
     companyName: "",
@@ -44,17 +45,12 @@ const Quote: React.FC = () => {
     serviceType: "bundle" as ServiceType,
     planTier: "Starter",
     prepayOption: "12months" as PrepayOption,
-    turnaroundTime: "standard", // standard | rush
+    turnaroundTime: "standard",
   });
 
   const buildPrices = { Starter: 349, Business: 599, Pro: 999 };
   const monthlyHosting = { Starter: 39, Business: 69, Pro: 99 };
-
-  const turnaroundMap = {
-    Starter: { standard: 0, rush: 199 },
-    Business: { standard: 0, rush: 299 },
-    Pro: { standard: 0, rush: 399 },
-  };
+  const rushFees = { Starter: 199, Business: 299, Pro: 399 };
 
   const update = (partial: Partial<typeof form>) =>
     setForm((f) => ({ ...f, ...partial }));
@@ -66,9 +62,7 @@ const Quote: React.FC = () => {
       const buildBase = buildPrices[form.planTier] ?? 0;
       const hostMonthly = monthlyHosting[form.planTier] ?? 0;
       const rushFee =
-        form.turnaroundTime === "rush"
-          ? turnaroundMap[form.planTier]?.rush ?? 0
-          : 0;
+        form.turnaroundTime === "rush" ? rushFees[form.planTier] ?? 0 : 0;
 
       let buildCost = buildBase;
       let hostingPayment = hostMonthly;
@@ -83,13 +77,8 @@ const Quote: React.FC = () => {
         buildCost = 0;
       }
 
-      if (form.serviceType === "build") {
-        hostingPayment = 0;
-      }
-
-      if (form.serviceType === "hosting") {
-        buildCost = 0;
-      }
+      if (form.serviceType === "build") hostingPayment = 0;
+      if (form.serviceType === "hosting") buildCost = 0;
 
       const totalNow = Math.round(buildCost + hostingPayment + rushFee);
 
@@ -120,17 +109,38 @@ const Quote: React.FC = () => {
 
     setIsSubmitting(true);
 
-    setTimeout(() => {
+    try {
+      const formData = new FormData();
+      Object.entries(form).forEach(([k, v]) => formData.append(k, String(v)));
+      if (logoFile) formData.append("logo", logoFile);
+      formData.append("estimate", String(estimate ?? 0));
+      formData.append("estimateBreakdown", JSON.stringify(estimateBreakdown));
+
+      const res = await fetch("/send_quote.php", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Failed");
+
       setIsSubmitted(true);
-      setIsSubmitting(false);
-    }, 800);
+      toast({ title: "Quote sent successfully" });
+    } catch {
+      toast({
+        title: "Submission Failed",
+        description: "Server error. Try again.",
+        variant: "destructive",
+      });
+    }
+
+    setIsSubmitting(false);
   };
 
   if (isSubmitted) {
     return (
       <div className="container mx-auto px-6 py-32 text-center">
         <CheckCircle2 className="w-16 h-16 text-primary mx-auto mb-4" />
-        <h2 className="text-3xl font-bold mb-2">Quote Submitted!</h2>
+        <h2 className="text-3xl font-bold mb-2">Quote Submitted Successfully!</h2>
         <p className="text-muted-foreground">
           We’ll review your request and contact you within 24 hours.
         </p>
@@ -138,100 +148,94 @@ const Quote: React.FC = () => {
     );
   }
 
+  const isRegulated = ["healthcare", "finance", "legal"].includes(form.industry);
+
   return (
     <div className="container mx-auto px-6 py-16 max-w-4xl">
       <Card className="p-8">
         <h2 className="text-3xl font-bold mb-4">Get Your Free Quote</h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+
+          {/* CONTACT */}
           <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <Label>Company Name *</Label>
-              <Input value={form.companyName} onChange={(e) => update({ companyName: e.target.value })} />
-            </div>
-            <div>
-              <Label>Email *</Label>
-              <Input value={form.email} onChange={(e) => update({ email: e.target.value })} />
-            </div>
+            <Input placeholder="Company Name *" value={form.companyName} onChange={(e) => update({ companyName: e.target.value })} />
+            <Input placeholder="Email *" value={form.email} onChange={(e) => update({ email: e.target.value })} />
           </div>
 
-          <div>
-            <Label>Company Overview *</Label>
-            <Textarea value={form.companyOverview} onChange={(e) => update({ companyOverview: e.target.value })} />
+          <div className="grid md:grid-cols-2 gap-4">
+            <Input placeholder="Phone" value={form.phone} onChange={(e) => update({ phone: e.target.value })} />
+            <Input placeholder="Location" value={form.location} onChange={(e) => update({ location: e.target.value })} />
           </div>
 
-          <div>
-            <Label>Industry</Label>
-            <Select value={form.industry} onValueChange={(v) => update({ industry: v })}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+          {/* BUSINESS INFO */}
+          <Textarea placeholder="Company Overview *" value={form.companyOverview} onChange={(e) => update({ companyOverview: e.target.value })} />
+          <Textarea placeholder="Services Offered" value={form.servicesOffered} onChange={(e) => update({ servicesOffered: e.target.value })} />
+          <Textarea placeholder="Special Requirements" value={form.specialRequirements} onChange={(e) => update({ specialRequirements: e.target.value })} />
+
+          {/* INDUSTRY */}
+          <Select value={form.industry} onValueChange={(v) => update({ industry: v })}>
+            <SelectTrigger><SelectValue placeholder="Select Industry" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="retail">Retail</SelectItem>
+              <SelectItem value="healthcare">Healthcare</SelectItem>
+              <SelectItem value="finance">Finance</SelectItem>
+              <SelectItem value="legal">Legal</SelectItem>
+              <SelectItem value="other">Other</SelectItem>
+            </SelectContent>
+          </Select>
+
+          {isRegulated && (
+            <div className="bg-yellow-50 border border-yellow-200 p-3 rounded text-sm flex gap-2">
+              <AlertTriangle className="w-5 h-5 text-yellow-600" />
+              This industry may require legal compliance (HIPAA, PCI, etc).
+            </div>
+          )}
+
+          {/* SERVICE */}
+          <div className="grid md:grid-cols-3 gap-4">
+            <Select value={form.serviceType} onValueChange={(v) => update({ serviceType: v as ServiceType })}>
+              <SelectTrigger><SelectValue placeholder="Service Type" /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="retail">Retail</SelectItem>
-                <SelectItem value="healthcare">Healthcare</SelectItem>
-                <SelectItem value="finance">Finance</SelectItem>
-                <SelectItem value="legal">Legal</SelectItem>
-                <SelectItem value="restaurant">Restaurant</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
+                <SelectItem value="build">Build Only</SelectItem>
+                <SelectItem value="hosting">Hosting Only</SelectItem>
+                <SelectItem value="bundle">Bundle</SelectItem>
               </SelectContent>
             </Select>
 
-            {["healthcare", "finance", "legal"].includes(form.industry) && (
-              <div className="mt-3 bg-yellow-50 border border-yellow-200 p-3 rounded text-sm flex gap-2">
-                <AlertTriangle className="w-5 h-5 text-yellow-600" />
-                Regulated industry detected — compliance may be required.
-              </div>
-            )}
+            <Select value={form.planTier} onValueChange={(v) => update({ planTier: v })}>
+              <SelectTrigger><SelectValue placeholder="Plan Tier" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Starter">Starter</SelectItem>
+                <SelectItem value="Business">Business</SelectItem>
+                <SelectItem value="Pro">Pro</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Select value={form.turnaroundTime} onValueChange={(v) => update({ turnaroundTime: v })}>
+              <SelectTrigger><SelectValue placeholder="Delivery Speed" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="standard">Standard</SelectItem>
+                <SelectItem value="rush">Rush</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-4">
-            <div>
-              <Label>Service Type</Label>
-              <Select value={form.serviceType} onValueChange={(v) => update({ serviceType: v as ServiceType })}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="build">Build Only</SelectItem>
-                  <SelectItem value="hosting">Hosting Only</SelectItem>
-                  <SelectItem value="bundle">Bundle</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Label>Plan</Label>
-              <Select value={form.planTier} onValueChange={(v) => update({ planTier: v })}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Starter">Starter</SelectItem>
-                  <SelectItem value="Business">Business</SelectItem>
-                  <SelectItem value="Pro">Pro</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Label>Turnaround</Label>
-              <Select value={form.turnaroundTime} onValueChange={(v) => update({ turnaroundTime: v })}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="standard">Standard</SelectItem>
-                  <SelectItem value="rush">Rush</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <div>
-            <Checkbox
-              checked={form.prepayOption !== ""}
-              onCheckedChange={(c) => update({ prepayOption: c ? "12months" : "" })}
-            />{" "}
+          {/* PREPAY */}
+          <div className="flex items-center gap-2">
+            <Checkbox checked={form.prepayOption !== ""} onCheckedChange={(c) => update({ prepayOption: c ? "12months" : "" })} />
             Prepay hosting for discounts
           </div>
 
+          {/* FILE */}
+          <Input type="file" onChange={(e) => setLogoFile(e.target.files?.[0] || null)} />
+
+          {/* BUTTONS */}
           <Button type="button" onClick={calculateEstimate} variant="outline" className="w-full">
             {calculating ? "Calculating..." : "Calculate Estimate"}
           </Button>
 
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
             <Send className="w-4 h-4 mr-2" /> Submit Quote
           </Button>
         </form>
@@ -240,7 +244,7 @@ const Quote: React.FC = () => {
       {estimate !== null && (
         <Card ref={estimateRef} className="mt-6 p-6 border-2 border-primary bg-primary/5">
           <h3 className="text-xl font-semibold mb-2 flex items-center gap-2">
-            <DollarSign className="w-5 h-5" /> Estimated Total
+            <DollarSign className="w-5 h-5" /> Estimated Due Now
           </h3>
 
           <div className="text-3xl font-bold text-primary mb-3">${estimate}</div>
@@ -254,6 +258,4 @@ const Quote: React.FC = () => {
       )}
     </div>
   );
-};
-
-export default Quote;
+}
