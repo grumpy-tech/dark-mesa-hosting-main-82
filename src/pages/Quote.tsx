@@ -266,7 +266,6 @@ const Quote = () => {
                   <Input required value={formData.companyCategory} onChange={(e) => setFormData({ ...formData, companyCategory: e.target.value })} placeholder="e.g., Legal, Construction, Education" />
                 </div>
               )}
-              </div>
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
