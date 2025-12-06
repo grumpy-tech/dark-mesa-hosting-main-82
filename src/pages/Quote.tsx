@@ -28,6 +28,7 @@ const Quote = () => {
     email: "",
     phone: "",
     location: "",
+    googleBusinessUrl: "",
     purchaseOption: "",
     planLevel: "",
     needsNewDomain: false,
@@ -252,10 +253,19 @@ const Quote = () => {
                       <SelectItem value="tech">Technology</SelectItem>
                       <SelectItem value="healthcare">Healthcare</SelectItem>
                       <SelectItem value="restaurant">Restaurant</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
+                      <SelectItem value="other">Other (please specify)</SelectItem>
                     </SelectContent>
                   </Select>
+                  <p className="text-xs text-muted-foreground mt-1">Helps us ensure compliance with industry regulations and legal requirements</p>
                 </div>
+              </div>
+
+              {formData.companyCategory === "other" && (
+                <div>
+                  <Label>Please Specify Your Industry *</Label>
+                  <Input required value={formData.companyCategory} onChange={(e) => setFormData({ ...formData, companyCategory: e.target.value })} placeholder="e.g., Legal, Construction, Education" />
+                </div>
+              )}
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
@@ -275,6 +285,12 @@ const Quote = () => {
                 <Label>Location *</Label>
                 <Input required value={formData.location} onChange={(e) => setFormData({ ...formData, location: e.target.value })} placeholder="City, Province/State" />
                 <p className="text-xs text-muted-foreground mt-1">Helps with local SEO</p>
+              </div>
+
+              <div>
+                <Label>Google Business Profile URL (Optional)</Label>
+                <Input value={formData.googleBusinessUrl} onChange={(e) => setFormData({ ...formData, googleBusinessUrl: e.target.value })} placeholder="https://www.google.com/maps/place/..." />
+                <p className="text-xs text-muted-foreground mt-1">If you have one, this helps us understand your business better</p>
               </div>
             </div>
           </div>
