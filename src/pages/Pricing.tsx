@@ -321,7 +321,7 @@ const Pricing = () => {
                                             </p>
                                         )}
                                         <div className="text-base text-muted-foreground mt-2">
-                                            Build: **{isYearly ? "FREE" : `$${plan.buildPrice}`}**
+                                            Build: <strong>{isYearly ? "FREE" : `$${plan.buildPrice}`}</strong>
                                         </div>
                                     </div>
 
@@ -345,14 +345,55 @@ const Pricing = () => {
                 </div>
             </section>
 
-            {/* Other Sections (Untouched as they were well-structured) */}
+            {/* Good to Know Section */}
             <section className="py-20 bg-card/30">
-                {/* ... (Good to Know section remains the same) ... */}
+                <div className="container mx-auto max-w-6xl px-6">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl font-bold mb-4">Good to Know</h2>
+                        <p className="text-muted-foreground">Important details about our pricing and services</p>
+                    </div>
+                    <div className="grid md:grid-cols-3 gap-8">
+                        <div className="text-center p-6">
+                            <div className="inline-block p-3 bg-primary/10 rounded-full mb-4">
+                                <CheckCircle2 className="w-8 h-8 text-primary" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-2">Domain Included</h3>
+                            <p className="text-muted-foreground">Free first year (up to $20 value), then $18-22/year</p>
+                        </div>
+                        <div className="text-center p-6">
+                            <div className="inline-block p-3 bg-primary/10 rounded-full mb-4">
+                                <CheckCircle2 className="w-8 h-8 text-primary" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-2">SSL Certificate</h3>
+                            <p className="text-muted-foreground">Free SSL included with all plans for secure browsing</p>
+                        </div>
+                        <div className="text-center p-6">
+                            <div className="inline-block p-3 bg-primary/10 rounded-full mb-4">
+                                <CheckCircle2 className="w-8 h-8 text-primary" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-2">No Hidden Fees</h3>
+                            <p className="text-muted-foreground">What you see is what you pay. No surprise charges.</p>
+                        </div>
+                    </div>
+                </div>
             </section>
+
+            {/* CTA Section */}
             <section className="py-20 bg-background">
-                {/* ... (CTA section remains the same) ... */}
+                <div className="container mx-auto max-w-4xl px-6 text-center">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Get Started?</h2>
+                    <p className="text-xl text-muted-foreground mb-8">
+                        Let's build something amazing together. Get a free consultation today.
+                    </p>
+                    <Link to="/quote">
+                        <Button size="lg" className="h-14 px-8 text-lg font-bold">
+                            Get Your Free Quote <ArrowRight className="ml-2 w-5 h-5" />
+                        </Button>
+                    </Link>
+                </div>
             </section>
         </>
     );
 };
+
 export default Pricing;
