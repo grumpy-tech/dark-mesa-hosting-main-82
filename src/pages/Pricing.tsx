@@ -1,11 +1,8 @@
 import { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { motion } from "framer-motion";
-import { CheckCircle2, ArrowRight, DollarSign, X, Star, Sparkles, AlertTriangle } from "lucide-react";
+import { CheckCircle2, X, Star, DollarSign, Shield, Zap, TrendingUp, AlertCircle, ArrowRight } from "lucide-react";
 
-// --- Plan Data (No Change Necessary Here) ---
 const plans = [
     {
         name: "Starter",
@@ -13,24 +10,19 @@ const plans = [
         monthly: 39,
         annual: 468,
         buildPrice: 349,
-        description: "Perfect for new businesses",
-        tagline: "Get online fast",
+        description: "Perfect for new businesses getting online",
+        bestFor: "Solo entrepreneurs, new businesses",
         color: "from-green-500/20 to-emerald-500/20",
+        borderColor: "border-green-500/30",
         features: [
-            { name: "Pages Included", value: "3 pages", included: true },
-            { name: "Design Style", value: "Professional templates", included: true },
-            { name: "Mobile Optimization", value: true, included: true },
-            { name: "Basic SEO", value: "Basic setup", included: true },
-            { name: "Contact Forms", value: "Basic form", included: true },
-            { name: "Analytics Setup", value: false, included: false },
-            { name: "Blog or Online Store", value: false, included: false },
-            { name: "Free Monthly Updates", value: "1 update (30 min)", included: true },
-            { name: "Site Backups", value: "Monthly", included: true },
-            { name: "Security Protection", value: "Basic monitoring", included: true },
-            { name: "Support Speed", value: "48-72 hours", included: true },
-            { name: "Professional Email", value: "None included", included: false },
-            { name: "Uptime Guarantee", value: "99.9%", included: true }
-        ]
+            { name: "Pages Included", value: "3 pages", icon: "📄" },
+            { name: "Mobile Optimized", value: true, icon: "📱" },
+            { name: "Basic SEO Setup", value: true, icon: "🔍" },
+            { name: "Contact Form", value: true, icon: "✉️" },
+            { name: "Monthly Updates", value: "1 update (30 min)", icon: "🔄" },
+            { name: "Support Response", value: "48-72 hours", icon: "💬" },
+        ],
+        excluded: ["Analytics", "Blog/Store", "Professional Email", "Priority Support"]
     },
     {
         name: "Business",
@@ -39,24 +31,22 @@ const plans = [
         monthly: 69,
         annual: 828,
         buildPrice: 599,
-        description: "Best for growing businesses",
-        tagline: "Everything you need to grow",
-        color: "from-primary/20 to-blue-500/20",
+        description: "Everything growing businesses need",
+        bestFor: "Small businesses ready to scale",
+        color: "from-blue-500/20 to-cyan-500/20",
+        borderColor: "border-blue-500/50",
         features: [
-            { name: "Pages Included", value: "Up to 6 pages", included: true },
-            { name: "Design Style", value: "Custom for your brand", included: true },
-            { name: "Mobile Optimization", value: true, included: true },
-            { name: "Basic SEO", value: "Enhanced setup", included: true },
-            { name: "Contact Forms", value: "Advanced forms", included: true },
-            { name: "Analytics Setup", value: true, included: true },
-            { name: "Blog or Online Store", value: "Add-on available", included: true },
-            { name: "Free Monthly Updates", value: "5 updates (2 hrs)", included: true },
-            { name: "Site Backups", value: "Weekly", included: true },
-            { name: "Security Protection", value: "Advanced firewall", included: true },
-            { name: "Support Speed", value: "24 hours", included: true },
-            { name: "Professional Email", value: "1 inbox", included: true },
-            { name: "Uptime Guarantee", value: "99.99%", included: true }
-        ]
+            { name: "Pages Included", value: "Up to 6 pages", icon: "📄" },
+            { name: "Custom Brand Design", value: true, icon: "🎨" },
+            { name: "Enhanced SEO", value: true, icon: "🔍" },
+            { name: "Advanced Forms", value: true, icon: "✉️" },
+            { name: "Analytics Dashboard", value: true, icon: "📊" },
+            { name: "Blog or Store Add-on", value: true, icon: "🛍️" },
+            { name: "Monthly Updates", value: "5 updates (2 hrs)", icon: "🔄" },
+            { name: "Professional Email", value: "1 inbox", icon: "📧" },
+            { name: "Support Response", value: "24 hours", icon: "💬" },
+        ],
+        excluded: []
     },
     {
         name: "Pro",
@@ -64,336 +54,406 @@ const plans = [
         monthly: 99,
         annual: 1188,
         buildPrice: 999,
-        description: "For established businesses",
-        tagline: "Premium performance",
+        description: "Premium performance for established brands",
+        bestFor: "Established businesses, high-traffic sites",
         color: "from-purple-500/20 to-pink-500/20",
+        borderColor: "border-purple-500/30",
         features: [
-            { name: "Pages Included", value: "Up to 9 pages", included: true },
-            { name: "Design Style", value: "Unique design", included: true },
-            { name: "Mobile Optimization", value: true, included: true },
-            { name: "Basic SEO", value: "Full local SEO", included: true },
-            { name: "Contact Forms", value: "Advanced + automation", included: true },
-            { name: "Analytics Setup", value: true, included: true },
-            { name: "Blog or Online Store", value: "Included", included: true },
-            { name: "Free Monthly Updates", value: "Unlimited (4 hrs)", included: true },
-            { name: "Site Backups", value: "Daily", included: true },
-            { name: "Security Protection", value: "Proactive scans", included: true },
-            { name: "Support Speed", value: "Same day", included: true },
-            { name: "Professional Email", value: "Up to 5 inboxes", included: true },
-            { name: "Uptime Guarantee", value: "99.99%", included: true }
-        ]
+            { name: "Pages Included", value: "Up to 9 pages", icon: "📄" },
+            { name: "Unique Custom Design", value: true, icon: "✨" },
+            { name: "Full Local SEO", value: true, icon: "🔍" },
+            { name: "Form Automation", value: true, icon: "⚡" },
+            { name: "Advanced Analytics", value: true, icon: "📊" },
+            { name: "Blog & Store Included", value: true, icon: "🛍️" },
+            { name: "Unlimited Updates", value: "4 hrs/month", icon: "🔄" },
+            { name: "Professional Email", value: "5 inboxes", icon: "📧" },
+            { name: "Priority Support", value: "Same day", icon: "🚀" },
+        ],
+        excluded: []
     }
 ];
 
-const Pricing = () => {
+const PricingPage = () => {
     const [isYearly, setIsYearly] = useState(false);
+    const [showComparison, setShowComparison] = useState(false);
 
-    // Memoize the list of unique feature names for the first column
-    const featureNames = useMemo(() => plans[0].features.map(f => f.name), []);
-
-    const renderFeatureValue = (feature: any) => {
-        if (feature.value === true) {
-            return <CheckCircle2 className="w-5 h-5 text-green-500" />;
-        }
-        if (feature.value === false) {
-            return <X className="w-5 h-5 text-red-500" />;
-        }
-        return <span className="text-sm font-medium">{feature.value}</span>;
+    const calculateSavings = (plan) => {
+        const monthlyCost = plan.monthly * 12 + plan.buildPrice;
+        const annualCost = plan.annual;
+        return monthlyCost - annualCost;
     };
 
-    const savingsPercentage = 15; // Hardcoded saving value for yearly plan
-
     return (
-        <>
+        <div className="min-h-screen bg-background">
             {/* Hero */}
-            <section className="pt-32 pb-16 px-6">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-center space-y-6"
-                    >
-                        <div className="inline-block p-4 bg-primary/10 rounded-full mb-4">
-                            <DollarSign className="w-12 h-12 text-primary" />
-                        </div>
-                        <h1 className="text-4xl md:text-6xl font-bold">Simple Pricing. Powerful Websites.</h1>
-                        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                            Transparent pricing for design, hosting, maintenance, and support—all in one package.
-                        </p>
-                    </motion.div>
+            <section className="pt-24 pb-12 px-6">
+                <div className="container mx-auto max-w-6xl text-center space-y-6">
+                    <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                        <DollarSign className="w-4 h-4" />
+                        Transparent Pricing
+                    </div>
+                    <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
+                        Website + Hosting + Support.<br />One Simple Price.
+                    </h1>
+                    <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                        No hidden fees. No surprises. Everything you need to succeed online.
+                    </p>
                 </div>
             </section>
 
-            {/* Monthly/Yearly Toggle Section (Revised) */}
-            <section className="pb-8 px-6">
+            {/* Billing Toggle */}
+            <section className="pb-12 px-6">
                 <div className="container mx-auto max-w-6xl">
-                    <div className="flex justify-center items-center gap-4 mb-8 relative">
-                        {/* Toggle */}
+                    <div className="flex flex-col items-center gap-6">
                         <div className="inline-flex items-center bg-card border-2 border-border rounded-full p-1 shadow-lg">
                             <button
                                 onClick={() => setIsYearly(false)}
-                                className={`px-6 py-2 rounded-full font-bold text-sm transition-all ${
+                                className={`px-8 py-3 rounded-full font-bold transition-all ${
                                     !isYearly
-                                        ? 'bg-primary text-primary-foreground'
+                                        ? 'bg-primary text-primary-foreground shadow-md'
                                         : 'text-muted-foreground hover:text-foreground'
                                 }`}
                             >
-                                Pay Monthly
+                                Monthly
                             </button>
                             <button
                                 onClick={() => setIsYearly(true)}
-                                className={`px-6 py-2 rounded-full font-bold text-sm transition-all relative ${
+                                className={`px-8 py-3 rounded-full font-bold transition-all ${
                                     isYearly
-                                        ? 'bg-primary text-primary-foreground'
+                                        ? 'bg-primary text-primary-foreground shadow-md'
                                         : 'text-muted-foreground hover:text-foreground'
                                 }`}
                             >
-                                Pay Yearly
-                                {/* Small Banner/Box for FREE BUILD - New Feature */}
-                                <div className="absolute top-[-2rem] right-[-3rem] sm:top-auto sm:left-auto sm:right-[-90px] sm:bottom-[-20px] bg-yellow-500 text-yellow-900 px-3 py-1 text-[10px] sm:text-xs font-extrabold rounded-md rotate-[5deg] origin-bottom-left shadow-xl whitespace-nowrap">
-                                    FREE BUILD!
-                                </div>
+                                Annual
                             </button>
                         </div>
                         
-                        {/* Saving Tag */}
-                        <div className="inline-flex items-center text-sm ml-4">
-                            <Sparkles className="w-4 h-4 text-yellow-500 mr-1 flex-shrink-0" />
-                            <span className="font-semibold text-green-600 dark:text-green-400">
-                                Save ~{savingsPercentage}% on hosting + FREE build!
-                            </span>
-                        </div>
+                        {isYearly && (
+                            <div className="bg-green-500/10 border border-green-500/30 rounded-lg px-6 py-3 max-w-2xl">
+                                <div className="flex items-start gap-3">
+                                    <Shield className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                                    <div className="text-sm">
+                                        <p className="font-bold text-green-700 dark:text-green-400 mb-1">
+                                            Annual Commitment = Free Website Build
+                                        </p>
+                                        <p className="text-muted-foreground">
+                                            Pay for 12 months of hosting upfront and get your website built for free (save $349-$999). Month-to-month plans available with build fee.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </section>
 
-            {/* Pricing Comparison Table (Revised) */}
-            <section className="pb-20 px-6">
+            {/* Pricing Cards */}
+            <section className="pb-16 px-6">
                 <div className="container mx-auto max-w-7xl">
-                    <div className="overflow-x-auto shadow-2xl rounded-xl">
-                        <div className="inline-block min-w-full align-middle">
-                            {/* Removed outer border-2 and applied internal column dividers */}
-                            <table className="min-w-full divide-y divide-border">
-                                <thead>
-                                    <tr className="bg-muted/30">
-                                        <th className="px-6 py-6 text-left w-[250px] sticky left-0 z-10 bg-muted/30">
-                                            <div className="text-lg font-bold text-foreground">Plan Comparison</div>
-                                            <div className="text-sm text-muted-foreground mt-1">
-                                                See what's included at each level
-                                            </div>
-                                        </th>
-                                        {plans.map((plan) => (
-                                            <th key={plan.name} className="px-6 py-0 border-l border-border/70 relative">
-                                                <div className={`rounded-b-2xl bg-gradient-to-br ${plan.color} p-6 border-b-2 ${plan.popular ? 'border-primary' : 'border-border/50'} relative`}>
-                                                    {plan.popular && (
-                                                        <div className="absolute top-0 left-0 right-0 bg-primary text-primary-foreground text-center py-1 text-xs font-bold flex items-center justify-center gap-1 shadow-lg rounded-t-xl">
-                                                            <Star className="w-3 h-3 fill-white text-primary-foreground" /> **RECOMMENDED**
-                                                        </div>
-                                                    )}
-                                                    <div className="text-center space-y-3 pt-4">
-                                                        <div className="text-4xl">{plan.emoji}</div>
-                                                        <div>
-                                                            <div className="text-2xl font-extrabold text-foreground">{plan.name}</div>
-                                                            <div className="text-xs text-muted-foreground mt-1">{plan.tagline}</div>
-                                                        </div>
-                                                        
-                                                        {/* 1. Monthly Cost (Always Visible) */}
-                                                        <div className="pt-2">
-                                                            <div className="flex items-baseline justify-center gap-1">
-                                                                <span className="text-2xl font-bold text-foreground">$</span>
-                                                                <span className="text-5xl font-extrabold text-foreground">
-                                                                    {isYearly ? Math.round(plan.annual / 12) : plan.monthly}
-                                                                </span>
-                                                                <span className="text-sm text-muted-foreground">/mo</span>
-                                                            </div>
-                                                            
-                                                            {/* 2. Annual Cost (Visible Only in Yearly Mode - addressing the clarity request) */}
-                                                            {isYearly && (
-                                                                <div className="text-sm text-green-600 dark:text-green-400 font-bold mt-1">
-                                                                    Billed annually at ${plan.annual}
-                                                                </div>
-                                                            )}
-                                                            
-                                                            {/* 3. Monthly Cost (Visible Only in Monthly Mode - showing the saving comparison) */}
-                                                            {!isYearly && (
-                                                                <div className="text-sm text-muted-foreground mt-1">
-                                                                    Billed monthly
-                                                                </div>
-                                                            )}
-                                                        </div>
+                    <div className="grid md:grid-cols-3 gap-8">
+                        {plans.map((plan) => (
+                            <Card 
+                                key={plan.name} 
+                                className={`relative p-8 ${plan.popular ? 'border-2 border-primary shadow-2xl scale-105' : 'border border-border'}`}
+                            >
+                                {plan.popular && (
+                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-bold flex items-center gap-1 shadow-lg">
+                                        <Star className="w-4 h-4 fill-current" /> Most Popular
+                                    </div>
+                                )}
 
-                                                        {/* Build Price */}
-                                                        <div className="pt-2 border-t border-border/50">
-                                                            <div className="text-xs text-muted-foreground">One-time Website Build</div>
-                                                            <div className="text-2xl font-extrabold text-foreground">
-                                                                {isYearly ? (
-                                                                    <span className="text-green-600 dark:text-green-400">FREE</span>
-                                                                ) : (
-                                                                    `$${plan.buildPrice}`
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        {/* CTA Button */}
-                                                        <Link
-                                                            to="/quote"
-                                                            state={{
-                                                                plan: plan.name,
-                                                                serviceCategory: "bundle",
-                                                                serviceType: plan.name,
-                                                                billingCycle: isYearly ? 'yearly' : 'monthly'
-                                                            }}
-                                                        >
-                                                            <Button
-                                                                className={`w-full mt-4 h-12 text-lg font-bold transition-transform hover:scale-[1.01] ${
-                                                                    plan.popular
-                                                                        ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                                                                        : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                                                                }`}
-                                                            >
-                                                                Start with {plan.name}
-                                                            </Button>
-                                                        </Link>
-                                                    </div>
+                                {/* Header */}
+                                <div className="text-center mb-6">
+                                    <div className="text-5xl mb-3">{plan.emoji}</div>
+                                    <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
+                                    <p className="text-sm text-muted-foreground mb-1">{plan.description}</p>
+                                    <p className="text-xs text-muted-foreground italic">Best for: {plan.bestFor}</p>
+                                </div>
+
+                                {/* Pricing */}
+                                <div className="border-y border-border py-6 mb-6">
+                                    <div className="text-center">
+                                        <div className="flex items-baseline justify-center gap-1 mb-2">
+                                            <span className="text-5xl font-bold">
+                                                ${isYearly ? Math.round(plan.annual / 12) : plan.monthly}
+                                            </span>
+                                            <span className="text-xl text-muted-foreground">/month</span>
+                                        </div>
+                                        
+                                        {isYearly ? (
+                                            <>
+                                                <p className="text-sm text-muted-foreground mb-3">
+                                                    ${plan.annual} billed annually
+                                                </p>
+                                                <div className="bg-green-500/10 border border-green-500/30 rounded-md px-3 py-2">
+                                                    <p className="text-sm font-bold text-green-700 dark:text-green-400">
+                                                        Website Build: FREE
+                                                    </p>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        (Save ${plan.buildPrice})
+                                                    </p>
                                                 </div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <p className="text-sm text-muted-foreground mb-3">
+                                                    Billed monthly, cancel anytime
+                                                </p>
+                                                <div className="bg-muted border border-border rounded-md px-3 py-2">
+                                                    <p className="text-sm font-semibold">
+                                                        Website Build: ${plan.buildPrice}
+                                                    </p>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        One-time payment
+                                                    </p>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Features */}
+                                <div className="space-y-3 mb-8">
+                                    {plan.features.map((feature, idx) => (
+                                        <div key={idx} className="flex items-start gap-3">
+                                            <span className="text-lg mt-0.5">{feature.icon}</span>
+                                            <div className="flex-1">
+                                                <p className="text-sm font-medium">{feature.name}</p>
+                                                {typeof feature.value === 'string' && (
+                                                    <p className="text-xs text-muted-foreground">{feature.value}</p>
+                                                )}
+                                            </div>
+                                            {typeof feature.value === 'boolean' && feature.value && (
+                                                <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* CTA */}
+                                <Button 
+                                    className={`w-full h-12 text-base font-bold ${
+                                        plan.popular 
+                                            ? 'bg-primary hover:bg-primary/90' 
+                                            : 'bg-secondary hover:bg-secondary/90'
+                                    }`}
+                                >
+                                    Choose {plan.name}
+                                    <ArrowRight className="ml-2 w-4 h-4" />
+                                </Button>
+
+                                {/* Total First Year Cost */}
+                                <div className="mt-4 text-center text-xs text-muted-foreground">
+                                    {isYearly ? (
+                                        <p>First year total: ${plan.annual}</p>
+                                    ) : (
+                                        <p>First year total: ${plan.monthly * 12 + plan.buildPrice}</p>
+                                    )}
+                                </div>
+                            </Card>
+                        ))}
+                    </div>
+
+                    {/* Comparison Toggle */}
+                    <div className="text-center mt-12">
+                        <button
+                            onClick={() => setShowComparison(!showComparison)}
+                            className="text-primary hover:underline font-semibold flex items-center gap-2 mx-auto"
+                        >
+                            {showComparison ? 'Hide' : 'Show'} Detailed Feature Comparison
+                            <ArrowRight className={`w-4 h-4 transition-transform ${showComparison ? 'rotate-90' : ''}`} />
+                        </button>
+                    </div>
+
+                    {/* Detailed Comparison Table */}
+                    {showComparison && (
+                        <div className="mt-8 overflow-x-auto rounded-lg border border-border">
+                            <table className="w-full">
+                                <thead className="bg-muted/50">
+                                    <tr>
+                                        <th className="px-6 py-4 text-left font-bold">Feature</th>
+                                        {plans.map(plan => (
+                                            <th key={plan.name} className="px-6 py-4 text-center font-bold">
+                                                {plan.emoji} {plan.name}
                                             </th>
                                         ))}
                                     </tr>
                                 </thead>
-                                
-                                {/* Feature Rows */}
-                                <tbody className="divide-y divide-border bg-background">
-                                    {featureNames.map((featureName, featureIndex) => (
-                                        <tr key={featureIndex} className="hover:bg-muted/20 transition-colors">
-                                            {/* Feature Name Column (Sticky) */}
-                                            <td className="px-6 py-4 text-base font-semibold text-foreground whitespace-nowrap sticky left-0 bg-background z-10 border-r border-border/70">
-                                                {featureName}
-                                            </td>
-                                            {/* Plan Columns */}
-                                            {plans.map((plan) => (
-                                                <td key={plan.name} className="px-6 py-4 text-center border-l border-border/70">
-                                                    <div className="flex justify-center items-center">
-                                                        {renderFeatureValue(plan.features.find(f => f.name === featureName))}
-                                                    </div>
-                                                </td>
-                                            ))}
-                                        </tr>
-                                    ))}
+                                <tbody className="divide-y divide-border">
+                                    <tr className="hover:bg-muted/20">
+                                        <td className="px-6 py-3 font-medium">Pages Included</td>
+                                        <td className="px-6 py-3 text-center">3 pages</td>
+                                        <td className="px-6 py-3 text-center">6 pages</td>
+                                        <td className="px-6 py-3 text-center">9 pages</td>
+                                    </tr>
+                                    <tr className="hover:bg-muted/20">
+                                        <td className="px-6 py-3 font-medium">Design Quality</td>
+                                        <td className="px-6 py-3 text-center text-sm">Template-based</td>
+                                        <td className="px-6 py-3 text-center text-sm">Custom branded</td>
+                                        <td className="px-6 py-3 text-center text-sm">Fully unique</td>
+                                    </tr>
+                                    <tr className="hover:bg-muted/20">
+                                        <td className="px-6 py-3 font-medium">SEO Optimization</td>
+                                        <td className="px-6 py-3 text-center text-sm">Basic setup</td>
+                                        <td className="px-6 py-3 text-center text-sm">Enhanced</td>
+                                        <td className="px-6 py-3 text-center text-sm">Full local SEO</td>
+                                    </tr>
+                                    <tr className="hover:bg-muted/20">
+                                        <td className="px-6 py-3 font-medium">Monthly Updates</td>
+                                        <td className="px-6 py-3 text-center text-sm">30 min</td>
+                                        <td className="px-6 py-3 text-center text-sm">2 hours</td>
+                                        <td className="px-6 py-3 text-center text-sm">4 hours</td>
+                                    </tr>
+                                    <tr className="hover:bg-muted/20">
+                                        <td className="px-6 py-3 font-medium">Support Response</td>
+                                        <td className="px-6 py-3 text-center text-sm">48-72 hrs</td>
+                                        <td className="px-6 py-3 text-center text-sm">24 hours</td>
+                                        <td className="px-6 py-3 text-center text-sm">Same day</td>
+                                    </tr>
+                                    <tr className="hover:bg-muted/20">
+                                        <td className="px-6 py-3 font-medium">Analytics</td>
+                                        <td className="px-6 py-3 text-center"><X className="w-5 h-5 text-red-500 mx-auto" /></td>
+                                        <td className="px-6 py-3 text-center"><CheckCircle2 className="w-5 h-5 text-green-500 mx-auto" /></td>
+                                        <td className="px-6 py-3 text-center"><CheckCircle2 className="w-5 h-5 text-green-500 mx-auto" /></td>
+                                    </tr>
+                                    <tr className="hover:bg-muted/20">
+                                        <td className="px-6 py-3 font-medium">Blog or Store</td>
+                                        <td className="px-6 py-3 text-center"><X className="w-5 h-5 text-red-500 mx-auto" /></td>
+                                        <td className="px-6 py-3 text-center text-sm">Add-on available</td>
+                                        <td className="px-6 py-3 text-center"><CheckCircle2 className="w-5 h-5 text-green-500 mx-auto" /></td>
+                                    </tr>
+                                    <tr className="hover:bg-muted/20">
+                                        <td className="px-6 py-3 font-medium">Professional Email</td>
+                                        <td className="px-6 py-3 text-center"><X className="w-5 h-5 text-red-500 mx-auto" /></td>
+                                        <td className="px-6 py-3 text-center text-sm">1 inbox</td>
+                                        <td className="px-6 py-3 text-center text-sm">5 inboxes</td>
+                                    </tr>
                                 </tbody>
                             </table>
-                            {/* Added crucial legal disclaimer about the free build */}
-                            <div className="p-4 text-xs text-muted-foreground bg-muted/30 border-t border-border/70 flex items-center gap-2">
-                                <AlertTriangle className="w-4 h-4 text-orange-500 flex-shrink-0" />
-                                **Important:** The "FREE Website Build" requires a 12-month prepayment of the hosting service and covers the standard build scope outlined above.
-                            </div>
                         </div>
-                    </div>
-                    
-                    {/* Mobile View - Stacked Cards (Optimized) */}
-                    <div className="lg:hidden space-y-8 mt-10">
-                        <div className="text-center mb-6">
-                            <h2 className="text-3xl font-bold mb-2">Detailed Comparison</h2>
-                            <p className="text-muted-foreground">Tap the plans to review features.</p>
-                        </div>
-                        {plans.map((plan) => (
-                            <Card key={plan.name} className={`p-6 border-4 ${plan.popular ? 'border-primary' : 'border-border'}`}>
-                                <div className="text-center mb-6 pb-6 border-b border-border">
-                                    {/* Updated header styling */}
-                                    <div className={`inline-block rounded-2xl bg-gradient-to-br ${plan.color} p-4 border-2 ${plan.popular ? 'border-primary' : 'border-border'} relative mb-4`}>
-                                        {plan.popular && (
-                                            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-md">
-                                                <Star className="w-3 h-3 fill-white text-primary-foreground" /> Recommended
-                                            </div>
-                                        )}
-                                        <div className="text-3xl mb-1">{plan.emoji}</div>
-                                        <h3 className="text-2xl font-extrabold">{plan.name}</h3>
-                                    </div>
-                                    
-                                    {/* Mobile Pricing Logic */}
-                                    <div className="flex flex-col items-center mb-4">
-                                        <div className="flex items-baseline">
-                                            <span className="text-3xl font-extrabold">${isYearly ? Math.round(plan.annual / 12) : plan.monthly}</span>
-                                            <span className="text-base text-muted-foreground">/mo</span>
-                                        </div>
-                                        {isYearly && (
-                                            <p className="text-sm text-green-600 dark:text-green-400 font-bold">
-                                                Billed annually at ${plan.annual}
-                                            </p>
-                                        )}
-                                        <div className="text-base text-muted-foreground mt-2">
-                                            Build: <strong>{isYearly ? "FREE" : `$${plan.buildPrice}`}</strong>
-                                        </div>
-                                    </div>
-
-                                    <Link to="/quote" state={{ plan: plan.name, billingCycle: isYearly ? 'yearly' : 'monthly' }}>
-                                        <Button className={`w-full h-10 ${plan.popular ? 'bg-primary' : 'bg-secondary'} font-bold`}>
-                                            Choose {plan.name} Plan <ArrowRight className="ml-2 w-4 h-4" />
-                                        </Button>
-                                    </Link>
-                                </div>
-                                <ul className="space-y-3">
-                                    {plan.features.map((feature, fi) => (
-                                        <li key={fi} className={`flex justify-between items-center gap-4 text-sm ${feature.included ? 'text-foreground' : 'text-muted-foreground opacity-70'}`}>
-                                            <span className="font-medium">{feature.name}</span>
-                                            <div className="flex-shrink-0">{renderFeatureValue(feature)}</div>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </Card>
-                        ))}
-                    </div>
+                    )}
                 </div>
             </section>
 
-            {/* Good to Know Section */}
-            <section className="py-20 bg-card/30">
+            {/* What's Included */}
+            <section className="py-16 bg-muted/30">
                 <div className="container mx-auto max-w-6xl px-6">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold mb-4">Good to Know</h2>
-                        <p className="text-muted-foreground">Important details about our pricing and services</p>
+                        <h2 className="text-3xl font-bold mb-4">Every Plan Includes</h2>
+                        <p className="text-muted-foreground">No hidden fees, ever.</p>
                     </div>
-                    <div className="grid md:grid-cols-3 gap-8">
-                        <div className="text-center p-6">
-                            <div className="inline-block p-3 bg-primary/10 rounded-full mb-4">
-                                <CheckCircle2 className="w-8 h-8 text-primary" />
+                    <div className="grid md:grid-cols-4 gap-8">
+                        <div className="text-center">
+                            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
+                                <Shield className="w-8 h-8 text-primary" />
                             </div>
-                            <h3 className="text-xl font-bold mb-2">Domain Included</h3>
-                            <p className="text-muted-foreground">Free first year (up to $20 value), then $18-22/year</p>
+                            <h3 className="font-bold mb-2">Free SSL Certificate</h3>
+                            <p className="text-sm text-muted-foreground">Secure browsing for your visitors</p>
                         </div>
-                        <div className="text-center p-6">
-                            <div className="inline-block p-3 bg-primary/10 rounded-full mb-4">
-                                <CheckCircle2 className="w-8 h-8 text-primary" />
+                        <div className="text-center">
+                            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
+                                <Zap className="w-8 h-8 text-primary" />
                             </div>
-                            <h3 className="text-xl font-bold mb-2">SSL Certificate</h3>
-                            <p className="text-muted-foreground">Free SSL included with all plans for secure browsing</p>
+                            <h3 className="font-bold mb-2">Fast Hosting</h3>
+                            <p className="text-sm text-muted-foreground">99.9% uptime guarantee</p>
                         </div>
-                        <div className="text-center p-6">
-                            <div className="inline-block p-3 bg-primary/10 rounded-full mb-4">
-                                <CheckCircle2 className="w-8 h-8 text-primary" />
+                        <div className="text-center">
+                            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
+                                <DollarSign className="w-8 h-8 text-primary" />
                             </div>
-                            <h3 className="text-xl font-bold mb-2">No Hidden Fees</h3>
-                            <p className="text-muted-foreground">What you see is what you pay. No surprise charges.</p>
+                            <h3 className="font-bold mb-2">Free Domain (Year 1)</h3>
+                            <p className="text-sm text-muted-foreground">Then $18-22/year renewal</p>
+                        </div>
+                        <div className="text-center">
+                            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
+                                <TrendingUp className="w-8 h-8 text-primary" />
+                            </div>
+                            <h3 className="font-bold mb-2">Regular Backups</h3>
+                            <p className="text-sm text-muted-foreground">Your data is always safe</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* CTA Section */}
-            <section className="py-20 bg-background">
-                <div className="container mx-auto max-w-4xl px-6 text-center">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Get Started?</h2>
-                    <p className="text-xl text-muted-foreground mb-8">
-                        Let's build something amazing together. Get a free consultation today.
-                    </p>
-                    <Link to="/quote">
-                        <Button size="lg" className="h-14 px-8 text-lg font-bold">
-                            Get Your Free Quote <ArrowRight className="ml-2 w-5 h-5" />
-                        </Button>
-                    </Link>
+            {/* FAQ / Transparency */}
+            <section className="py-16 bg-background">
+                <div className="container mx-auto max-w-4xl px-6">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl font-bold mb-4">Honest Answers</h2>
+                        <p className="text-muted-foreground">Questions you're probably wondering about</p>
+                    </div>
+                    <div className="space-y-6">
+                        <Card className="p-6">
+                            <div className="flex gap-4">
+                                <AlertCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                                <div>
+                                    <h3 className="font-bold mb-2">What happens if I cancel?</h3>
+                                    <p className="text-sm text-muted-foreground">
+                                        Monthly plans: Cancel anytime. Annual plans: You've paid upfront, so you keep service for the full 12 months. You own your domain and content—we'll help you migrate if needed.
+                                    </p>
+                                </div>
+                            </div>
+                        </Card>
+                        <Card className="p-6">
+                            <div className="flex gap-4">
+                                <AlertCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                                <div>
+                                    <h3 className="font-bold mb-2">Are there any other costs?</h3>
+                                    <p className="text-sm text-muted-foreground">
+                                        Only domain renewal after year 1 ($18-22/year). If you want extras like e-commerce, additional pages, or custom integrations, we'll quote those separately. No surprise bills.
+                                    </p>
+                                </div>
+                            </div>
+                        </Card>
+                        <Card className="p-6">
+                            <div className="flex gap-4">
+                                <AlertCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                                <div>
+                                    <h3 className="font-bold mb-2">Why is the build free with annual?</h3>
+                                    <p className="text-sm text-muted-foreground">
+                                        Simple: your 12-month commitment gives us revenue certainty, so we can invest time in building your site. Monthly plans don't have that guarantee, so there's a build fee. It's a fair trade.
+                                    </p>
+                                </div>
+                            </div>
+                        </Card>
+                        <Card className="p-6">
+                            <div className="flex gap-4">
+                                <AlertCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                                <div>
+                                    <h3 className="font-bold mb-2">Can I upgrade or downgrade?</h3>
+                                    <p className="text-sm text-muted-foreground">
+                                        Yes. Upgrades happen immediately (we'll prorate the difference). Downgrades take effect at your next billing cycle. We'll work with you to make it smooth.
+                                    </p>
+                                </div>
+                            </div>
+                        </Card>
+                    </div>
                 </div>
             </section>
-        </>
+
+            {/* CTA */}
+            <section className="py-20 bg-primary text-primary-foreground">
+                <div className="container mx-auto max-w-4xl px-6 text-center">
+                    <h2 className="text-4xl font-bold mb-6">Ready to Build Your Online Presence?</h2>
+                    <p className="text-xl mb-8 opacity-90">
+                        Let's talk about your business goals and find the right plan for you.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <Button size="lg" variant="secondary" className="h-14 px-8 text-lg font-bold">
+                            Get a Free Quote
+                            <ArrowRight className="ml-2 w-5 h-5" />
+                        </Button>
+                        <Button size="lg" variant="outline" className="h-14 px-8 text-lg font-bold border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
+                            See Our Work
+                        </Button>
+                    </div>
+                    <p className="text-sm mt-6 opacity-75">
+                        No credit card required. Free consultation included.
+                    </p>
+                </div>
+            </section>
+        </div>
     );
 };
 
-export default Pricing;
+export default PricingPage;
