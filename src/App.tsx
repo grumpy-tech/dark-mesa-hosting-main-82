@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { Layout } from "./components/Layout";
+import { CookieBanner } from "./components/CookieBanner";
 import Index from "./pages/Index";
 import WebsiteBuilding from "./pages/WebsiteBuilding";
 import Hosting from "./pages/Hosting";
@@ -21,6 +22,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <CookieBanner />
       <BrowserRouter>
         <ScrollToTop />
         <Layout>
