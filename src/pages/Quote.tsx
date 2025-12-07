@@ -82,6 +82,26 @@ const Quote = () => {
   };
 
   const calculateEstimate = () => {
+    // For hosting-only, we don't need planLevel selected
+    if (formData.purchaseOption === "hosting-only") {
+      setCalculating(true);
+      setTimeout(() => {
+        setEstimate({ 
+          buildCost: 0, 
+          hostingCost: 0, 
+          rushFee: 0, 
+          savings: 0, 
+          total: 0,
+          isHostingOnly: true 
+        });
+        setCalculating(false);
+        setTimeout(() => {
+          estimateRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+      }, 800);
+      return;
+    }
+
     if (!formData.planLevel || !formData.purchaseOption) {
       toast({
         title: "Missing Information",
@@ -369,48 +389,41 @@ const Quote = () => {
 
                 {formData.needsNewDomain && (
                   <div className="space-y-4">
+                    <Alert className="bg-primary/5 border-primary/20">
+                      <Info className="h-4 w-4 text-primary" />
+                      <AlertDescription className="text-sm">
+                        <strong>Domain Registration:</strong> Enter your preferred domain name below. We'll verify availability and register it for you when your project begins. If unavailable, we'll suggest alternatives.
+                      </AlertDescription>
+                    </Alert>
+                    
                     <div>
-                      <Label>Check Availability</Label>
-                      <div className="flex gap-2">
-                        <Input value={domainInput} onChange={(e) => setDomainInput(e.target.value)} placeholder="yourbusiness.com" />
-                        <Button type="button" onClick={handleDomainCheck} disabled={domainStatus === "checking"}>
-                          {domainStatus === "checking" ? "..." : "Check"}
-                        </Button>
-                      </div>
+                      <Label>Preferred Domain Name</Label>
+                      <Input 
+                        value={domainInput} 
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setDomainInput(value);
+                          setFormData({ ...formData, domainName: value });
+                        }} 
+                        placeholder="yourcompany.com" 
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">
+                        We'll check availability and secure this domain for you at project start
+                      </p>
                       
-                      {domainStatus === "available" && (
-                        <div className="mt-2 p-3 bg-green-500/10 border border-green-500/20 rounded-md">
+                      {domainInput && (
+                        <div className="mt-3 p-3 bg-green-500/10 border border-green-500/20 rounded-md">
                           <p className="text-sm text-green-600 dark:text-green-400 flex items-center gap-2">
-                            <CheckCircle2 className="w-4 h-4" /> <strong>{domainInput}</strong> is available!
+                            <CheckCircle2 className="w-4 h-4" /> <strong>{domainInput}</strong> — We'll verify and register this domain for you
                           </p>
                           {formData.purchaseOption !== "website-only" && (
                             <p className="text-xs text-green-600 dark:text-green-400 mt-1 font-medium">
-                              ✨ FREE for the first year with your hosting!
+                              ✨ FREE for the first year with your hosting plan!
                             </p>
                           )}
                         </div>
                       )}
-                      
-                      {domainStatus === "taken" && (
-                        <div className="mt-2 p-3 bg-red-500/10 border border-red-500/20 rounded-md">
-                          <p className="text-sm text-red-600 dark:text-red-400">
-                            <strong>{domainInput}</strong> is not available. Try another.
-                          </p>
-                        </div>
-                      )}
                     </div>
-
-                    {domainStatus === "available" && (
-                      <div className="p-4 bg-muted/50 rounded-lg border">
-                        <p className="text-sm text-muted-foreground">
-                          {formData.purchaseOption === "website-only" ? (
-                            <>We'll provide instructions for registering <strong>{domainInput}</strong>, or handle it for $18 setup fee.</>
-                          ) : (
-                            <>We'll register <strong>{domainInput}</strong> FREE for the first year (up to $20 value)!</>
-                          )}
-                        </p>
-                      </div>
-                    )}
                   </div>
                 )}
               </div>
@@ -497,50 +510,73 @@ const Quote = () => {
             <DollarSign className="w-8 h-8 text-primary" />
             Your Estimate
           </h3>
-          <div className="text-5xl font-bold text-primary mb-4">
-            {formData.purchaseOption === "hosting-only" ? (
-              <div className="space-y-2">
-                <div className="text-3xl font-semibold text-muted-foreground">Estimated Annual:</div>
-                <div>${estimate.total}</div>
-                <div className="text-2xl text-muted-foreground">
-                  (${Math.round(estimate.total / 12)}/month)
-                </div>
+          
+          {estimate.isHostingOnly ? (
+            <div className="space-y-4">
+              <Alert className="bg-primary/5 border-primary/20">
+                <Info className="h-4 w-4 text-primary" />
+                <AlertDescription>
+                  Based on your existing website, you'll be placed in one of the following hosting plans after our review:
+                </AlertDescription>
+              </Alert>
+              
+              <div className="space-y-3">
+                {[
+                  { name: "Starter", monthly: 39, annual: 468, desc: "Up to 3 pages, basic features" },
+                  { name: "Business", monthly: 69, annual: 828, desc: "Up to 6 pages, enhanced features", popular: true },
+                  { name: "Pro", monthly: 99, annual: 1188, desc: "Up to 9 pages, premium features" }
+                ].map((plan) => (
+                  <div key={plan.name} className={`p-4 rounded-lg border-2 ${plan.popular ? 'border-primary bg-primary/5' : 'border-border bg-muted/30'}`}>
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <div className="font-semibold text-lg flex items-center gap-2">
+                          {plan.name}
+                          {plan.popular && <span className="text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full">Most Common</span>}
+                        </div>
+                        <div className="text-sm text-muted-foreground">{plan.desc}</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-2xl font-bold text-primary">${plan.monthly}<span className="text-sm text-muted-foreground">/mo</span></div>
+                        <div className="text-xs text-muted-foreground">or ${plan.annual}/year</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ) : (
-              <>${estimate.total}</>
-            )}
-            {formData.purchaseOption === "hosting-only" && <span className="text-lg text-muted-foreground ml-2">*</span>}
-          </div>
-          {formData.purchaseOption === "hosting-only" && (
-            <Alert className="mb-4 bg-primary/5 border-primary/20">
-              <Info className="h-4 w-4 text-primary" />
-              <AlertDescription className="text-sm">
-                *Final price determined after reviewing your website requirements.
-              </AlertDescription>
-            </Alert>
-          )}
-          <div className="space-y-2 text-sm">
-            {estimate.buildCost >= 0 && formData.purchaseOption !== "hosting-only" && (
-              <div className="flex justify-between">
-                <span>Website Build:</span>
-                <span>
-                  {estimate.savings > 0 && (
-                    <span className="line-through text-muted-foreground mr-2">
-                      ${getPricing(formData.planLevel).build}
+              
+              <p className="text-sm text-muted-foreground text-center pt-2">
+                Final pricing will be confirmed after we review your website's requirements
+              </p>
+            </div>
+          ) : (
+            <>
+              <div className="text-5xl font-bold text-primary mb-4">
+                ${estimate.total}
+              </div>
+              <div className="space-y-2 text-sm">
+                {estimate.buildCost >= 0 && formData.purchaseOption !== "hosting-only" && (
+                  <div className="flex justify-between">
+                    <span>Website Build:</span>
+                    <span>
+                      {estimate.savings > 0 && (
+                        <span className="line-through text-muted-foreground mr-2">
+                          ${getPricing(formData.planLevel).build}
+                        </span>
+                      )}
+                      {estimate.buildCost === 0 ? (
+                        <span className="text-green-600 dark:text-green-400 font-semibold">FREE!</span>
+                      ) : (
+                        <span>${estimate.buildCost}</span>
+                      )}
                     </span>
-                  )}
-                  {estimate.buildCost === 0 ? (
-                    <span className="text-green-600 dark:text-green-400 font-semibold">FREE!</span>
-                  ) : (
-                    <span>${estimate.buildCost}</span>
-                  )}
-                </span>
+                  </div>
+                )}
+                {estimate.hostingCost > 0 && <div className="flex justify-between"><span>Hosting:</span><span>${estimate.hostingCost}</span></div>}
+                {estimate.rushFee > 0 && <div className="flex justify-between"><span>Rush Fee:</span><span>${estimate.rushFee}</span></div>}
+                {estimate.savings > 0 && <div className="flex justify-between text-green-600 dark:text-green-400 font-semibold border-t border-border pt-2 mt-2"><span>💰 Total Savings:</span><span>-${estimate.savings}</span></div>}
               </div>
-            )}
-            {estimate.hostingCost > 0 && <div className="flex justify-between"><span>Hosting:</span><span>${estimate.hostingCost}</span></div>}
-            {estimate.rushFee > 0 && <div className="flex justify-between"><span>Rush Fee:</span><span>${estimate.rushFee}</span></div>}
-            {estimate.savings > 0 && <div className="flex justify-between text-green-600 dark:text-green-400 font-semibold border-t border-border pt-2 mt-2"><span>💰 Total Savings:</span><span>-${estimate.savings}</span></div>}
-          </div>
+            </>
+          )}
         </Card>
       )}
 
@@ -551,7 +587,7 @@ const Quote = () => {
           <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />50% deposit required to start</li>
           <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />12-month prepay = FREE website build</li>
           <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />6-month prepay = 50% off build</li>
-          <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />FREE domain first year with hosting (up to $20)</li>
+          <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />FREE domain for first year included with all hosting packages (up to $20 value)</li>
           <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />Hosting-only pricing finalized after review</li>
         </ul>
       </Card>
