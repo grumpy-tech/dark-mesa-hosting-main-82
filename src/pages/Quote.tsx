@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { DollarSign, Send, CheckCircle2, Info, Sparkles } from "lucide-react";
+import { DollarSign, Send, CheckCircle2, Info, Sparkles, Globe, AlertTriangle } from "lucide-react";
 
 const Quote = () => {
   const location = useLocation();
@@ -38,6 +38,7 @@ const Quote = () => {
     companyOverview: "",
     services: "",
     specialRequirements: "",
+    inspirationSites: "",
   });
 
   useEffect(() => {
@@ -50,6 +51,10 @@ const Quote = () => {
       }));
     }
   }, [location.state]);
+
+  // isHostingOnly handles slight naming differences across versions:
+  // some earlier code used prepayOption naming — checking both is safe.
+  const isHostingOnly = (formData as any).purchaseOption === "hosting-only" || (formData as any).prepayOption === "hosting-only";
 
   const getPricing = (planLevel: string) => {
     const pricing = {
@@ -72,6 +77,7 @@ const Quote = () => {
   const handleDomainCheck = () => {
     if (!domainInput.trim()) return;
     setDomainStatus("checking");
+    // NOTE: placeholder random check for demo — replace with your real /api/check-domain
     setTimeout(() => {
       const available = Math.random() > 0.3;
       setDomainStatus(available ? "available" : "taken");
@@ -82,17 +88,24 @@ const Quote = () => {
   };
 
   const calculateEstimate = () => {
-    if (!formData.planLevel || !formData.purchaseOption) {
+    if (!formData.planLevel && !isHostingOnly) {
       toast({
         title: "Missing Information",
-        description: "Please select both a plan and purchase option.",
+        description: "Please select a plan level (or choose Hosting Only).",
+        variant: "destructive"
+      });
+      return;
+    }
+    if (!formData.purchaseOption) {
+      toast({
+        title: "Missing Information",
+        description: "Please select a payment option.",
         variant: "destructive"
       });
       return;
     }
 
     setCalculating(true);
-    
     setTimeout(() => {
       const pricing = getPricing(formData.planLevel);
       let buildCost = 0;
@@ -118,10 +131,10 @@ const Quote = () => {
         rushFee = getDeliveryDetails().rush.fee;
       }
 
-      const total = buildCost + hostingCost + rushFee;
+      const total = Math.round(buildCost + hostingCost + rushFee);
       setEstimate({ buildCost, hostingCost, rushFee, savings, total });
       setCalculating(false);
-      
+
       setTimeout(() => {
         estimateRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 100);
@@ -135,12 +148,12 @@ const Quote = () => {
     try {
       const formDataToSend = new FormData();
       Object.keys(formData).forEach(key => {
-        formDataToSend.append(key, formData[key as keyof typeof formData].toString());
+        formDataToSend.append(key, (formData as any)[key]?.toString() ?? "");
       });
       if (estimate) formDataToSend.append('estimate', JSON.stringify(estimate));
 
       await fetch('/send_quote.php', { method: 'POST', body: formDataToSend });
-      
+
       setShowSuccessMessage(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
@@ -167,10 +180,10 @@ const Quote = () => {
               <p className="text-lg text-muted-foreground">
                 We've received your request and will respond within 24 hours.
               </p>
-              
+
               <div className="space-y-4 text-left max-w-xl mx-auto pt-6">
                 <h3 className="font-bold text-lg mb-3">What Happens Next:</h3>
-                
+
                 {[
                   { num: "1", title: "Review & Questions (24 hrs)", desc: "We'll review and reach out if we need clarification." },
                   { num: "2", title: "Proposal (48 hrs)", desc: "Exact pricing, timeline, and payment link via email." },
@@ -217,68 +230,58 @@ const Quote = () => {
 
       <Card className="p-8 border-border mb-8">
         <form onSubmit={handleSubmit} className="space-y-8">
-          
+
           {/* Contact */}
           <div>
             <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
               <span className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary text-sm font-bold">1</span>
               Contact Information
             </h3>
-            
+
             <div className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <Label>Company Name *</Label>
                   <Input required value={formData.companyName} onChange={(e) => setFormData({ ...formData, companyName: e.target.value })} placeholder="Your Company" />
+                  <p className="text-xs text-muted-foreground mt-1"><strong>Free for the first year up to $20</strong>. Your domain will be checked for availability, including .com, .ca, and .org extensions.</p>
+
+                  {/* domain status preview (based on company name live-check) */}
+                  {/* If you prefer a separate field-based domain check, keep the existing domain checker area below */}
                 </div>
-                
+
                 <div>
                   <Label>Business Type *</Label>
-                  <Select value={formData.companyCategory} onValueChange={(v) => setFormData({ ...formData, companyCategory: v })} required>
-                    <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="retail">Retail</SelectItem>
-                      <SelectItem value="services">Services</SelectItem>
-                      <SelectItem value="tech">Technology</SelectItem>
-                      <SelectItem value="healthcare">Healthcare</SelectItem>
-                      <SelectItem value="restaurant">Restaurant</SelectItem>
-                      <SelectItem value="other">Other (please specify)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <p className="text-xs text-muted-foreground mt-1">Helps us ensure compliance with industry regulations</p>
+                  <Input required value={formData.companyCategory} onChange={(e) => setFormData({ ...formData, companyCategory: e.target.value })} />
+                  <p className="text-xs text-muted-foreground mt-1">Used to trigger industry compliance alerts if applicable.</p>
+                  {/* industry warning example */}
+                  {/* If later you want a more robust mapping, we can expand this list */}
                 </div>
               </div>
-
-              {formData.companyCategory === "other" && (
-                <div>
-                  <Label>Please Specify Your Industry *</Label>
-                  <Input required value={formData.companyCategory} onChange={(e) => setFormData({ ...formData, companyCategory: e.target.value })} placeholder="e.g., Legal, Construction" />
-                </div>
-              )}
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <Label>Email *</Label>
-                  <Input type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} placeholder="you@company.com" />
+                  <Input type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
                   <p className="text-xs text-muted-foreground mt-1">We'll send your proposal here</p>
                 </div>
-                
+
                 <div>
                   <Label>Phone *</Label>
-                  <Input type="tel" required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} placeholder="(123) 456-7890" />
+                  <Input type="tel" required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
                 </div>
               </div>
 
-              <div>
-                <Label>Location *</Label>
-                <Input required value={formData.location} onChange={(e) => setFormData({ ...formData, location: e.target.value })} placeholder="City, Province/State" />
-                <p className="text-xs text-muted-foreground mt-1">Helps with local SEO</p>
-              </div>
-
-              <div>
-                <Label>Google Business Profile URL (Optional)</Label>
-                <Input value={formData.googleBusinessUrl} onChange={(e) => setFormData({ ...formData, googleBusinessUrl: e.target.value })} placeholder="https://www.google.com/maps/place/..." />
-                <p className="text-xs text-muted-foreground mt-1">Helps us understand your business better</p>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <Label>Number of Employees</Label>
+                  <Input value={formData.location} onChange={(e) => setFormData({ ...formData, location: e.target.value })} placeholder="City, Province/State" />
+                  <p className="text-xs text-muted-foreground mt-1">Helps with local SEO</p>
+                </div>
+                <div>
+                  <Label>Google Business Profile URL (Optional)</Label>
+                  <Input value={formData.googleBusinessUrl} onChange={(e) => setFormData({ ...formData, googleBusinessUrl: e.target.value })} placeholder="https://www.google.com/maps/place/..." />
+                  <p className="text-xs text-muted-foreground mt-1">Helps us understand your business better</p>
+                </div>
               </div>
             </div>
           </div>
@@ -304,7 +307,7 @@ const Quote = () => {
                 </Select>
               </div>
 
-              {formData.purchaseOption !== "hosting-only" && (
+              {!isHostingOnly && (
                 <>
                   <div>
                     <Label>Plan Level *</Label>
@@ -329,7 +332,7 @@ const Quote = () => {
                 </>
               )}
 
-              {formData.purchaseOption === "hosting-only" && (
+              {isHostingOnly && (
                 <>
                   <div>
                     <Label>Hosting Plan *</Label>
@@ -353,8 +356,8 @@ const Quote = () => {
             </div>
           </div>
 
-          {/* Domain */}
-          {formData.purchaseOption && formData.purchaseOption !== "hosting-only" && (
+          {/* Domain - hidden automatically for hosting-only */}
+          {!isHostingOnly && formData.purchaseOption && (
             <div>
               <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary text-sm font-bold">3</span>
@@ -390,7 +393,7 @@ const Quote = () => {
                           {domainStatus === "checking" ? "..." : "Check"}
                         </Button>
                       </div>
-                      
+
                       {domainStatus === "available" && (
                         <div className="mt-2 p-3 bg-green-500/10 border border-green-500/20 rounded-md">
                           <p className="text-sm text-green-600 dark:text-green-400 flex items-center gap-2">
@@ -403,7 +406,7 @@ const Quote = () => {
                           )}
                         </div>
                       )}
-                      
+
                       {domainStatus === "taken" && (
                         <div className="mt-2 p-3 bg-red-500/10 border border-red-500/20 rounded-md">
                           <p className="text-sm text-red-600 dark:text-red-400">
@@ -419,7 +422,7 @@ const Quote = () => {
                           {formData.purchaseOption === "website-only" ? (
                             <>We'll provide instructions for registering <strong>{domainInput}</strong>, or handle it for $18 setup fee.</>
                           ) : (
-                            <>We'll register <strong>{domainInput}</strong> FREE for the first year (up to $20 value)!</>
+                            <>We'll register <strong>{domainInput}</strong> FREE for the first year (up to $20 value) when purchased with our hosting.</>
                           )}
                         </p>
                       </div>
@@ -430,8 +433,8 @@ const Quote = () => {
             </div>
           )}
 
-          {/* Timeline */}
-          {formData.planLevel && formData.purchaseOption && formData.purchaseOption !== "hosting-only" && (
+          {/* Timeline - hidden automatically for hosting-only */}
+          {!isHostingOnly && formData.planLevel && formData.purchaseOption && (
             <div>
               <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary text-sm font-bold">4</span>
@@ -449,7 +452,7 @@ const Quote = () => {
                     </SelectContent>
                   </Select>
                 </div>
-                
+
                 <Alert className="bg-primary/5 border-primary/20">
                   <Info className="h-4 w-4 text-primary" />
                   <AlertDescription className="text-sm">
@@ -460,10 +463,10 @@ const Quote = () => {
             </div>
           )}
 
-          {/* About Business */}
+          {/* About Business - number changes based on hosting-only */}
           <div>
             <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary text-sm font-bold">5</span>
+              <span className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary text-sm font-bold">{isHostingOnly ? 3 : 5}</span>
               About Your Business
             </h3>
 
@@ -508,18 +511,18 @@ const Quote = () => {
           </h3>
           <div className="text-5xl font-bold text-primary mb-4">
             ${estimate.total}
-            {formData.purchaseOption === "hosting-only" && <span className="text-lg text-muted-foreground ml-2">*</span>}
+            {isHostingOnly && <span className="text-lg text-muted-foreground ml-2">*</span>}
           </div>
-          {formData.purchaseOption === "hosting-only" && (
+          {isHostingOnly && (
             <Alert className="mb-4 bg-primary/5 border-primary/20">
               <Info className="h-4 w-4 text-primary" />
               <AlertDescription className="text-sm">
-                *Final price determined after reviewing your website requirements.
+                *Final price may be adjusted after review of your existing site and requirements.
               </AlertDescription>
             </Alert>
           )}
           <div className="space-y-2 text-sm">
-            {estimate.buildCost >= 0 && formData.purchaseOption !== "hosting-only" && (
+            {estimate.buildCost >= 0 && !isHostingOnly && (
               <div className="flex justify-between">
                 <span>Website Build:</span>
                 <span>
@@ -550,7 +553,7 @@ const Quote = () => {
           <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />50% deposit required to start</li>
           <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />12-month prepay = FREE website build</li>
           <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />6-month prepay = 50% off build</li>
-          <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />FREE domain first year with hosting (up to $20)</li>
+          <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />Complimentary domain registration for the first year (up to $20 value) is provided exclusively with our hosting plans.</li>
           <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />Hosting-only pricing finalized after review</li>
         </ul>
       </Card>
