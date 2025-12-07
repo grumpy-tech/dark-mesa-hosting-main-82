@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Cookie } from "lucide-react";
 
 const GA_ID = "G-XXXXXXXXXX"; // Replace with your actual GA ID
 
@@ -49,20 +50,22 @@ export const CookieBanner = () => {
   if (!showBanner) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 pointer-events-none">
-      <div className="max-w-4xl mx-auto bg-card border border-border rounded-lg shadow-lg p-4 md:p-6 pointer-events-auto">
-        <div className="flex flex-col md:flex-row md:items-center gap-4">
-          <p className="text-sm text-muted-foreground flex-1">
-            We use cookies and analytics to improve website performance and measure traffic. You can accept or reject analytics cookies at any time.
-          </p>
-          <div className="flex gap-3 shrink-0">
-            <Button variant="outline" onClick={handleReject}>
-              Reject
-            </Button>
-            <Button onClick={handleAccept}>
-              Accept
-            </Button>
-          </div>
+    <div className="fixed bottom-4 right-4 z-50 max-w-sm">
+      <div className="bg-card border border-border rounded-lg shadow-lg p-5">
+        <div className="flex justify-center mb-4">
+          <Cookie className="w-16 h-16 text-primary" strokeWidth={1.5} />
+        </div>
+        <h3 className="text-lg font-semibold text-foreground mb-2">Your privacy</h3>
+        <p className="text-sm text-muted-foreground mb-4">
+          We use cookies and analytics to improve website performance and measure traffic. You can accept or reject analytics cookies at any time.
+        </p>
+        <div className="flex gap-3">
+          <Button onClick={handleAccept} className="flex-1">
+            Accept
+          </Button>
+          <Button variant="outline" onClick={handleReject} className="flex-1">
+            Reject
+          </Button>
         </div>
       </div>
     </div>
