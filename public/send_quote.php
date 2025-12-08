@@ -6,7 +6,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 // Configuration
 $to_email = "quote@darkmesahosting.com"; // CHANGE THIS to your actual email
-$from_email = "quotes@darkmesahosting.com"; // CHANGE THIS to your domain email
+$from_email = "noreply@darkmesahosting.com"; // CHANGE THIS to your domain email
 $from_name = "Dark Mesa Hosting Quote System";
 
 // Handle preflight OPTIONS request
