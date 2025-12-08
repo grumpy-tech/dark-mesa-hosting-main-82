@@ -1,456 +1,338 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { AnimatedBackground } from "@/components/AnimatedBackground";
-import { DomainChecker } from "@/components/DomainChecker";
-import { ScrollIndicator } from "@/components/ScrollIndicator";
-import { BlogModal } from "@/components/BlogModal";
-import { blogArticles } from "@/components/blogContent";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Globe, Server, Code, ArrowRight, CheckCircle2, FileText, Calendar, TrendingUp, Users, BookOpen } from "lucide-react";
+import { CheckCircle2, ArrowRight, Zap, Shield, Clock, DollarSign } from "lucide-react";
 
-const Index = () => {
-  const [activeBlog, setActiveBlog] = useState<string | null>(null);
-  
-  const howItWorks = [{
-    step: 1,
-    title: "Get a Quote",
-    desc: "Fill out our quick form to get an instant estimate",
-    icon: FileText
-  }, {
-    step: 2,
-    title: "We Build",
-    desc: "Our team creates your beautiful, modern website",
-    icon: Code
-  }, {
-    step: 3,
-    title: "Review & Launch",
-    desc: "Approve the final design and go live instantly",
-    icon: Calendar
-  }, {
-    step: 4,
-    title: "Ongoing Support",
-    desc: "We keep your site fast, secure, and up to date",
-    icon: TrendingUp
-  }];
-  
-  const pricingPlans = [{
-    name: "Starter",
-    emoji: "🟢",
-    monthly: 39,
-    annual: 468,
-    buildPrice: 349,
-    description: "Perfect for new businesses",
-    features: ["3 pages included", "Professional template design", "Works on all devices", "Get found on Google", "Monthly website backups"]
-  }, {
-    name: "Business",
-    emoji: "🔵",
-    monthly: 69,
-    annual: 828,
-    buildPrice: 599,
-    description: "Best for growing businesses",
-    features: ["Up to 6 pages", "Custom design for your brand", "Better search rankings", "Contact forms that work", "Priority support"],
-    popular: true
-  }, {
-    name: "Pro",
-    emoji: "🔴",
-    monthly: 99,
-    annual: 1188,
-    buildPrice: 999,
-    description: "For established businesses",
-    features: ["Up to 9 pages", "Unique design just for you", "Dominate local search results", "Online store OR blog included", "Same-day support"]
-  }];
-  
-  const blogPosts = [{
-    title: "Top 5 things businesses forget when launching online",
-    excerpt: "Avoid these common mistakes when building your first website...",
-    date: "Jan 15, 2025",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop",
-    key: "top5"
-  }, {
-    title: "How to choose the right domain for your brand",
-    excerpt: "Your domain name is your digital identity. Here's how to pick the perfect one...",
-    date: "Jan 10, 2025",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&auto=format&fit=crop",
-    key: "domain"
-  }, {
-    title: "Why having a business website helps",
-    excerpt: "Discover the essential benefits of establishing your online presence...",
-    date: "Jan 5, 2025",
-    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&auto=format&fit=crop",
-    key: "business"
-  }];
-  
-  return <>
-      {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <AnimatedBackground />
+const HomePage = () => {
+  const [billingType, setBillingType] = useState<"monthly" | "annual">("annual");
+
+  const stats = [
+    { value: "99.9%", label: "Uptime", icon: Shield },
+    { value: "< 2s", label: "Load Time", icon: Zap },
+    { value: "24/7", label: "Monitoring", icon: Clock },
+    { value: "$0", label: "Setup Fees", icon: DollarSign },
+  ];
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Hero Section with Animated Background */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5" />
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(120,119,198,0.15),transparent_50%)] animate-pulse" style={{ animationDuration: '4s' }} />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(120,119,198,0.1),transparent_40%)] animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
+        </div>
 
         <div className="relative z-10 container mx-auto px-4 sm:px-6 text-center">
-          <motion.div initial={{
-          opacity: 0,
-          y: 30
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.8
-        }} className="space-y-6 sm:space-y-8">
-            <h2 className="font-semibold bg-gradient-to-b from-foreground/70 to-foreground/10 bg-clip-text text-transparent text-[2.5rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] leading-tight mb-4 pb-2 whitespace-nowrap">
+          <div className="space-y-6 sm:space-y-8">
+            {/* Faded Company Name */}
+            <h2 className="font-semibold bg-gradient-to-b from-foreground/70 to-foreground/10 bg-clip-text text-transparent text-[2.5rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] leading-tight mb-4 pb-2">
               Dark Mesa Hosting
             </h2>
-            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-tight px-2 text-foreground max-w-4xl mx-auto">
-              Get A Professional Website Without The Headaches
+
+            {/* Main Value Prop */}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight px-2">
+              Your Website.<br />
+              <span className="text-primary">Built, Hosted & Maintained.</span><br />
+              <span className="text-2xl sm:text-3xl md:text-4xl text-muted-foreground font-normal">
+                One monthly price.
+              </span>
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto px-2">
-              From <span className="text-primary font-semibold">$39/month</span> with hosting included.
-              <br />
-              <span className="text-green-600 dark:text-green-400 font-semibold">Pay 12 months upfront = FREE website build!</span>
+
+            {/* Clear benefit statement */}
+            <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto px-2">
+              Stop paying separately for design, hosting, updates, and support. Get everything in one simple package starting at <span className="text-primary font-bold">$39/month</span>.
             </p>
-            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center pt-4 px-2">
-              <Link to="/quote" className="w-full sm:w-auto">
-                <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 glow-primary w-full sm:w-auto text-sm sm:text-base">
-                  Get Free Quote <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
+
+            {/* Primary CTAs */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 px-2">
+              <a href="/quote" className="w-full sm:w-auto">
+                <Button size="lg" className="h-14 sm:h-16 px-8 sm:px-10 text-base sm:text-lg font-bold bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 w-full sm:w-auto">
+                  See Your Price in 60 Seconds
+                  <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
-              </Link>
-              <Link to="/pricing" className="w-full sm:w-auto">
-                <Button size="lg" variant="outline" className="border-border hover:bg-accent/10 w-full sm:w-auto text-sm sm:text-base">
-                  View Plans
+              </a>
+              <a href="/pricing" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="h-14 sm:h-16 px-8 sm:px-10 text-base sm:text-lg font-bold border-2 w-full sm:w-auto">
+                  View Plans & Pricing
                 </Button>
-              </Link>
+              </a>
             </div>
-          </motion.div>
+
+            {/* Trust indicators */}
+            <div className="flex flex-wrap justify-center gap-6 sm:gap-8 pt-8 text-sm text-muted-foreground px-2">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
+                <span>No credit card required</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
+                <span>Free consultation included</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
+                <span>Cancel anytime</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <ScrollIndicator />
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+          <div className="w-6 h-10 border-2 border-muted-foreground/30 rounded-full flex items-start justify-center p-2">
+            <div className="w-1 h-2 bg-muted-foreground/30 rounded-full" />
+          </div>
+        </div>
       </section>
 
+      {/* Stats Bar */}
+      <section className="py-12 bg-muted/30 border-y border-border">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, idx) => (
+              <div key={idx} className="text-center">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-3">
+                  <stat.icon className="w-6 h-6 text-primary" />
+                </div>
+                <div className="text-3xl font-bold text-foreground mb-1">{stat.value}</div>
+                <div className="text-sm text-muted-foreground">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      {/* How It Works */}
+      {/* The Problem/Solution */}
       <section className="py-20 bg-background">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">How It Works</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              From concept to launch in 4 simple steps
+        <div className="container mx-auto px-6 max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+              Stop Juggling Multiple Vendors
+            </h2>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+              Most businesses waste time and money coordinating between a designer, hosting company, and developer. We handle everything.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {howItWorks.map((step, i) => <motion.div key={i} initial={{
-            opacity: 0,
-            y: 30
-          }} whileInView={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            delay: i * 0.15,
-            duration: 0.6
-          }} viewport={{
-            once: true
-          }} className="relative">
-                <Card className="p-6 h-full border-border hover:border-primary/50 transition-colors bg-card">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xl">
-                      {step.step}
-                    </div>
-                    <step.icon className="w-8 h-8 text-primary" />
+
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            {/* Before - The Problem */}
+            <Card className="p-6 sm:p-8 border-2 border-red-500/20 bg-red-500/5">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-2xl">😰</span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-bold text-red-600 dark:text-red-400">The Old Way</h3>
+              </div>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-red-600 font-bold text-sm">✗</span>
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
-                  <p className="text-muted-foreground">{step.desc}</p>
-                </Card>
-                {i < howItWorks.length - 1 && <div className="hidden lg:block absolute top-1/2 -right-4 w-8 h-0.5 bg-border" />}
-              </motion.div>)}
-          </div>
-        </div>
-      </section>
-
-
-      {/* Services Overview */}
-      <section className="py-20 bg-card/30">
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-8">
-            <motion.div initial={{
-            opacity: 0,
-            x: -30
-          }} whileInView={{
-            opacity: 1,
-            x: 0
-          }} transition={{
-            duration: 0.6
-          }} viewport={{
-            once: true
-          }}>
-              <Card className="p-8 h-full border-border hover:border-primary/50 transition-all space-y-6 border-2">
-                <div className="inline-block p-3 bg-primary/10 rounded-lg">
-                  <Globe className="w-8 h-8 text-primary" />
-                </div>
-                <h3 className="text-3xl font-bold">Website Building</h3>
-                <p className="text-muted-foreground text-lg mb-6">
-                  Modern, professional websites that make your business look great and work perfectly on every device.
-                </p>
-                <ul className="space-y-3">
-                  {[
-                    "Looks great on phones & tablets", 
-                    "Customers can find you on Google", 
-                    "Loads super fast", 
-                    "Easy for you to update"
-                  ].map(item => <li key={item} className="flex items-center gap-2">
-                      <CheckCircle2 className="w-5 h-5 text-primary" />
-                      <span>{item}</span>
-                    </li>)}
-                </ul>
-                <div className="pt-4">
-                  <Link to="/website-building">
-                    <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">
-                      Learn More <ArrowRight className="ml-2 w-4 h-4" />
-                    </Button>
-                  </Link>
-                </div>
-              </Card>
-            </motion.div>
-
-            <motion.div initial={{
-            opacity: 0,
-            x: 30
-          }} whileInView={{
-            opacity: 1,
-            x: 0
-          }} transition={{
-            duration: 0.6
-          }} viewport={{
-            once: true
-          }}>
-              <Card className="p-8 h-full border-border hover:border-accent/50 transition-all space-y-6 border-2">
-                <div className="inline-block p-3 bg-accent/10 rounded-lg">
-                  <Server className="w-8 h-8 text-accent" />
-                </div>
-                <h3 className="text-3xl font-bold">Hosting Services</h3>
-                <p className="text-muted-foreground text-lg mb-6">
-                  Reliable, secure hosting that keeps your website online 24/7. We handle all the technical stuff.
-                </p>
-                <ul className="space-y-3">
-                  {[
-                    "Your site stays online 99.9% of the time", 
-                    "Secure & protected from hackers", 
-                    "We save copies of your site weekly", 
-                    "We watch your site around the clock"
-                  ].map(item => <li key={item} className="flex items-center gap-2">
-                      <CheckCircle2 className="w-5 h-5 text-accent" />
-                      <span>{item}</span>
-                    </li>)}
-                </ul>
-                <div className="pt-4">
-                  <Link to="/hosting">
-                    <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
-                      Learn More <ArrowRight className="ml-2 w-4 h-4" />
-                    </Button>
-                  </Link>
-                </div>
-              </Card>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Plans */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-8">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Simple, Transparent Pricing</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
-              Choose your hosting plan. Pay for 12 months upfront and get your website built completely FREE!
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {pricingPlans.map((plan, i) => <motion.div key={i} initial={{
-            opacity: 0,
-            y: 30
-          }} whileInView={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            delay: i * 0.15,
-            duration: 0.6
-          }} viewport={{
-            once: true
-          }}>
-                <Card className={`p-8 h-full border-2 ${plan.popular ? "border-primary shadow-lg shadow-primary/20" : "border-border"} relative`}>
-                  {plan.popular && <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-medium">
-                      ⭐ Most Popular
-                    </div>}
-                  <div className="space-y-5">
-                    <div className="text-center">
-                      <span className="text-2xl mr-2">{plan.emoji}</span>
-                      <h3 className="text-2xl font-bold inline">{plan.name}</h3>
-                    </div>
-                    <p className="text-muted-foreground text-center">{plan.description}</p>
-                    
-                    {/* Monthly Hosting */}
-                    <div className="text-center pb-4 border-b border-border">
-                      <div className="text-sm text-muted-foreground uppercase tracking-wide mb-2">Monthly Hosting</div>
-                      <div className="text-4xl font-bold text-primary">${plan.monthly}<span className="text-lg text-muted-foreground">/mo</span></div>
-                    </div>
-
-                    {/* Website Build Cost */}
-                    <div className="text-center pb-4 border-b border-border">
-                      <div className="text-sm text-muted-foreground uppercase tracking-wide mb-2">Website Build (One-Time)</div>
-                      <div className="text-3xl font-bold text-foreground">${plan.buildPrice}</div>
-                    </div>
-
-                    {/* Special Offer */}
-                    <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-2 border-green-500/30 rounded-lg p-4 text-center">
-                      <div className="text-sm font-semibold text-green-600 dark:text-green-400 uppercase tracking-wide mb-1">
-                        💰 SPECIAL OFFER
-                      </div>
-                      <div className="text-lg font-bold mb-1">Pay 12 Months Upfront</div>
-                      <div className="text-2xl font-bold text-primary mb-1">${plan.annual}</div>
-                      <div className="text-base font-bold text-green-600 dark:text-green-400">
-                        + Website Build FREE
-                      </div>
-                      <div className="text-xs text-muted-foreground mt-2">
-                        (Save ${plan.buildPrice})
-                      </div>
-                    </div>
-
-                    <ul className="space-y-3 py-4">
-                      {plan.features.map(feature => <li key={feature} className="flex items-start gap-2">
-                          <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                          <span className="text-sm">{feature}</span>
-                        </li>)}
-                    </ul>
-                    <Link to="/quote" state={{
-                      plan: plan.name,
-                      serviceCategory: "bundle",
-                      serviceType: plan.name,
-                    }}>
-                      <Button className={`w-full ${plan.popular ? "bg-primary text-primary-foreground hover:bg-primary/90" : "bg-secondary text-secondary-foreground hover:bg-secondary/80"}`}>
-                        Get Started
-                      </Button>
-                    </Link>
+                  <span className="text-sm sm:text-base text-muted-foreground">Pay $2,000-$10,000 upfront for website design</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-red-600 font-bold text-sm">✗</span>
                   </div>
-                </Card>
-              </motion.div>)}
-          </div>
-          <div className="text-center mt-12 space-y-4">
-            <p className="text-muted-foreground">
-              Want to see the complete feature breakdown and comparison?
-            </p>
-            <Link to="/pricing">
-              <Button size="lg" variant="outline">
-                View Full Pricing & Features <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Get Your Free Quote */}
-      <section className="py-14 bg-gradient-to-b from-card/50 to-background">
-        <div className="container mx-auto px-6 text-center">
-          <motion.div initial={{
-          opacity: 0,
-          y: 30
-        }} whileInView={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.6
-        }} viewport={{
-          once: true
-        }} className="max-w-3xl mx-auto">
-            <Card className="p-10 border-2 border-primary/20 bg-card/80 backdrop-blur-sm hover:border-primary/40 transition-all glow-primary">
-              <Users className="w-12 h-12 text-primary mx-auto mb-5" />
-              <h2 className="text-2xl md:text-3xl font-bold mb-3">Get Your Free Quote</h2>
-              <p className="text-base text-muted-foreground mb-6">
-                Answer a few quick questions to get an instant estimate tailored to your business needs
-              </p>
-              <Link to="/quote">
-                <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 glow-primary">
-                  Get Instant Estimate <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </Link>
+                  <span className="text-sm sm:text-base text-muted-foreground">Pay separate monthly hosting fees ($15-50/mo)</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-red-600 font-bold text-sm">✗</span>
+                  </div>
+                  <span className="text-sm sm:text-base text-muted-foreground">Pay $75-150/hour for updates and changes</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-red-600 font-bold text-sm">✗</span>
+                  </div>
+                  <span className="text-sm sm:text-base text-muted-foreground">Hope nothing breaks (it will)</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-red-600 font-bold text-sm">✗</span>
+                  </div>
+                  <span className="text-sm sm:text-base text-muted-foreground">Outdated within 6 months</span>
+                </li>
+              </ul>
+              <div className="mt-6 pt-6 border-t border-red-500/20">
+                <p className="text-base sm:text-lg font-bold text-red-600 dark:text-red-400">
+                  First Year Cost: $2,700 - $11,000+
+                </p>
+              </div>
             </Card>
-          </motion.div>
+
+            {/* After - The Solution */}
+            <Card className="p-6 sm:p-8 border-2 border-green-500/40 bg-green-500/5 shadow-xl">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-2xl">✨</span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400">With Dark Mesa</h3>
+              </div>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm sm:text-base font-medium">Pay 12 months hosting upfront = FREE website build</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm sm:text-base font-medium">Hosting, security, backups all included</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm sm:text-base font-medium">Monthly updates included (30 min - 4 hrs depending on plan)</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm sm:text-base font-medium">We monitor and fix issues proactively</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm sm:text-base font-medium">Always current and secure</span>
+                </li>
+              </ul>
+              <div className="mt-6 pt-6 border-t border-green-500/20">
+                <p className="text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400">
+                  First Year Cost: $468 - $1,188
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Save $2,232 - $9,812 in year one
+                </p>
+              </div>
+            </Card>
+          </div>
         </div>
       </section>
 
-      {/* Blog Section */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-6">
+      {/* Pricing Preview */}
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-6 max-w-5xl">
           <div className="text-center mb-12">
-            <BookOpen className="w-12 h-12 text-primary mx-auto mb-4" />
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Helpful Guides</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Tips and insights to help your business succeed online
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Simple, Honest Pricing</h2>
+            <p className="text-lg sm:text-xl text-muted-foreground">
+              Three plans. All include hosting, support, and security. Pick what fits your needs.
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {blogPosts.map((post, i) => <motion.div key={i} initial={{
-            opacity: 0,
-            y: 30
-          }} whileInView={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            delay: i * 0.15,
-            duration: 0.6
-          }} viewport={{
-            once: true
-          }}>
-                <Card onClick={() => setActiveBlog(post.key)} className="overflow-hidden border-border hover:border-primary/50 transition-all group cursor-pointer">
-                  <div className="aspect-video overflow-hidden">
-                    <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+
+          {/* Toggle */}
+          <div className="flex justify-center mb-12">
+            <div className="inline-flex items-center bg-card border-2 border-border rounded-full p-1 shadow-lg">
+              <button
+                onClick={() => setBillingType("monthly")}
+                className={`px-6 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base transition-all ${
+                  billingType === "monthly"
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground"
+                }`}
+              >
+                Month-to-Month
+              </button>
+              <button
+                onClick={() => setBillingType("annual")}
+                className={`px-6 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base transition-all relative ${
+                  billingType === "annual"
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground"
+                }`}
+              >
+                Annual
+                <div className="absolute -top-2 -right-2 bg-green-500 text-white px-2 py-0.5 rounded-full text-xs font-bold">
+                  BEST
+                </div>
+              </button>
+            </div>
+          </div>
+
+          {/* Simplified plan cards */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { name: "Starter", price: 39, annual: 468, pages: "3 pages", emoji: "🟢", buildPrice: 349 },
+              { name: "Business", price: 69, annual: 828, pages: "6 pages", emoji: "🔵", popular: true, buildPrice: 599 },
+              { name: "Pro", price: 99, annual: 1188, pages: "9 pages", emoji: "🔴", buildPrice: 999 },
+            ].map((plan) => (
+              <Card
+                key={plan.name}
+                className={`p-6 text-center relative ${
+                  plan.popular ? "border-2 border-primary shadow-lg" : "border border-border"
+                }`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-bold">
+                    MOST POPULAR
                   </div>
-                  <div className="p-6">
-                    <div className="text-sm text-muted-foreground mb-2">{post.date}</div>
-                    <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">
-                      {post.title}
-                    </h3>
-                    <p className="text-muted-foreground">{post.excerpt}</p>
+                )}
+                <div className="text-4xl mb-3">{plan.emoji}</div>
+                <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
+                <div className="text-4xl font-bold text-primary mb-1">
+                  ${plan.price}
+                  <span className="text-lg text-muted-foreground">/mo</span>
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">{plan.pages} included</p>
+                
+                {billingType === "annual" ? (
+                  <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3 mb-4">
+                    <p className="text-sm font-bold text-green-600 dark:text-green-400">
+                      Website Build: FREE
+                    </p>
+                    <p className="text-xs text-muted-foreground">Annual plan (${plan.annual}/year)</p>
                   </div>
-                </Card>
-              </motion.div>)}
+                ) : (
+                  <div className="bg-muted border border-border rounded-lg p-3 mb-4">
+                    <p className="text-sm font-semibold">+ ${plan.buildPrice} Build Fee</p>
+                    <p className="text-xs text-muted-foreground">One-time payment</p>
+                  </div>
+                )}
+                
+                <a 
+                  href="/quote"
+                  className="w-full block"
+                >
+                  <Button className="w-full" variant={plan.popular ? "default" : "outline"}>
+                    Get Started
+                  </Button>
+                </a>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center mt-8">
+            <a href="/pricing">
+              <Button variant="link" className="text-primary text-lg">
+                View detailed feature comparison →
+              </Button>
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Contact CTA */}
-      <section className="py-20 bg-card/30">
-        <div className="container mx-auto px-6 text-center">
-          <motion.div initial={{
-          opacity: 0,
-          y: 30
-        }} whileInView={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.6
-        }} viewport={{
-          once: true
-        }} className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
-            <p className="text-lg text-muted-foreground mb-8">
-              Let's build something amazing together. Get in touch today for a free consultation.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link to="/contact">
-                <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-                  Contact Us <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </Link>
-              <Link to="/faq">
-                <Button size="lg" variant="outline">
-                  View FAQ
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
+      {/* Final CTA */}
+      <section className="py-20 bg-primary text-primary-foreground">
+        <div className="container mx-auto px-6 max-w-4xl text-center">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
+            Ready to Stop Overpaying?
+          </h2>
+          <p className="text-lg sm:text-xl mb-8 opacity-90">
+            Get your free quote in 60 seconds. See exactly what you'll pay. No pressure, no sales calls.
+          </p>
+          <a href="/quote">
+            <Button
+              size="lg"
+              variant="secondary"
+              className="h-14 sm:h-16 px-8 sm:px-10 text-base sm:text-lg font-bold shadow-xl hover:scale-105 transition-transform"
+            >
+              Get Your Free Quote Now
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+          </a>
+          <p className="text-sm mt-6 opacity-75">
+            No credit card required • Free consultation • Cancel anytime
+          </p>
         </div>
       </section>
-      
-      {/* Blog Modals */}
-      {activeBlog && <BlogModal isOpen={!!activeBlog} onClose={() => setActiveBlog(null)} title={blogPosts.find(p => p.key === activeBlog)?.title || ""} content={blogArticles[activeBlog as keyof typeof blogArticles]} />}
-    </>;
+    </div>
+  );
 };
 
-export default Index;
+export default HomePage;
