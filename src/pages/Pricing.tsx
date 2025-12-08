@@ -1,8 +1,9 @@
 import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { CheckCircle2, X, Star, DollarSign, Shield, Zap, TrendingUp, AlertCircle, ArrowRight } from "lucide-react";
+import { CheckCircle2, ArrowRight, DollarSign, X, Star, Shield, Zap, AlertCircle } from "lucide-react";
 
+// --- Plan Data ---
 const plans = [
     {
         name: "Starter",
@@ -74,34 +75,27 @@ const plans = [
 ];
 
 const PricingPage = () => {
-    const [isYearly, setIsYearly] = useState(false);
+    const [isYearly, setIsYearly] = useState(true);
     const [showComparison, setShowComparison] = useState(false);
-
-    const calculateSavings = (plan) => {
-        const monthlyCost = plan.monthly * 12 + plan.buildPrice;
-        const annualCost = plan.annual;
-        return monthlyCost - annualCost;
-    };
 
     return (
         <div className="min-h-screen bg-background">
             {/* Hero */}
-            <section className="pt-24 pb-12 px-6">
-                <div className="container mx-auto max-w-6xl text-center space-y-6">
-                    <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold mb-4">
-                        <DollarSign className="w-4 h-4" />
-                        Transparent Pricing
+            <section className="pt-32 pb-16 px-6">
+                <div className="container mx-auto max-w-6xl">
+                    <div className="text-center space-y-6">
+                        <div className="inline-block p-4 bg-primary/10 rounded-full mb-4">
+                            <DollarSign className="w-12 h-12 text-primary" />
+                        </div>
+                        <h1 className="text-4xl md:text-6xl font-bold">Simple Pricing. Powerful Websites.</h1>
+                        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                            Transparent pricing for design, hosting, maintenance, and support—all in one package.
+                        </p>
                     </div>
-                    <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-                        Website + Hosting + Support.<br />One Simple Price.
-                    </h1>
-                    <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                        No hidden fees. No surprises. Everything you need to succeed online.
-                    </p>
                 </div>
             </section>
 
-            {/* Billing Toggle */}
+            {/* Monthly/Yearly Toggle Section */}
             <section className="pb-12 px-6">
                 <div className="container mx-auto max-w-6xl">
                     <div className="flex flex-col items-center gap-6">
@@ -231,16 +225,14 @@ const PricingPage = () => {
                                 </div>
 
                                 {/* CTA */}
-                                <Button 
-                                    className={`w-full h-12 text-base font-bold ${
-                                        plan.popular 
-                                            ? 'bg-primary hover:bg-primary/90' 
-                                            : 'bg-secondary hover:bg-secondary/90'
-                                    }`}
-                                >
-                                    Choose {plan.name}
-                                    <ArrowRight className="ml-2 w-4 h-4" />
-                                </Button>
+                                <a href="/quote" className="block w-full">
+                                    <Button 
+                                        className="w-full h-12 text-base font-bold bg-primary text-primary-foreground hover:bg-primary/90 shadow-md"
+                                    >
+                                        Choose {plan.name}
+                                        <ArrowRight className="ml-2 w-4 h-4" />
+                                    </Button>
+                                </a>
 
                                 {/* Total First Year Cost */}
                                 <div className="mt-4 text-center text-xs text-muted-foreground">
@@ -366,7 +358,7 @@ const PricingPage = () => {
                         </div>
                         <div className="text-center">
                             <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
-                                <TrendingUp className="w-8 h-8 text-primary" />
+                                <CheckCircle2 className="w-8 h-8 text-primary" />
                             </div>
                             <h3 className="font-bold mb-2">Regular Backups</h3>
                             <p className="text-sm text-muted-foreground">Your data is always safe</p>
@@ -438,15 +430,12 @@ const PricingPage = () => {
                     <p className="text-xl mb-8 opacity-90">
                         Let's talk about your business goals and find the right plan for you.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Button size="lg" variant="secondary" className="h-14 px-8 text-lg font-bold">
+                    <a href="/quote" className="inline-block">
+                        <Button size="lg" variant="secondary" className="h-14 px-8 text-lg font-bold shadow-xl">
                             Get a Free Quote
                             <ArrowRight className="ml-2 w-5 h-5" />
                         </Button>
-                        <Button size="lg" variant="outline" className="h-14 px-8 text-lg font-bold border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-                            See Our Work
-                        </Button>
-                    </div>
+                    </a>
                     <p className="text-sm mt-6 opacity-75">
                         No credit card required. Free consultation included.
                     </p>
