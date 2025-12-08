@@ -144,9 +144,7 @@ const PricingPage = () => {
                                 Save ~{savingsPercentage}% on hosting + FREE build!
                             </span>
                         </div>
-                    </div>
-                </div>
-            </section>
+      
 
             {/* Pricing Cards */}
             <section className="pb-16 px-6">
