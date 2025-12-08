@@ -106,10 +106,10 @@ const PricingPage = () => {
                 </div>
             </section>
 
-            {/* Monthly/Yearly Toggle Section */}
+           {/* Monthly/Yearly Toggle Section */}
             <section className="pb-8 px-6">
                 <div className="container mx-auto max-w-6xl">
-                    <div className="flex justify-center items-center gap-4 mb-8 relative">
+                    <div className="flex justify-center items-center gap-4 mb-8">
                         <div className="inline-flex items-center bg-card border-2 border-border rounded-full p-1 shadow-lg">
                             <button
                                 onClick={() => setIsYearly(false)}
@@ -121,20 +121,22 @@ const PricingPage = () => {
                             >
                                 Pay Monthly
                             </button>
+            
                             <button
                                 onClick={() => setIsYearly(true)}
-                                className={`px-6 py-2 rounded-full font-bold text-sm transition-all relative ${
+                                className={`px-6 py-2 rounded-full font-bold text-sm transition-all ${
                                     isYearly
                                         ? 'bg-primary text-primary-foreground'
                                         : 'text-muted-foreground hover:text-foreground'
                                 }`}
                             >
                                 Pay Yearly
-                                <div className="absolute top-[-2rem] right-[-3rem] sm:top-auto sm:left-auto sm:right-[-90px] sm:bottom-[-20px] bg-yellow-500 text-yellow-900 px-3 py-1 text-[10px] sm:text-xs font-extrabold rounded-md rotate-[5deg] origin-bottom-left shadow-xl whitespace-nowrap">
-                                    FREE BUILD!
-                                </div>
                             </button>
                         </div>
+                    </div>
+                </div>
+            </section>
+
                         
                         <div className="inline-flex items-center text-sm ml-4">
                             <Sparkles className="w-4 h-4 text-yellow-500 mr-1 flex-shrink-0" />
