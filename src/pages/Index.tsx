@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -210,17 +211,17 @@ const HomePage = () => {
 
             {/* Primary CTAs */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 px-2">
-              <a href="/quote" className="w-full sm:w-auto">
+              <Link to="/quote" className="w-full sm:w-auto">
                 <Button size="lg" className="h-14 sm:h-16 px-8 sm:px-10 text-base sm:text-lg font-bold bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 w-full sm:w-auto">
                   See Your Price in 60 Seconds
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
-              </a>
-              <a href="/pricing" className="w-full sm:w-auto">
+              </Link>
+              <Link to="/pricing" className="w-full sm:w-auto">
                 <Button size="lg" variant="outline" className="h-14 sm:h-16 px-8 sm:px-10 text-base sm:text-lg font-bold border-2 w-full sm:w-auto">
                   View Plans & Pricing
                 </Button>
-              </a>
+              </Link>
             </div>
 
             {/* Trust indicators */}
@@ -448,24 +449,24 @@ const HomePage = () => {
                   </div>
                 )}
                 
-                <a 
-                  href="/quote"
+                <Link 
+                  to="/quote"
                   className="w-full block"
                 >
                   <Button className="w-full" variant={plan.popular ? "default" : "outline"}>
                     Get Started
                   </Button>
-                </a>
+                </Link>
               </Card>
             ))}
           </div>
 
           <div className="text-center mt-8">
-            <a href="/pricing">
+            <Link to="/pricing">
               <Button variant="link" className="text-primary text-lg">
                 View detailed feature comparison →
               </Button>
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -479,7 +480,7 @@ const HomePage = () => {
           <p className="text-lg sm:text-xl mb-8 opacity-90">
             Get your free quote in 60 seconds. See exactly what you'll pay. No pressure, no sales calls.
           </p>
-          <a href="/quote">
+          <Link to="/quote">
             <Button
               size="lg"
               variant="secondary"
@@ -488,7 +489,7 @@ const HomePage = () => {
               Get Your Free Quote Now
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
-          </a>
+          </Link>
           <p className="text-sm mt-6 opacity-75">
             No credit card required • Free consultation • Cancel anytime
           </p>
