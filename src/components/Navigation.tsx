@@ -23,7 +23,6 @@ export function Navigation() {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
-
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -45,7 +44,7 @@ export function Navigation() {
             }}
           >
             <span 
-              className="text-lg sm:text-xl font-normal text-foreground whitespace-nowrap"
+              className="text-lg sm:text-xl font-normal text-white whitespace-nowrap"
               style={{ fontFamily: 'Iceland, sans-serif' }}
             >
               Dark Mesa Hosting
@@ -58,7 +57,6 @@ export function Navigation() {
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.name;
-
               return (
                 <Link
                   key={item.name}
