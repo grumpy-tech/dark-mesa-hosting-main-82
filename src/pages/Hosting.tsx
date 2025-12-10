@@ -71,7 +71,7 @@ const Hosting = () => {
     },
     {
       name: "Pro",
-      emoji: "🔴",
+      emoji: "🟣",
       monthly: 99,
       annual: 1188,
       description: "For established businesses",
@@ -101,8 +101,8 @@ const Hosting = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center space-y-6"
           >
-            <div className="inline-block p-4 bg-accent/10 rounded-full mb-4 hover:scale-110 transition-transform">
-              <Server className="w-12 h-12 text-accent" />
+            <div className="inline-block p-4 bg-purple-500/10 rounded-full mb-4 hover:scale-110 transition-transform">
+              <Server className="w-12 h-12 text-purple-500" />
             </div>
             <h1 className="text-4xl md:text-6xl font-bold">
               Hosting That Just Works
@@ -112,12 +112,12 @@ const Hosting = () => {
             </p>
             <div className="flex flex-wrap gap-4 justify-center pt-4">
               <Link to="/quote" className="group">
-                <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 hover:scale-105 hover:shadow-xl transition-all duration-300">
+                <Button size="lg" className="bg-purple-600 text-white hover:bg-purple-700 hover:scale-105 hover:shadow-xl transition-all duration-300">
                   Get Started <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
               <Link to="/pricing" className="group">
-                <Button size="lg" variant="outline" className="hover:scale-105 hover:border-accent/50 hover:shadow-lg transition-all duration-300">
+                <Button size="lg" variant="outline" className="hover:scale-105 hover:border-purple-500/50 hover:shadow-lg transition-all duration-300">
                   See All Plan Details
                 </Button>
               </Link>
@@ -150,9 +150,9 @@ const Hosting = () => {
                 transition={{ delay: i * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className="p-6 h-full border-border hover:border-accent/50 hover:shadow-xl hover:scale-105 transition-all duration-300 backdrop-blur-sm bg-card/80 group">
-                  <div className="inline-block p-3 bg-accent/10 rounded-lg mb-4 group-hover:scale-110 group-hover:bg-accent/20 transition-all">
-                    <benefit.icon className="w-8 h-8 text-accent" />
+                <Card className="p-6 h-full border-border hover:border-purple-500/50 hover:shadow-xl hover:scale-105 transition-all duration-300 backdrop-blur-sm bg-card/80 group">
+                  <div className="inline-block p-3 bg-purple-500/10 rounded-lg mb-4 group-hover:scale-110 group-hover:bg-purple-500/20 transition-all">
+                    <benefit.icon className="w-8 h-8 text-purple-500" />
                   </div>
                   <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>
                   <p className="text-muted-foreground">{benefit.description}</p>
@@ -172,9 +172,9 @@ const Hosting = () => {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto"
           >
-            <Card className="p-10 border-2 border-accent/20 bg-accent/5 backdrop-blur-sm hover:border-accent/40 hover:shadow-2xl transition-all duration-300">
+            <Card className="p-10 border-2 border-purple-500/20 bg-purple-500/5 backdrop-blur-sm hover:border-purple-500/40 hover:shadow-2xl transition-all duration-300">
               <div className="text-center space-y-4">
-                <Wrench className="w-12 h-12 text-accent mx-auto" />
+                <Wrench className="w-12 h-12 text-purple-500 mx-auto" />
                 <h2 className="text-3xl font-bold">Need Changes? We've Got You Covered</h2>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                   Every hosting plan includes free monthly updates. Change your hours, add new photos, update text — just let us know and we'll handle it.
@@ -193,7 +193,7 @@ const Hosting = () => {
                       viewport={{ once: true }}
                       className="text-center p-4 rounded-lg bg-background/50 hover:bg-background/80 transition-colors"
                     >
-                      <div className="text-2xl font-bold text-accent mb-1">{item.name}</div>
+                      <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-1">{item.name}</div>
                       <div className="text-sm text-muted-foreground">{item.updates}</div>
                       <div className="text-xs text-muted-foreground">{item.time}</div>
                     </motion.div>
@@ -207,7 +207,7 @@ const Hosting = () => {
 
       {/* Hosting Plans */}
       <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-background to-primary/10" />
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-background to-primary/10" />
         
         {/* Faded plan names */}
         <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 text-[8rem] font-bold bg-gradient-to-b from-green-500/5 to-green-500/0 bg-clip-text text-transparent select-none pointer-events-none rotate-[-15deg]">
@@ -216,7 +216,7 @@ const Hosting = () => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[10rem] font-bold bg-gradient-to-b from-blue-500/8 to-blue-500/0 bg-clip-text text-transparent select-none pointer-events-none">
           BUSINESS
         </div>
-        <div className="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 text-[8rem] font-bold bg-gradient-to-b from-purple-500/5 to-purple-500/0 bg-clip-text text-transparent select-none pointer-events-none rotate-[15deg]">
+        <div className="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 text-[8rem] font-bold bg-gradient-to-b from-purple-500/8 to-purple-500/0 bg-clip-text text-transparent select-none pointer-events-none rotate-[15deg]">
           PRO
         </div>
         
@@ -238,11 +238,11 @@ const Hosting = () => {
               >
                 <Card
                   className={`p-8 h-full border-2 ${
-                    plan.popular ? "border-accent shadow-2xl" : "border-border"
+                    plan.popular ? "border-purple-500 shadow-2xl" : "border-border"
                   } relative flex flex-col backdrop-blur-sm bg-card/80 hover:scale-105 hover:shadow-2xl transition-all duration-300`}
                 >
                   {plan.popular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground px-4 py-1 rounded-full text-sm font-medium flex items-center gap-1 shadow-lg animate-pulse">
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-purple-600 text-white px-4 py-1 rounded-full text-sm font-medium flex items-center gap-1 shadow-lg animate-pulse">
                       <Star className="w-4 h-4" /> Most Popular
                     </div>
                   )}
@@ -255,7 +255,7 @@ const Hosting = () => {
                     </div>
 
                     <div className="text-center py-6 border-y border-border">
-                      <div className="text-4xl font-bold text-accent mb-2">
+                      <div className="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-2">
                         ${plan.monthly}<span className="text-lg text-muted-foreground">/mo</span>
                       </div>
                       <div className="text-sm text-muted-foreground">
@@ -266,7 +266,7 @@ const Hosting = () => {
                     <ul className="space-y-3">
                       {plan.features.map((feature) => (
                         <li key={feature} className="flex items-start gap-2">
-                          <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                          <CheckCircle2 className="w-5 h-5 text-purple-500 flex-shrink-0 mt-0.5" />
                           <span className="text-sm">{feature}</span>
                         </li>
                       ))}
@@ -285,7 +285,7 @@ const Hosting = () => {
                       <Button
                         className={`w-full ${
                           plan.popular
-                            ? "bg-accent text-accent-foreground hover:bg-accent/90"
+                            ? "bg-purple-600 text-white hover:bg-purple-700"
                             : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
                         } hover:scale-105 hover:shadow-xl transition-all duration-300`}
                       >
@@ -304,7 +304,7 @@ const Hosting = () => {
               Want to see the full breakdown of features?
             </p>
             <Link to="/pricing" className="group inline-block">
-              <Button size="lg" variant="outline" className="hover:scale-105 hover:border-accent/50 hover:shadow-lg transition-all duration-300">
+              <Button size="lg" variant="outline" className="hover:scale-105 hover:border-purple-500/50 hover:shadow-lg transition-all duration-300">
                 View Complete Feature Comparison <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
@@ -313,9 +313,9 @@ const Hosting = () => {
       </section>
 
       {/* CTA */}
-      <section className="relative py-20 bg-accent text-accent-foreground overflow-hidden">
+      <section className="relative py-20 bg-purple-600 text-white overflow-hidden">
         {/* Faded "RELIABLE" text */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[6rem] md:text-[12rem] font-bold opacity-5 select-none pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[6rem] md:text-[12rem] font-bold opacity-10 select-none pointer-events-none">
           RELIABLE
         </div>
         
