@@ -182,21 +182,21 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section with Premium Animated Background */}
+      {/* Hero Section with Premium Animated Background - REMOVED COMPANY NAME */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Premium Canvas Background */}
         <canvas ref={noiseRef} className="absolute inset-0 z-0 pointer-events-none" />
         <canvas ref={canvasRef} className="absolute inset-0 z-10" />
 
         <div className="relative z-20 container mx-auto px-4 sm:px-6 text-center">
-          <div className="space-y-6 sm:space-y-8">
-            {/* Faded Company Name */}
-            <h2 className="font-semibold bg-gradient-to-b from-foreground/70 to-foreground/10 bg-clip-text text-transparent text-[2.5rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] leading-tight mb-4 pb-2">
-              Dark Mesa Hosting
-            </h2>
-
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="space-y-6 sm:space-y-8"
+          >
             {/* Main Value Prop */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight px-2">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight leading-tight px-2">
               Your Website.<br />
               <span className="text-primary">Built, Hosted & Maintained.</span><br />
               <span className="text-2xl sm:text-3xl md:text-4xl text-muted-foreground font-normal">
@@ -209,290 +209,357 @@ const HomePage = () => {
               Stop paying separately for design, hosting, updates, and support. Get everything in one simple package starting at <span className="text-primary font-bold">$39/month</span>.
             </p>
 
-            {/* Primary CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 px-2">
-              <Link to="/quote" className="w-full sm:w-auto">
-                <Button size="lg" className="h-14 sm:h-16 px-8 sm:px-10 text-base sm:text-lg font-bold bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 w-full sm:w-auto">
+            {/* Premium CTAs with Hover Effects */}
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 justify-center pt-4 px-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+            >
+              <Link to="/quote" className="w-full sm:w-auto group">
+                <Button size="lg" className="h-14 sm:h-16 px-8 sm:px-10 text-base sm:text-lg font-bold bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 w-full sm:w-auto transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/40">
                   See Your Price in 60 Seconds
-                  <ArrowRight className="ml-2 w-5 h-5" />
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-              <Link to="/pricing" className="w-full sm:w-auto">
-                <Button size="lg" variant="outline" className="h-14 sm:h-16 px-8 sm:px-10 text-base sm:text-lg font-bold border-2 w-full sm:w-auto">
+              <Link to="/pricing" className="w-full sm:w-auto group">
+                <Button size="lg" variant="outline" className="h-14 sm:h-16 px-8 sm:px-10 text-base sm:text-lg font-bold border-2 w-full sm:w-auto backdrop-blur-sm bg-background/50 hover:bg-background/80 transition-all duration-300 hover:scale-105 hover:border-primary/50 hover:shadow-lg">
                   View Plans & Pricing
+                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-            </div>
+            </motion.div>
 
             {/* Trust indicators */}
-            <div className="flex flex-wrap justify-center gap-6 sm:gap-8 pt-8 text-sm text-muted-foreground px-2">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
-                <span>No credit card required</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
-                <span>Free consultation included</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
-                <span>Cancel anytime</span>
-              </div>
-            </div>
-          </div>
+            <motion.div 
+              className="flex flex-wrap justify-center gap-6 sm:gap-8 pt-8 text-sm text-muted-foreground px-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+            >
+              {[
+                "No credit card required",
+                "Free consultation included",
+                "Cancel anytime"
+              ].map((text, idx) => (
+                <div key={idx} className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
+                  <span>{text}</span>
+                </div>
+              ))}
+            </motion.div>
+          </motion.div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce z-20">
+        {/* Scroll indicator with animation */}
+        <motion.div 
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
           <div className="w-6 h-10 border-2 border-muted-foreground/30 rounded-full flex items-start justify-center p-2">
             <div className="w-1 h-2 bg-muted-foreground/30 rounded-full" />
           </div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* Stats Bar */}
-      <section className="py-12 bg-muted/30 border-y border-border">
-        <div className="container mx-auto px-6">
+      {/* Stats Bar - With Texture */}
+      <section className="relative py-12 border-y border-border overflow-hidden">
+        {/* Dot Grid Texture */}
+        <div className="absolute inset-0 opacity-10" style={{
+          backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
+          backgroundSize: '24px 24px'
+        }} />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5" />
+        
+        <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, idx) => (
-              <div key={idx} className="text-center">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-3">
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1, duration: 0.5 }}
+                viewport={{ once: true }}
+                className="text-center group"
+              >
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-3 group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-300">
                   <stat.icon className="w-6 h-6 text-primary" />
                 </div>
                 <div className="text-3xl font-bold text-foreground mb-1">{stat.value}</div>
                 <div className="text-sm text-muted-foreground">{stat.label}</div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* The Problem/Solution */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <div className="text-center mb-16">
+      {/* The Problem/Solution - With Faded Section Number */}
+      <section className="relative py-20 bg-background overflow-hidden">
+        {/* Faded "01" Section Number */}
+        <div className="absolute top-10 left-10 text-[12rem] font-bold bg-gradient-to-b from-foreground/5 to-foreground/0 bg-clip-text text-transparent select-none pointer-events-none">
+          01
+        </div>
+        
+        <div className="container mx-auto px-6 max-w-6xl relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
               Stop Juggling Multiple Vendors
             </h2>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
               Most businesses waste time and money coordinating between a designer, hosting company, and developer. We handle everything.
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             {/* Before - The Problem */}
-            <Card className="p-6 sm:p-8 border-2 border-red-500/20 bg-red-500/5">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center flex-shrink-0">
-                  <span className="text-2xl">😰</span>
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <Card className="p-6 sm:p-8 border-2 border-red-500/20 bg-red-500/5 hover:shadow-xl hover:border-red-500/30 transition-all duration-300">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center flex-shrink-0">
+                    <span className="text-2xl">😰</span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-red-600 dark:text-red-400">The Old Way</h3>
                 </div>
-                <h3 className="text-xl sm:text-2xl font-bold text-red-600 dark:text-red-400">The Old Way</h3>
-              </div>
-              <ul className="space-y-4">
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-red-600 font-bold text-sm">✗</span>
-                  </div>
-                  <span className="text-sm sm:text-base text-muted-foreground">Pay $2,000-$10,000 upfront for website design</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-red-600 font-bold text-sm">✗</span>
-                  </div>
-                  <span className="text-sm sm:text-base text-muted-foreground">Pay separate monthly hosting fees ($15-50/mo)</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-red-600 font-bold text-sm">✗</span>
-                  </div>
-                  <span className="text-sm sm:text-base text-muted-foreground">Pay $75-150/hour for updates and changes</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-red-600 font-bold text-sm">✗</span>
-                  </div>
-                  <span className="text-sm sm:text-base text-muted-foreground">Hope nothing breaks (it will)</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-red-600 font-bold text-sm">✗</span>
-                  </div>
-                  <span className="text-sm sm:text-base text-muted-foreground">Outdated within 6 months</span>
-                </li>
-              </ul>
-              <div className="mt-6 pt-6 border-t border-red-500/20">
-                <p className="text-base sm:text-lg font-bold text-red-600 dark:text-red-400">
-                  First Year Cost: $2,700 - $11,000+
-                </p>
-              </div>
-            </Card>
+                <ul className="space-y-4">
+                  {[
+                    "Pay $2,000-$10,000 upfront for website design",
+                    "Pay separate monthly hosting fees ($15-50/mo)",
+                    "Pay $75-150/hour for updates and changes",
+                    "Hope nothing breaks (it will)",
+                    "Outdated within 6 months"
+                  ].map((text, idx) => (
+                    <li key={idx} className="flex items-start gap-3">
+                      <div className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="text-red-600 font-bold text-sm">✗</span>
+                      </div>
+                      <span className="text-sm sm:text-base text-muted-foreground">{text}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-6 pt-6 border-t border-red-500/20">
+                  <p className="text-base sm:text-lg font-bold text-red-600 dark:text-red-400">
+                    First Year Cost: $2,700 - $11,000+
+                  </p>
+                </div>
+              </Card>
+            </motion.div>
 
             {/* After - The Solution */}
-            <Card className="p-6 sm:p-8 border-2 border-green-500/40 bg-green-500/5 shadow-xl">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0">
-                  <span className="text-2xl">✨</span>
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <Card className="p-6 sm:p-8 border-2 border-green-500/40 bg-green-500/5 shadow-xl hover:shadow-2xl hover:border-green-500/60 transition-all duration-300">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0">
+                    <span className="text-2xl">✨</span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400">With Dark Mesa</h3>
                 </div>
-                <h3 className="text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400">With Dark Mesa</h3>
-              </div>
-              <ul className="space-y-4">
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm sm:text-base font-medium">Pay 12 months hosting upfront = FREE website build</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm sm:text-base font-medium">Hosting, security, backups all included</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm sm:text-base font-medium">Monthly updates included (30 min - 4 hrs depending on plan)</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm sm:text-base font-medium">We monitor and fix issues proactively</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm sm:text-base font-medium">Always current and secure</span>
-                </li>
-              </ul>
-              <div className="mt-6 pt-6 border-t border-green-500/20">
-                <p className="text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400">
-                  First Year Cost: $468 - $1,188
-                </p>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Save $2,232 - $9,812 in year one
-                </p>
-              </div>
-            </Card>
+                <ul className="space-y-4">
+                  {[
+                    "Pay 12 months hosting upfront = FREE website build",
+                    "Hosting, security, backups all included",
+                    "Monthly updates included (30 min - 4 hrs depending on plan)",
+                    "We monitor and fix issues proactively",
+                    "Always current and secure"
+                  ].map((text, idx) => (
+                    <li key={idx} className="flex items-start gap-3">
+                      <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-sm sm:text-base font-medium">{text}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-6 pt-6 border-t border-green-500/20">
+                  <p className="text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400">
+                    First Year Cost: $468 - $1,188
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Save $2,232 - $9,812 in year one
+                  </p>
+                </div>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Pricing Preview */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-6 max-w-5xl">
-          <div className="text-center mb-12">
+      {/* Pricing Preview - With Gradient Mesh Background */}
+      <section className="relative py-20 overflow-hidden">
+        {/* Gradient Mesh Background */}
+        <div className="absolute inset-0 bg-muted/30" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />
+        <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-primary/20 to-transparent blur-3xl" />
+        
+        {/* Faded "PRICING" Text */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[10rem] md:text-[15rem] font-bold bg-gradient-to-b from-foreground/3 to-foreground/0 bg-clip-text text-transparent select-none pointer-events-none whitespace-nowrap">
+          PRICING
+        </div>
+        
+        <div className="container mx-auto px-6 max-w-5xl relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Simple, Honest Pricing</h2>
             <p className="text-lg sm:text-xl text-muted-foreground">
               Three plans. All include hosting, support, and security. Pick what fits your needs.
             </p>
-          </div>
+          </motion.div>
 
           {/* Toggle */}
           <div className="flex justify-center mb-12">
-            <div className="inline-flex items-center bg-card border-2 border-border rounded-full p-1 shadow-lg">
+            <div className="inline-flex items-center bg-card/80 backdrop-blur-sm border-2 border-border rounded-full p-1 shadow-lg">
               <button
                 onClick={() => setBillingType("monthly")}
-                className={`px-6 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base transition-all ${
+                className={`px-6 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base transition-all duration-300 ${
                   billingType === "monthly"
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground"
+                    ? "bg-primary text-primary-foreground shadow-md"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 Month-to-Month
               </button>
               <button
                 onClick={() => setBillingType("annual")}
-                className={`px-6 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base transition-all relative ${
+                className={`px-6 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base transition-all duration-300 relative ${
                   billingType === "annual"
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground"
+                    ? "bg-primary text-primary-foreground shadow-md"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 Annual
-                <div className="absolute -top-2 -right-2 bg-green-500 text-white px-2 py-0.5 rounded-full text-xs font-bold">
+                <div className="absolute -top-2 -right-2 bg-green-500 text-white px-2 py-0.5 rounded-full text-xs font-bold animate-pulse">
                   BEST
                 </div>
               </button>
             </div>
           </div>
 
-          {/* Simplified plan cards */}
+          {/* Plan cards */}
           <div className="grid md:grid-cols-3 gap-6">
             {[
               { name: "Starter", price: 39, annual: 468, pages: "3 pages", emoji: "🟢", buildPrice: 349 },
               { name: "Business", price: 69, annual: 828, pages: "6 pages", emoji: "🔵", popular: true, buildPrice: 599 },
               { name: "Pro", price: 99, annual: 1188, pages: "9 pages", emoji: "🔴", buildPrice: 999 },
-            ].map((plan) => (
-              <Card
+            ].map((plan, idx) => (
+              <motion.div
                 key={plan.name}
-                className={`p-6 text-center relative ${
-                  plan.popular ? "border-2 border-primary shadow-lg" : "border border-border"
-                }`}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1, duration: 0.5 }}
+                viewport={{ once: true }}
               >
-                {plan.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-bold">
-                    MOST POPULAR
-                  </div>
-                )}
-                <div className="text-4xl mb-3">{plan.emoji}</div>
-                <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-                <div className="text-4xl font-bold text-primary mb-1">
-                  ${plan.price}
-                  <span className="text-lg text-muted-foreground">/mo</span>
-                </div>
-                <p className="text-sm text-muted-foreground mb-4">{plan.pages} included</p>
-                
-                {billingType === "annual" ? (
-                  <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3 mb-4">
-                    <p className="text-sm font-bold text-green-600 dark:text-green-400">
-                      Website Build: FREE
-                    </p>
-                    <p className="text-xs text-muted-foreground">Annual plan (${plan.annual}/year)</p>
-                  </div>
-                ) : (
-                  <div className="bg-muted border border-border rounded-lg p-3 mb-4">
-                    <p className="text-sm font-semibold">+ ${plan.buildPrice} Build Fee</p>
-                    <p className="text-xs text-muted-foreground">One-time payment</p>
-                  </div>
-                )}
-                
-                <Link 
-                  to="/quote"
-                  className="w-full block"
+                <Card
+                  className={`p-6 text-center relative backdrop-blur-sm bg-card/80 hover:scale-105 transition-all duration-300 ${
+                    plan.popular ? "border-2 border-primary shadow-xl hover:shadow-2xl" : "border border-border hover:border-primary/50 hover:shadow-lg"
+                  }`}
                 >
-                  <Button className="w-full" variant={plan.popular ? "default" : "outline"}>
-                    Get Started
-                  </Button>
-                </Link>
-              </Card>
+                  {plan.popular && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-bold">
+                      MOST POPULAR
+                    </div>
+                  )}
+                  <div className="text-4xl mb-3">{plan.emoji}</div>
+                  <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
+                  <div className="text-4xl font-bold text-primary mb-1">
+                    ${plan.price}
+                    <span className="text-lg text-muted-foreground">/mo</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-4">{plan.pages} included</p>
+                  
+                  {billingType === "annual" ? (
+                    <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3 mb-4">
+                      <p className="text-sm font-bold text-green-600 dark:text-green-400">
+                        Website Build: FREE
+                      </p>
+                      <p className="text-xs text-muted-foreground">Annual plan (${plan.annual}/year)</p>
+                    </div>
+                  ) : (
+                    <div className="bg-muted border border-border rounded-lg p-3 mb-4">
+                      <p className="text-sm font-semibold">+ ${plan.buildPrice} Build Fee</p>
+                      <p className="text-xs text-muted-foreground">One-time payment</p>
+                    </div>
+                  )}
+                  
+                  <Link to="/quote" className="w-full block group">
+                    <Button className={`w-full transition-all duration-300 hover:scale-105 hover:shadow-lg ${plan.popular ? 'bg-primary hover:bg-primary/90' : 'bg-secondary hover:bg-secondary/90'}`} variant={plan.popular ? "default" : "outline"}>
+                      Get Started
+                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+                </Card>
+              </motion.div>
             ))}
           </div>
 
-          <div className="text-center mt-8">
-            <Link to="/pricing">
-              <Button variant="link" className="text-primary text-lg">
-                View detailed feature comparison →
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mt-8"
+          >
+            <Link to="/pricing" className="group">
+              <Button variant="link" className="text-primary text-lg hover:scale-105 transition-transform">
+                View detailed feature comparison <ArrowRight className="ml-1 w-4 h-4 inline-block group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="py-20 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-6 max-w-4xl text-center">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
-            Ready to Stop Overpaying?
-          </h2>
-          <p className="text-lg sm:text-xl mb-8 opacity-90">
-            Get your free quote in 60 seconds. See exactly what you'll pay. No pressure, no sales calls.
-          </p>
-          <Link to="/quote">
-            <Button
-              size="lg"
-              variant="secondary"
-              className="h-14 sm:h-16 px-8 sm:px-10 text-base sm:text-lg font-bold shadow-xl hover:scale-105 transition-transform"
-            >
-              Get Your Free Quote Now
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-          </Link>
-          <p className="text-sm mt-6 opacity-75">
-            No credit card required • Free consultation • Cancel anytime
-          </p>
+      {/* Final CTA - With Faded "STOP OVERPAYING" Text */}
+      <section className="relative py-20 bg-primary text-primary-foreground overflow-hidden">
+        {/* Faded Background Text */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[4rem] md:text-[8rem] font-bold opacity-5 select-none pointer-events-none whitespace-nowrap">
+          STOP OVERPAYING
+        </div>
+        
+        <div className="container mx-auto px-6 max-w-4xl text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
+              Ready to Stop Overpaying?
+            </h2>
+            <p className="text-lg sm:text-xl mb-8 opacity-90">
+              Get your free quote in 60 seconds. See exactly what you'll pay. No pressure, no sales calls.
+            </p>
+            <Link to="/quote" className="group">
+              <Button
+                size="lg"
+                variant="secondary"
+                className="h-14 sm:h-16 px-8 sm:px-10 text-base sm:text-lg font-bold shadow-xl hover:scale-110 hover:shadow-2xl transition-all duration-300"
+              >
+                Get Your Free Quote Now
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
+            <p className="text-sm mt-6 opacity-75">
+              No credit card required • Free consultation • Cancel anytime
+            </p>
+          </motion.div>
         </div>
       </section>
     </div>
