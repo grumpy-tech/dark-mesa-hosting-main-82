@@ -89,14 +89,19 @@ const Hosting = () => {
   return (
     <>
       {/* Hero */}
-      <section className="pt-32 pb-20 px-6">
-        <div className="container mx-auto max-w-6xl">
+      <section className="relative pt-32 pb-20 px-6 overflow-hidden">
+        {/* Faded "HOSTING" background text */}
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 text-[10rem] md:text-[18rem] font-bold bg-gradient-to-b from-foreground/3 to-foreground/0 bg-clip-text text-transparent select-none pointer-events-none">
+          HOSTING
+        </div>
+        
+        <div className="container mx-auto max-w-6xl relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center space-y-6"
           >
-            <div className="inline-block p-4 bg-accent/10 rounded-full mb-4">
+            <div className="inline-block p-4 bg-accent/10 rounded-full mb-4 hover:scale-110 transition-transform">
               <Server className="w-12 h-12 text-accent" />
             </div>
             <h1 className="text-4xl md:text-6xl font-bold">
@@ -106,13 +111,13 @@ const Hosting = () => {
               Reliable, fast, and secure hosting with zero technical headaches. We keep your site running 24/7 while you focus on your business.
             </p>
             <div className="flex flex-wrap gap-4 justify-center pt-4">
-              <Link to="/quote">
-                <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
-                  Get Started <ArrowRight className="ml-2 w-5 h-5" />
+              <Link to="/quote" className="group">
+                <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 hover:scale-105 hover:shadow-xl transition-all duration-300">
+                  Get Started <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-              <Link to="/pricing">
-                <Button size="lg" variant="outline">
+              <Link to="/pricing" className="group">
+                <Button size="lg" variant="outline" className="hover:scale-105 hover:border-accent/50 hover:shadow-lg transition-all duration-300">
                   See All Plan Details
                 </Button>
               </Link>
@@ -122,8 +127,14 @@ const Hosting = () => {
       </section>
 
       {/* What's Included - Benefits Grid */}
-      <section className="py-20 bg-card/30">
-        <div className="container mx-auto px-6">
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-muted/30 via-background to-muted/30" />
+        <div className="absolute inset-0 opacity-10" style={{
+          backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
+          backgroundSize: '24px 24px'
+        }} />
+        
+        <div className="container mx-auto px-6 relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">What You Get With Every Plan</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -139,8 +150,8 @@ const Hosting = () => {
                 transition={{ delay: i * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className="p-6 h-full border-border hover:border-accent/50 transition-all">
-                  <div className="inline-block p-3 bg-accent/10 rounded-lg mb-4">
+                <Card className="p-6 h-full border-border hover:border-accent/50 hover:shadow-xl hover:scale-105 transition-all duration-300 backdrop-blur-sm bg-card/80 group">
+                  <div className="inline-block p-3 bg-accent/10 rounded-lg mb-4 group-hover:scale-110 group-hover:bg-accent/20 transition-all">
                     <benefit.icon className="w-8 h-8 text-accent" />
                   </div>
                   <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>
@@ -161,7 +172,7 @@ const Hosting = () => {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto"
           >
-            <Card className="p-10 border-2 border-accent/20 bg-card/80 backdrop-blur-sm hover:border-accent/40 transition-all">
+            <Card className="p-10 border-2 border-accent/20 bg-accent/5 backdrop-blur-sm hover:border-accent/40 hover:shadow-2xl transition-all duration-300">
               <div className="text-center space-y-4">
                 <Wrench className="w-12 h-12 text-accent mx-auto" />
                 <h2 className="text-3xl font-bold">Need Changes? We've Got You Covered</h2>
@@ -169,21 +180,24 @@ const Hosting = () => {
                   Every hosting plan includes free monthly updates. Change your hours, add new photos, update text — just let us know and we'll handle it.
                 </p>
                 <div className="grid md:grid-cols-3 gap-6 pt-6">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-accent mb-1">Starter</div>
-                    <div className="text-sm text-muted-foreground">1 update/month</div>
-                    <div className="text-xs text-muted-foreground">(up to 30 min)</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-accent mb-1">Business</div>
-                    <div className="text-sm text-muted-foreground">5 updates/month</div>
-                    <div className="text-xs text-muted-foreground">(up to 2 hrs total)</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-accent mb-1">Pro</div>
-                    <div className="text-sm text-muted-foreground">Unlimited updates</div>
-                    <div className="text-xs text-muted-foreground">(4 hrs/month fair use)</div>
-                  </div>
+                  {[
+                    { name: "Starter", updates: "1 update/month", time: "(up to 30 min)" },
+                    { name: "Business", updates: "5 updates/month", time: "(up to 2 hrs total)" },
+                    { name: "Pro", updates: "Unlimited updates", time: "(4 hrs/month fair use)" }
+                  ].map((item, idx) => (
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: idx * 0.1 }}
+                      viewport={{ once: true }}
+                      className="text-center p-4 rounded-lg bg-background/50 hover:bg-background/80 transition-colors"
+                    >
+                      <div className="text-2xl font-bold text-accent mb-1">{item.name}</div>
+                      <div className="text-sm text-muted-foreground">{item.updates}</div>
+                      <div className="text-xs text-muted-foreground">{item.time}</div>
+                    </motion.div>
+                  ))}
                 </div>
               </div>
             </Card>
@@ -192,8 +206,21 @@ const Hosting = () => {
       </section>
 
       {/* Hosting Plans */}
-      <section className="py-20 bg-card/30">
-        <div className="container mx-auto px-6">
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-background to-primary/10" />
+        
+        {/* Faded plan names */}
+        <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 text-[8rem] font-bold bg-gradient-to-b from-green-500/5 to-green-500/0 bg-clip-text text-transparent select-none pointer-events-none rotate-[-15deg]">
+          STARTER
+        </div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[10rem] font-bold bg-gradient-to-b from-blue-500/8 to-blue-500/0 bg-clip-text text-transparent select-none pointer-events-none">
+          BUSINESS
+        </div>
+        <div className="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 text-[8rem] font-bold bg-gradient-to-b from-purple-500/5 to-purple-500/0 bg-clip-text text-transparent select-none pointer-events-none rotate-[15deg]">
+          PRO
+        </div>
+        
+        <div className="container mx-auto px-6 relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Choose Your Hosting Plan</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -211,11 +238,11 @@ const Hosting = () => {
               >
                 <Card
                   className={`p-8 h-full border-2 ${
-                    plan.popular ? "border-accent shadow-lg shadow-accent/20" : "border-border"
-                  } relative flex flex-col`}
+                    plan.popular ? "border-accent shadow-2xl" : "border-border"
+                  } relative flex flex-col backdrop-blur-sm bg-card/80 hover:scale-105 hover:shadow-2xl transition-all duration-300`}
                 >
                   {plan.popular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground px-4 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground px-4 py-1 rounded-full text-sm font-medium flex items-center gap-1 shadow-lg animate-pulse">
                       <Star className="w-4 h-4" /> Most Popular
                     </div>
                   )}
@@ -253,15 +280,17 @@ const Hosting = () => {
                         plan: plan.name,
                         serviceCategory: "hosting"
                       }}
+                      className="group"
                     >
                       <Button
                         className={`w-full ${
                           plan.popular
                             ? "bg-accent text-accent-foreground hover:bg-accent/90"
                             : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                        }`}
+                        } hover:scale-105 hover:shadow-xl transition-all duration-300`}
                       >
                         Get Started
+                        <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </Button>
                     </Link>
                   </div>
@@ -274,9 +303,9 @@ const Hosting = () => {
             <p className="text-muted-foreground">
               Want to see the full breakdown of features?
             </p>
-            <Link to="/pricing">
-              <Button size="lg" variant="outline">
-                View Complete Feature Comparison <ArrowRight className="ml-2 w-5 h-5" />
+            <Link to="/pricing" className="group inline-block">
+              <Button size="lg" variant="outline" className="hover:scale-105 hover:border-accent/50 hover:shadow-lg transition-all duration-300">
+                View Complete Feature Comparison <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
           </div>
@@ -284,8 +313,13 @@ const Hosting = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-6 text-center">
+      <section className="relative py-20 bg-accent text-accent-foreground overflow-hidden">
+        {/* Faded "RELIABLE" text */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[6rem] md:text-[12rem] font-bold opacity-5 select-none pointer-events-none">
+          RELIABLE
+        </div>
+        
+        <div className="container mx-auto px-6 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -293,12 +327,12 @@ const Hosting = () => {
             className="max-w-3xl mx-auto"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
-            <p className="text-lg text-muted-foreground mb-8">
+            <p className="text-lg mb-8 opacity-90">
               Let us handle the technical stuff while you focus on growing your business
             </p>
-            <Link to="/quote">
-              <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
-                Get Your Free Quote <ArrowRight className="ml-2 w-5 h-5" />
+            <Link to="/quote" className="group inline-block">
+              <Button size="lg" variant="secondary" className="hover:scale-110 hover:shadow-2xl transition-all duration-300">
+                Get Your Free Quote <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
           </motion.div>
