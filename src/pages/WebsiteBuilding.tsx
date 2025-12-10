@@ -7,7 +7,7 @@ import { CheckCircle2, ArrowRight, Globe, Star, Mail, FileText, Image, Smartphon
 const packages = [
   {
     id: "starter",
-    name: "Starter Website",
+    name: "Starter",
     emoji: "🟢",
     buildPrice: 349,
     monthlyPrice: 39,
@@ -24,7 +24,7 @@ const packages = [
   },
   {
     id: "business",
-    name: "Business Website",
+    name: "Business",
     emoji: "🔵",
     buildPrice: 599,
     monthlyPrice: 69,
@@ -42,7 +42,7 @@ const packages = [
   },
   {
     id: "pro",
-    name: "Pro Website",
+    name: "Pro",
     emoji: "🔴",
     buildPrice: 999,
     monthlyPrice: 99,
@@ -86,9 +86,20 @@ const WebsiteBuilding = () => {
   return (
     <>
       {/* HERO */}
-      <section className="pt-32 pb-20 px-6 text-center">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <Globe className="w-14 h-14 text-primary mx-auto mb-5" />
+      <section className="relative pt-32 pb-20 px-6 text-center overflow-hidden">
+        {/* Faded "WEBSITES" background text */}
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 text-[10rem] md:text-[18rem] font-bold bg-gradient-to-b from-foreground/3 to-foreground/0 bg-clip-text text-transparent select-none pointer-events-none">
+          WEBSITES
+        </div>
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} 
+          animate={{ opacity: 1, y: 0 }}
+          className="relative z-10"
+        >
+          <div className="inline-block p-4 bg-primary/10 rounded-full mb-5 hover:scale-110 transition-transform">
+            <Globe className="w-14 h-14 text-primary" />
+          </div>
           <h1 className="text-4xl md:text-6xl font-bold mb-4">
             A Professional Website That Gets You Customers
           </h1>
@@ -96,13 +107,13 @@ const WebsiteBuilding = () => {
             We design, build, host, and maintain your website — so you can focus on running your business.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link to="/quote">
-              <Button size="lg">
-                Get Your Free Quote <ArrowRight className="ml-2 w-5 h-5" />
+            <Link to="/quote" className="group">
+              <Button size="lg" className="hover:scale-105 hover:shadow-xl transition-all duration-300">
+                Get Your Free Quote <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-            <Link to="/pricing">
-              <Button size="lg" variant="outline">
+            <Link to="/pricing" className="group">
+              <Button size="lg" variant="outline" className="hover:scale-105 hover:border-primary/50 hover:shadow-lg transition-all duration-300">
                 See All Plan Details
               </Button>
             </Link>
@@ -111,8 +122,14 @@ const WebsiteBuilding = () => {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="py-20 bg-card/30">
-        <div className="container mx-auto px-6">
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-muted/30 via-background to-muted/30" />
+        <div className="absolute inset-0 opacity-10" style={{
+          backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
+          backgroundSize: '24px 24px'
+        }} />
+        
+        <div className="container mx-auto px-6 relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
             <p className="text-lg text-muted-foreground">
@@ -124,18 +141,18 @@ const WebsiteBuilding = () => {
               { num: "1", title: "Tell Us About Your Business", desc: "Share your vision, we'll handle the rest" },
               { num: "2", title: "We Build Your Website", desc: "Professional design tailored to your brand" },
               { num: "3", title: "You Go Live & Get Customers", desc: "Launch fast and start growing" }
-            ].map(({ num, title, desc }) => (
+            ].map((step, idx) => (
               <motion.div
-                key={num}
+                key={step.num}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: parseInt(num) * 0.1 }}
+                transition={{ delay: idx * 0.1, duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <Card className="p-8 text-center border-border hover:border-primary/50 transition-colors">
-                  <div className="text-5xl font-bold text-primary mb-3">{num}</div>
-                  <h3 className="text-xl font-semibold mb-2">{title}</h3>
-                  <p className="text-muted-foreground">{desc}</p>
+                <Card className="p-8 text-center border-border hover:border-primary/50 hover:shadow-xl hover:scale-105 transition-all duration-300 backdrop-blur-sm bg-card/80">
+                  <div className="text-5xl font-bold text-primary mb-3">{step.num}</div>
+                  <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
+                  <p className="text-muted-foreground">{step.desc}</p>
                 </Card>
               </motion.div>
             ))}
@@ -161,8 +178,8 @@ const WebsiteBuilding = () => {
                 transition={{ delay: i * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className="p-6 h-full text-center border-border hover:border-primary/50 transition-all">
-                  <div className="inline-block p-3 bg-primary/10 rounded-lg mb-4">
+                <Card className="p-6 h-full text-center border-border hover:border-primary/50 hover:shadow-xl hover:scale-105 transition-all duration-300 group">
+                  <div className="inline-block p-3 bg-primary/10 rounded-lg mb-4 group-hover:scale-110 group-hover:bg-primary/20 transition-all">
                     <feature.icon className="w-8 h-8 text-primary" />
                   </div>
                   <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
@@ -175,8 +192,21 @@ const WebsiteBuilding = () => {
       </section>
 
       {/* PLANS */}
-      <section className="py-20 bg-card/30">
-        <div className="container mx-auto px-6">
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10" />
+        
+        {/* Faded plan names in background */}
+        <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 text-[8rem] font-bold bg-gradient-to-b from-green-500/5 to-green-500/0 bg-clip-text text-transparent select-none pointer-events-none rotate-[-15deg]">
+          STARTER
+        </div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[10rem] font-bold bg-gradient-to-b from-blue-500/8 to-blue-500/0 bg-clip-text text-transparent select-none pointer-events-none">
+          BUSINESS
+        </div>
+        <div className="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 text-[8rem] font-bold bg-gradient-to-b from-purple-500/5 to-purple-500/0 bg-clip-text text-transparent select-none pointer-events-none rotate-[15deg]">
+          PRO
+        </div>
+        
+        <div className="container mx-auto px-6 relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Choose Your Website Package</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -195,11 +225,11 @@ const WebsiteBuilding = () => {
               >
                 <Card
                   className={`p-8 border-2 ${
-                    pkg.popular ? "border-primary shadow-lg shadow-primary/20" : "border-border"
-                  } relative flex flex-col h-full`}
+                    pkg.popular ? "border-primary shadow-2xl" : "border-border"
+                  } relative flex flex-col h-full backdrop-blur-sm bg-card/80 hover:scale-105 hover:shadow-2xl transition-all duration-300`}
                 >
                   {pkg.popular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-medium flex items-center gap-1 shadow-lg animate-pulse">
                       <Star className="w-4 h-4" /> Most Popular
                     </div>
                   )}
@@ -213,7 +243,7 @@ const WebsiteBuilding = () => {
                     </div>
 
                     {/* BUILD */}
-                    <div className="bg-muted/40 p-4 rounded-lg text-center">
+                    <div className="bg-muted/40 p-4 rounded-lg text-center hover:bg-muted/60 transition-colors">
                       <div className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                         One-Time Website Build
                       </div>
@@ -221,7 +251,7 @@ const WebsiteBuilding = () => {
                     </div>
 
                     {/* HOSTING */}
-                    <div className="bg-primary/10 p-4 rounded-lg text-center">
+                    <div className="bg-primary/10 p-4 rounded-lg text-center hover:bg-primary/20 transition-colors">
                       <div className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                         Monthly Hosting & Support
                       </div>
@@ -231,7 +261,7 @@ const WebsiteBuilding = () => {
                     </div>
 
                     {/* FREE BUILD OFFER */}
-                    <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-2 border-green-500/30 rounded-lg p-4 text-center">
+                    <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-2 border-green-500/30 rounded-lg p-4 text-center hover:border-green-500/50 transition-colors">
                       <div className="text-xs font-semibold text-green-600 dark:text-green-400 uppercase tracking-wide mb-1">
                         💰 SPECIAL OFFER
                       </div>
@@ -255,15 +285,16 @@ const WebsiteBuilding = () => {
                   </div>
 
                   <div className="mt-6 pt-6 border-t border-border">
-                    <Link to="/quote" state={{ plan: pkg.name, serviceCategory: "bundle" }}>
+                    <Link to="/quote" state={{ plan: pkg.name, serviceCategory: "bundle" }} className="group">
                       <Button
                         className={`w-full ${
                           pkg.popular
                             ? "bg-primary text-primary-foreground hover:bg-primary/90"
                             : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                        }`}
+                        } hover:scale-105 hover:shadow-xl transition-all duration-300`}
                       >
                         Get Started
+                        <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </Button>
                     </Link>
                   </div>
@@ -276,9 +307,9 @@ const WebsiteBuilding = () => {
             <p className="text-muted-foreground">
               Want to see the complete feature breakdown?
             </p>
-            <Link to="/pricing">
-              <Button size="lg" variant="outline">
-                View Full Pricing & Features <ArrowRight className="ml-2 w-5 h-5" />
+            <Link to="/pricing" className="group inline-block">
+              <Button size="lg" variant="outline" className="hover:scale-105 hover:border-primary/50 hover:shadow-lg transition-all duration-300">
+                View Full Pricing & Features <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
           </div>
@@ -286,8 +317,13 @@ const WebsiteBuilding = () => {
       </section>
 
       {/* FINAL CTA */}
-      <section className="py-20 bg-background text-center">
-        <div className="container mx-auto px-6">
+      <section className="relative py-20 bg-primary text-primary-foreground overflow-hidden">
+        {/* Faded "BUILD" text */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[8rem] md:text-[15rem] font-bold opacity-5 select-none pointer-events-none">
+          BUILD
+        </div>
+        
+        <div className="container mx-auto px-6 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -297,12 +333,12 @@ const WebsiteBuilding = () => {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Ready To Get Your Website Live?
             </h2>
-            <p className="text-lg text-muted-foreground mb-8">
+            <p className="text-lg mb-8 opacity-90">
               We'll handle everything — from design to launch to ongoing maintenance
             </p>
-            <Link to="/quote">
-              <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-                Get Your Free Quote <ArrowRight className="ml-2 w-5 h-5" />
+            <Link to="/quote" className="group inline-block">
+              <Button size="lg" variant="secondary" className="hover:scale-110 hover:shadow-2xl transition-all duration-300">
+                Get Your Free Quote <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
           </motion.div>
