@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Cookie } from "lucide-react";
 
-const GA_ID = "G-XXXXXXXXXX"; // Replace with your actual GA ID
+const GA_ID = "G-C71J58WMC9"; // Your actual Google Analytics ID
 
 export const CookieBanner = () => {
   const [showBanner, setShowBanner] = useState(false);
@@ -18,14 +18,17 @@ export const CookieBanner = () => {
   }, []);
 
   const loadGoogleAnalytics = () => {
+    // Prevent loading GA twice
     if (document.getElementById("ga-script")) return;
 
+    // Load the gtag.js script
     const script = document.createElement("script");
     script.id = "ga-script";
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
     document.head.appendChild(script);
 
+    // Initialize Google Analytics once script loads
     script.onload = () => {
       window.dataLayer = window.dataLayer || [];
       function gtag(...args: any[]) {
