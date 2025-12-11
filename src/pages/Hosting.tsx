@@ -4,6 +4,9 @@ import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { Server, Shield, Clock, Zap, CheckCircle2, ArrowRight, Coffee, Wrench, FileCheck, Star } from "lucide-react";
 
+import { SEO } from "@/components/SEO";
+import { hostingService } from "@/lib/structuredData";
+
 const Hosting = () => {
   const benefits = [
     {
