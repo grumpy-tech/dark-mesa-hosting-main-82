@@ -6,6 +6,9 @@ import { motion } from "framer-motion";
 import { CheckCircle2, ArrowRight, DollarSign, X, Star, Shield, Zap, AlertCircle } from "lucide-react";
 
 // --- Plan Data ---
+import { SEO } from "@/components/SEO";
+import { pricingProducts } from "@/lib/structuredData";
+
 const plans = [
     {
         name: "Starter",
