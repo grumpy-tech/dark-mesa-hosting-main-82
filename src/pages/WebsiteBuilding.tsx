@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { CheckCircle2, ArrowRight, Globe, Star, Mail, FileText, Image, Smartphone } from "lucide-react";
+import { SEO } from "@/components/SEO";
+import { websiteBuildingService, createBreadcrumbSchema } from "@/lib/structuredData";
+
 
 const packages = [
   {
@@ -83,8 +86,22 @@ const includedFeatures = [
 ];
 
 const WebsiteBuilding = () => {
+  const breadcrumbs = createBreadcrumbSchema([
+    { name: "Home", url: "https://darkmesahosting.com" },
+    { name: "Website Building", url: "https://darkmesahosting.com/#/website-building" }
+  ]);
+
   return (
     <>
+      {/* SEO Component */}
+      <SEO
+        title="Professional Website Building Services"
+        description="Custom website design for small businesses starting at $349. Get a mobile-responsive, SEO-optimized website delivered in 5-14 days. Three packages available."
+        keywords="website building, custom website design, small business web design, professional website, responsive web design"
+        canonicalUrl="/website-building"
+        structuredData={[websiteBuildingService, breadcrumbs]}
+      />
+
       {/* HERO */}
       <section className="relative pt-32 pb-20 px-6 text-center overflow-hidden">
         {/* Faded "WEBSITES" background text */}
