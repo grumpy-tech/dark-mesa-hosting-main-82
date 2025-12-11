@@ -9,6 +9,9 @@ import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { Mail, MapPin, Send, MessageSquare, Clock, CheckCircle2 } from "lucide-react";
 
+import { SEO } from "@/components/SEO";
+import { localBusinessSchema } from "@/lib/structuredData";
+
 const Contact = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -92,8 +95,18 @@ const Contact = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Hero Section */}
+    <>
+      {/* SEO Component */}
+      <SEO
+        title="Contact Us - Get Your Free Quote"
+        description="Contact Dark Mesa Hosting for website design and hosting services. Fast 24-hour response time. Email, phone, or use our contact form to get started."
+        keywords="contact web designer, website quote, hosting support, web design consultation"
+        canonicalUrl="/contact"
+        structuredData={localBusinessSchema}
+      />
+      
+      <div className="min-h-screen bg-background">
+        {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-6 overflow-hidden">
         {/* Faded "CONTACT" background text */}
         <div className="absolute top-20 left-1/2 -translate-x-1/2 text-[10rem] md:text-[18rem] font-bold bg-gradient-to-b from-foreground/3 to-foreground/0 bg-clip-text text-transparent select-none pointer-events-none">
@@ -343,7 +356,11 @@ const Contact = () => {
           </motion.div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
+  );;
+
+    </>
   );
 };
 
