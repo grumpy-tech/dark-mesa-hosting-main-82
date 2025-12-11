@@ -11,6 +11,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { DollarSign, Send, CheckCircle2, Info, Sparkles } from "lucide-react";
 
+import { SEO } from "@/components/SEO";
+
 const Quote = () => {
   const location = useLocation();
   const { toast } = useToast();
@@ -547,8 +549,8 @@ const Quote = () => {
           ))}
         </ul>
       </Card>
-    </div>
-  );
-};
+      </div>
+    </>
+  );;
 
 export default Quote;
