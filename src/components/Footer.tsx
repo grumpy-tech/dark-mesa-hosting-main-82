@@ -1,4 +1,4 @@
-import { Instagram, Home, Globe, Server, DollarSign, HelpCircle, Mail } from "lucide-react";
+import { Instagram, Home, Globe, Server, DollarSign, HelpCircle, Mail, Shield, FileText } from "lucide-react";
 import { FooterLink } from "./FooterLink";
 
 const quickLinks = [
@@ -10,6 +10,11 @@ const quickLinks = [
   { name: "Contact", url: "/contact", icon: Mail },
 ];
 
+const legalLinks = [
+  { name: "Privacy Policy", url: "/privacy", icon: Shield },
+  { name: "Terms of Service", url: "/terms", icon: FileText },
+];
+
 const socials = [
   { name: "Instagram", icon: Instagram, url: "#" },
 ];
@@ -18,7 +23,7 @@ export function Footer() {
   return (
     <footer className="py-12 bg-card border-t border-border">
       <div className="container mx-auto px-6">
-        <div className="grid md:grid-cols-3 gap-8 mb-8">
+        <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div className="text-center md:text-left">
             <p className="text-2xl font-bold text-gradient mb-2">Dark Mesa Hosting</p>
@@ -30,6 +35,27 @@ export function Footer() {
             <h3 className="font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               {quickLinks.map((link) => {
+                const Icon = link.icon;
+                return (
+                  <li key={link.name}>
+                    <FooterLink
+                      to={link.url}
+                      className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
+                    >
+                      <Icon className="w-4 h-4" />
+                      {link.name}
+                    </FooterLink>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          {/* Legal Links */}
+          <div>
+            <h3 className="font-semibold mb-4">Legal</h3>
+            <ul className="space-y-2">
+              {legalLinks.map((link) => {
                 const Icon = link.icon;
                 return (
                   <li key={link.name}>
