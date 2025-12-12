@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { Server, Shield, Clock, Zap, CheckCircle2, ArrowRight, Coffee, Wrench, FileCheck, Star } from "lucide-react";
-
 import { SEO } from "@/components/SEO";
 import { hostingService } from "@/lib/structuredData";
 
@@ -91,6 +90,15 @@ const Hosting = () => {
 
   return (
     <>
+      <SEO
+        title="Affordable Web Hosting Plans from $39/month"
+        description="Reliable web hosting with 99.9% uptime, SSL certificates, daily backups, and 24/7 support. Choose from Starter, Business, or Pro hosting plans."
+        keywords="web hosting, small business hosting, affordable hosting, managed hosting, secure web hosting"
+        canonical="https://darkmesahosting.com/hosting"
+        ogImage="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop"
+        schemas={[hostingService]}
+      />
+      
       {/* Hero */}
       <section className="relative pt-32 pb-20 px-6 overflow-hidden">
         {/* Faded "HOSTING" background text */}
