@@ -2,10 +2,19 @@ import { motion } from "framer-motion";
 import { FileText, AlertCircle, CheckCircle2, XCircle, DollarSign, Shield } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { SEO } from "@/components/SEO";
 
 const Terms = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <SEO
+        title="Terms of Service"
+        description="Terms of Service for Dark Mesa Hosting. Read our service agreement, payment terms, and user responsibilities."
+        canonical="https://darkmesahosting.com/terms"
+        noindex={true}
+      />
+      
+      <div className="min-h-screen bg-background">
       {/* Hero */}
       <section className="relative pt-32 pb-20 px-6 overflow-hidden">
         <div className="absolute top-20 left-1/2 -translate-x-1/2 text-[10rem] md:text-[18rem] font-bold bg-gradient-to-b from-foreground/3 to-foreground/0 bg-clip-text text-transparent select-none pointer-events-none">
@@ -300,6 +309,7 @@ const Terms = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 
