@@ -162,17 +162,21 @@ const Quote = () => {
     }
   };
 
+  // SEO Component - must be before any conditional returns
+  const seoComponent = (
+    <SEO
+      title="Get a Free Website Quote in 60 Seconds"
+      description="Get an instant, detailed quote for your website project. No obligations, no hidden fees. See exactly what your website will cost before you commit."
+      keywords="free website quote, web design quote, website cost estimate, instant quote"
+      canonical="https://darkmesahosting.com/quote"
+      ogImage="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&auto=format&fit=crop"
+    />
+  );
+
   if (showSuccessMessage) {
     return (
       <>
-        <SEO
-          title="Get a Free Website Quote in 60 Seconds"
-          description="Get an instant, detailed quote for your website project. No obligations, no hidden fees. See exactly what your website will cost before you commit."
-          keywords="free website quote, web design quote, website cost estimate, instant quote"
-          canonical="https://darkmesahosting.com/quote"
-          ogImage="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&auto=format&fit=crop"
-        />
-        
+        {seoComponent}
         <div className="container mx-auto px-6 py-32">
         <div className="max-w-3xl mx-auto">
           <motion.div
@@ -226,11 +230,14 @@ const Quote = () => {
           </motion.div>
         </div>
       </div>
+      </>
     );
   }
 
   return (
-    <div className="relative container mx-auto px-6 py-32 max-w-4xl">
+    <>
+      {seoComponent}
+      <div className="relative container mx-auto px-6 py-32 max-w-4xl">
       {/* Faded "QUOTE" background text */}
       <div className="absolute top-32 left-1/2 -translate-x-1/2 text-[12rem] md:text-[20rem] font-bold bg-gradient-to-b from-foreground/3 to-foreground/0 bg-clip-text text-transparent select-none pointer-events-none -z-10">
         QUOTE
