@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 interface SEOProps {
   title: string;
@@ -8,7 +8,7 @@ interface SEOProps {
   ogImage?: string;
   ogType?: string;
   noindex?: boolean;
-  schemas?: object | object[]; // Accept both single object or array
+  schemas?: object | object[];
 }
 
 export const SEO = ({
@@ -25,7 +25,6 @@ export const SEO = ({
   const siteUrl = "https://darkmesahosting.com";
   const fullCanonicalUrl = canonical ? canonical : siteUrl;
   
-  // Convert schemas to array if it's a single object
   const schemaArray = schemas ? (Array.isArray(schemas) ? schemas : [schemas]) : [];
 
   return (
@@ -57,7 +56,7 @@ export const SEO = ({
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
       
-      {/* Structured Data - Support multiple schemas */}
+      {/* Structured Data */}
       {schemaArray.map((schema, index) => (
         <script key={index} type="application/ld+json">
           {JSON.stringify(schema)}
