@@ -2,15 +2,14 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import {
-import { SEO } from "@/components/SEO";
-import { faqStructuredData } from "@/lib/faqStructuredData";
-
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { HelpCircle, ArrowRight } from "lucide-react";
+import { SEO } from "@/components/SEO";
+import { faqStructuredData } from "@/lib/faqStructuredData";
 
 const FAQ = () => {
   const faqs = [
@@ -156,13 +155,13 @@ const FAQ = () => {
 
   return (
     <>
-      {/* SEO Component */}
       <SEO
-        title="Frequently Asked Questions"
+        title="Frequently Asked Questions - Website Design & Hosting"
         description="Get answers to common questions about Dark Mesa Hosting's website building and hosting services. Learn about pricing, turnaround times, and what's included."
-        keywords="website hosting FAQ, web design questions, hosting support, website building help, small business website FAQ"
-        canonicalUrl="/faq"
-        structuredData={faqStructuredData}
+        keywords="website hosting FAQ, web design questions, hosting support"
+        canonical="https://darkmesahosting.com/faq"
+        ogImage="https://images.unsplash.com/photo-1532619187608-e5375cab36aa?w=1200&auto=format&fit=crop"
+        schemas={[faqStructuredData]}
       />
       
       {/* Hero */}
