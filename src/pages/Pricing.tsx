@@ -4,11 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { CheckCircle2, ArrowRight, DollarSign, X, Star, Shield, Zap, AlertCircle } from "lucide-react";
-
-// --- Plan Data ---
 import { SEO } from "@/components/SEO";
 import { pricingProducts } from "@/lib/structuredData";
 
+// --- Plan Data ---
 const plans = [
     {
         name: "Starter",
@@ -84,6 +83,16 @@ const PricingPage = () => {
     const [showComparison, setShowComparison] = useState(false);
 
     return (
+        <>
+        <SEO
+          title="Website Design & Hosting Pricing Plans"
+          description="Transparent pricing for website design and hosting. Starter at $39/mo, Business at $69/mo, Pro at $99/mo. Pay 12 months upfront and get your website FREE!"
+          keywords="website pricing, web design cost, hosting prices, small business website cost, affordable web design pricing"
+          canonical="https://darkmesahosting.com/pricing"
+          ogImage="https://images.unsplash.com/photo-1554224311-beee460201b4?w=1200&auto=format&fit=crop"
+          schemas={pricingProducts}
+        />
+        
         <div className="min-h-screen bg-background">
             {/* Hero */}
             <section className="pt-32 pb-16 px-6 relative overflow-hidden">
@@ -486,6 +495,7 @@ const PricingPage = () => {
                 </div>
             </section>
         </div>
+        </>
     );
 };
 
