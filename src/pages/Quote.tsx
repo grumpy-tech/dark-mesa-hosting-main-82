@@ -10,7 +10,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { DollarSign, Send, CheckCircle2, Info, Sparkles } from "lucide-react";
-
 import { SEO } from "@/components/SEO";
 
 const Quote = () => {
@@ -165,7 +164,16 @@ const Quote = () => {
 
   if (showSuccessMessage) {
     return (
-      <div className="container mx-auto px-6 py-32">
+      <>
+        <SEO
+          title="Get a Free Website Quote in 60 Seconds"
+          description="Get an instant, detailed quote for your website project. No obligations, no hidden fees. See exactly what your website will cost before you commit."
+          keywords="free website quote, web design quote, website cost estimate, instant quote"
+          canonical="https://darkmesahosting.com/quote"
+          ogImage="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&auto=format&fit=crop"
+        />
+        
+        <div className="container mx-auto px-6 py-32">
         <div className="max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -549,8 +557,9 @@ const Quote = () => {
           ))}
         </ul>
       </Card>
-      </div>
+    </div>
     </>
-  );;
+  );
+};
 
 export default Quote;
