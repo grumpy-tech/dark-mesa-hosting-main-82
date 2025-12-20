@@ -278,57 +278,19 @@ const HomePage = () => {
         </motion.div>
       </section>
 
-      {/* Performance Stats - With Gradient Background */}
-      <section className="relative py-16 bg-muted/50 overflow-hidden">
-        {/* Background gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-muted/50 to-background" />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5" />
-        
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-            {stats.map((stat, idx) => {
-              const Icon = stat.icon;
-              return (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1, duration: 0.5 }}
-                  viewport={{ once: true }}
-                  className="text-center group"
-                >
-                  <Card className="p-6 backdrop-blur-sm bg-card/80 border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-                    <Icon className="w-8 h-8 sm:w-10 sm:h-10 text-primary mx-auto mb-3 group-hover:scale-110 transition-transform" />
-                    <div className="text-3xl sm:text-4xl font-bold mb-1 bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
-                      {stat.value}
-                    </div>
-                    <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
-                  </Card>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose Us - With Large Faded Background Text */}
-      <section className="relative py-20 overflow-hidden">
+      {/* Why Choose Us - Condensed Version */}
+      <section className="relative py-16 overflow-hidden">
         {/* Decorative gradient orbs */}
-        <div className="absolute top-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-0 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-72 h-72 bg-accent/10 rounded-full blur-3xl" />
         
-        {/* Faded "BUILT RIGHT" text in background */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[8rem] md:text-[12rem] font-bold bg-gradient-to-b from-foreground/5 to-foreground/0 bg-clip-text text-transparent select-none pointer-events-none whitespace-nowrap">
-          BUILT RIGHT
-        </div>
-        
-        <div className="container mx-auto px-6 max-w-6xl relative z-10">
+        <div className="container mx-auto px-6 max-w-5xl relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12"
           >
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Why Choose Us?</h2>
             <p className="text-lg sm:text-xl text-muted-foreground">
@@ -336,26 +298,26 @@ const HomePage = () => {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+          <div className="grid md:grid-cols-2 gap-6">
             {[
               {
                 title: "Complete Package",
-                description: "Design, hosting, security, backups, updates, and support—all included in one monthly price.",
+                description: "Design, hosting, security, backups, updates, and support—all in one monthly price.",
                 icon: "💼",
               },
               {
                 title: "Lightning Fast",
-                description: "Your website loads in under 2 seconds. Fast sites mean more customers and better Google rankings.",
+                description: "Sites load in under 2 seconds. Fast sites mean more customers and better rankings.",
                 icon: "⚡",
               },
               {
                 title: "Always Protected",
-                description: "Daily backups, SSL certificates, and security monitoring keep your site safe 24/7.",
+                description: "Daily backups, SSL certificates, and 24/7 security monitoring keep your site safe.",
                 icon: "🛡️",
               },
               {
                 title: "No Surprises",
-                description: "Transparent pricing. No hidden fees. No annual rate increases. Cancel anytime.",
+                description: "Transparent pricing. No hidden fees. No annual increases. Cancel anytime.",
                 icon: "💎",
               },
             ].map((item, idx) => (
@@ -366,10 +328,10 @@ const HomePage = () => {
                 transition={{ delay: idx * 0.1, duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <Card className="p-8 h-full backdrop-blur-sm bg-card/80 border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-                  <div className="text-5xl mb-4">{item.icon}</div>
-                  <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{item.description}</p>
+                <Card className="p-6 h-full backdrop-blur-sm bg-card/80 border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                  <div className="text-4xl mb-3">{item.icon}</div>
+                  <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{item.description}</p>
                 </Card>
               </motion.div>
             ))}
@@ -594,10 +556,43 @@ const HomePage = () => {
             ))}
           </div>
 
+          {/* Performance Stats - Smaller Version */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            viewport={{ once: true }}
+            className="mt-16 pt-12 border-t border-border/50"
+          >
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {stats.map((stat, idx) => {
+                const Icon = stat.icon;
+                return (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.1, duration: 0.5 }}
+                    viewport={{ once: true }}
+                    className="text-center group"
+                  >
+                    <Card className="p-3 backdrop-blur-sm bg-card/60 border border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-md">
+                      <Icon className="w-5 h-5 text-primary mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                      <div className="text-xl sm:text-2xl font-bold mb-0.5 bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+                        {stat.value}
+                      </div>
+                      <div className="text-xs text-muted-foreground font-medium">{stat.label}</div>
+                    </Card>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </motion.div>
+
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
             viewport={{ once: true }}
             className="text-center mt-8"
           >
