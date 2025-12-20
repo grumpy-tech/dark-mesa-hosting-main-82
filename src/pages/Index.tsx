@@ -444,6 +444,39 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* Performance Stats - Smaller Version */}
+      <section className="relative py-12 bg-muted/50 overflow-hidden">
+        {/* Background gradient overlays */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-muted/50 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5" />
+        
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {stats.map((stat, idx) => {
+              const Icon = stat.icon;
+              return (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1, duration: 0.5 }}
+                  viewport={{ once: true }}
+                  className="text-center group"
+                >
+                  <Card className="p-3 backdrop-blur-sm bg-card/60 border border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-md">
+                    <Icon className="w-5 h-5 text-primary mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                    <div className="text-xl sm:text-2xl font-bold mb-0.5 bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+                      {stat.value}
+                    </div>
+                    <div className="text-xs text-muted-foreground font-medium">{stat.label}</div>
+                  </Card>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Preview - With Gradient Mesh Background */}
       <section className="relative py-20 overflow-hidden">
         {/* Gradient Mesh Background */}
@@ -555,39 +588,6 @@ const HomePage = () => {
               </motion.div>
             ))}
           </div>
-
-          {/* Performance Stats - Smaller Version */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            viewport={{ once: true }}
-            className="mt-16 pt-12 border-t border-border/50"
-          >
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {stats.map((stat, idx) => {
-                const Icon = stat.icon;
-                return (
-                  <motion.div
-                    key={stat.label}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.1, duration: 0.5 }}
-                    viewport={{ once: true }}
-                    className="text-center group"
-                  >
-                    <Card className="p-3 backdrop-blur-sm bg-card/60 border border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-md">
-                      <Icon className="w-5 h-5 text-primary mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                      <div className="text-xl sm:text-2xl font-bold mb-0.5 bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
-                        {stat.value}
-                      </div>
-                      <div className="text-xs text-muted-foreground font-medium">{stat.label}</div>
-                    </Card>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.div>
 
           <motion.div
             initial={{ opacity: 0 }}
