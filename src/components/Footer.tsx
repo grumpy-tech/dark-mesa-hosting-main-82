@@ -26,7 +26,12 @@ export function Footer() {
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div className="text-center md:text-left">
-            <p className="text-2xl font-bold text-gradient mb-2">Dark Mesa Hosting</p>
+            <p 
+              className="text-2xl font-normal text-gradient mb-2"
+              style={{ fontFamily: 'Iceland, sans-serif' }}
+            >
+              Dark Mesa Hosting
+            </p>
             <p className="text-sm text-muted-foreground">Design. Speed. Reliability.</p>
           </div>
 
