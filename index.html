@@ -4,96 +4,146 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
+    <!-- CRITICAL: Preload hero fonts for faster LCP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Preload Iceland font (used in navbar and footer) - CRITICAL for LCP -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Iceland&display=swap" as="style" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Iceland&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Iceland&display=swap" /></noscript>
+    
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://images.unsplash.com" />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    
     <!-- Base Meta Tags - React Helmet will override these on each page -->
-    <title>Dark Mesa Hosting - Affordable Website Design & Hosting</title>
-    <meta name="description" content="Launch your small business online fast! Professional website design starting at $249 with hosting from $39/month. Perfect for new businesses and startups. Delivered in under 2 weeks.">
+    <title>Dark Mesa Hosting - Affordable Website Design & Hosting for Small Business</title>
+    <meta name="description" content="Professional small business website design starting at $249 with hosting from $39/month. Mobile-responsive, SEO-optimized websites delivered in 5-14 days. Free website build with annual hosting!" />
     <meta name="author" content="Dark Mesa Hosting" />
-    <meta name="keywords" content="small business website, affordable web design, startup website, new business website, website builder, small business web hosting, fast website delivery, budget friendly web design">
+    <meta name="keywords" content="small business website design, affordable web hosting, website builder for small business, professional website design, cheap web hosting, startup website, responsive web design, website design services, web development, small business web hosting" />
     
     <!-- React Helmet will inject page-specific meta tags here dynamically -->
     
-    <!-- Google Analytics (G-C71J58WMC9) loaded conditionally via CookieBanner component -->
-    <!-- This ensures GDPR/CCPA compliance by only loading after user consent -->
-    
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://images.unsplash.com" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Google Analytics - Loaded conditionally via CookieBanner for GDPR compliance -->
+    <!-- GA4 Measurement ID: G-C71J58WMC9 -->
+    <!-- Note: Analytics script loaded in CookieBanner.tsx after user consent -->
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     
-    <!-- DNS Prefetch for faster loading -->
-    <link rel="dns-prefetch" href="https://images.unsplash.com" />
-    
     <!-- Theme Color for mobile browsers -->
     <meta name="theme-color" content="#7877C6" />
     <meta name="msapplication-TileColor" content="#7877C6" />
     
-    <!-- Additional SEO Meta Tags -->
+    <!-- Enhanced SEO Meta Tags -->
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow" />
     <meta name="bingbot" content="index, follow" />
+    <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE_HERE" />
+    <!-- TODO: Add Google Search Console verification code above -->
     
     <!-- Open Graph / Facebook - Base defaults, React Helmet will override per page -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Dark Mesa Hosting" />
     <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Dark Mesa Hosting - Affordable Website Design & Hosting for Small Business" />
+    <meta property="og:description" content="Professional small business website design starting at $249 with hosting from $39/month. Free website build with annual hosting!" />
+    <meta property="og:url" content="https://www.darkmesahosting.com" />
+    <meta property="og:image" content="https://www.darkmesahosting.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     
     <!-- Twitter Card - Base defaults -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@darkmesahosting" />
     <meta name="twitter:creator" content="@darkmesahosting" />
+    <meta name="twitter:title" content="Dark Mesa Hosting - Affordable Website Design & Hosting" />
+    <meta name="twitter:description" content="Professional small business website design starting at $249 with hosting from $39/month." />
+    <meta name="twitter:image" content="https://www.darkmesahosting.com/og-image.jpg" />
     
-    <!-- Base Canonical - React Helmet will override per page -->
-    <link rel="canonical" href="https://darkmesahosting.com" />
+    <!-- Canonical URL - Points to www version (your preference) -->
+    <link rel="canonical" href="https://www.darkmesahosting.com" />
     
-    <!-- Schema.org Base - Page-specific schemas added via React Helmet -->
-    <!-- This base schema identifies the organization -->
+    <!-- Alternate for non-www -->
+    <link rel="alternate" href="https://darkmesahosting.com" />
+    
+    <!-- Schema.org Organization - Base -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Dark Mesa Hosting",
       "alternateName": "Dark Mesa",
-      "url": "https://darkmesahosting.com",
-      "logo": "https://darkmesahosting.com/logo.png",
-      "description": "Affordable website building and hosting services for small businesses and startups. Professional web design starting at $249.",
+      "url": "https://www.darkmesahosting.com",
+      "logo": "https://www.darkmesahosting.com/logo.png",
+      "description": "Affordable website design and hosting services for small businesses and startups. Professional web design starting at $249 with hosting from $39/month.",
       "email": "info@darkmesahosting.com",
       "telephone": "+1-234-567-8900",
       "address": {
         "@type": "PostalAddress",
-        "addressCountry": "CA"
+        "addressCountry": "CA",
+        "addressLocality": "Kelowna, British Columbia"
       },
       "sameAs": [
         "https://facebook.com/darkmesahosting",
         "https://twitter.com/darkmesahosting",
-        "https://linkedin.com/company/darkmesahosting"
-      ]
+        "https://linkedin.com/company/darkmesahosting",
+        "https://instagram.com/darkmesahosting"
+      ],
+      "founder": {
+        "@type": "Person",
+        "name": "Dark Mesa Hosting Team"
+      },
+      "foundingDate": "2024",
+      "areaServed": {
+        "@type": "Place",
+        "name": "Worldwide"
+      },
+      "priceRange": "$$"
     }
     </script>
     
-    <!-- Website Schema -->
+    <!-- Schema.org WebSite with SearchAction -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Dark Mesa Hosting",
-      "url": "https://darkmesahosting.com",
+      "url": "https://www.darkmesahosting.com",
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://darkmesahosting.com/?s={search_term_string}",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://www.darkmesahosting.com/?s={search_term_string}"
+        },
         "query-input": "required name=search_term_string"
       }
     }
     </script>
+    
+    <!-- Performance optimization: Resource hints -->
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
   </head>
 
   <body>
     <div id="root"></div>
+    
+    <!-- OPTIMIZED: Defer script loading for better performance -->
+    <!-- The 'type="module"' already defers by default, but being explicit -->
     <script type="module" src="/src/main.tsx"></script>
     
-    <!-- Structured data for specific pages will be injected by React Helmet -->
+    <!-- Structured data for specific pages injected by React Helmet -->
+    
+    <!-- Fallback for users without JavaScript -->
+    <noscript>
+      <div style="padding: 2rem; text-align: center; font-family: system-ui, -apple-system, sans-serif;">
+        <h1>Dark Mesa Hosting</h1>
+        <p>JavaScript is required to view this website. Please enable JavaScript in your browser settings.</p>
+        <p>For assistance, contact us at <a href="mailto:info@darkmesahosting.com">info@darkmesahosting.com</a></p>
+      </div>
+    </noscript>
   </body>
 </html>
