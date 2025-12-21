@@ -1,5 +1,5 @@
-// FAQ Structured Data for Rich Results
-// Add this to your FAQ page component
+// FAQ Page Structured Data for SEO
+// This helps Google show your FAQ in rich snippets
 
 export const faqStructuredData = {
   "@context": "https://schema.org",
@@ -39,10 +39,26 @@ export const faqStructuredData = {
     },
     {
       "@type": "Question",
-      "name": "Can I update my website myself after it's built?",
+      "name": "Can I upgrade or downgrade my plan later?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Each plan includes free monthly updates: Starter gets 1 update (30 min), Business gets 5 updates (2 hrs total), and Pro gets unlimited updates (4 hrs/month fair use). Just send us your changes and we handle it!"
+        "text": "Yes! You can upgrade anytime (we'll prorate the difference). Downgrades take effect at your next billing cycle. We'll help you migrate smoothly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What information do you need from me?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We'll need your business name, industry, services/products, company overview, contact info, and any specific requirements. We also ask about existing branding (logo, colors), photos you want to use, and examples of websites you like."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will my website work on mobile devices?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Absolutely! All our websites are mobile-first and fully responsive. They look perfect and function flawlessly on phones, tablets, and desktops."
       }
     },
     {
@@ -55,18 +71,10 @@ export const faqStructuredData = {
     },
     {
       "@type": "Question",
-      "name": "Do I own my website and domain?",
+      "name": "What SEO is included in each plan?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes! You own both your website content and domain name. If you ever want to leave, we'll help you migrate everything. No lock-in contracts."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What kind of support do you offer?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Starter: Email support within 48-72 hours. Business: Priority email within 24 hours. Pro: Same-day response plus phone/text/WhatsApp access for urgent issues."
+        "text": "Starter includes basic SEO (meta tags, mobile optimization, clean code). Business includes enhanced SEO with schema markup and local signals. Pro includes full local SEO pack with advanced optimization for maximum visibility."
       }
     },
     {
@@ -75,14 +83,6 @@ export const faqStructuredData = {
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "Yes! Monthly plans can be cancelled anytime. Annual plans: since you paid upfront, you keep service for the full 12 months. No refunds on annual plans, but you own everything and can take it with you."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Will my website work on mobile devices?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Absolutely! All our websites are mobile-first and fully responsive. They look perfect and function flawlessly on phones, tablets, and desktops."
       }
     }
   ]
