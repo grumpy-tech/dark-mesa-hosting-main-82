@@ -14,12 +14,3 @@ export default defineConfig({
     historyApiFallback: true,
   },
 });
-```
-
-### Step 4: Configure Your Hosting Provider
-
-**What hosting are you using?** 
-
-If it's **Netlify** (most likely), create `public/_redirects`:
-```
-/*    /index.html   200
