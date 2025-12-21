@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Cookie } from "lucide-react";
 
-const GA_ID = "G-C71J58WMC9"; // Your actual Google Analytics ID
+const GA_ID = "G-C71J58WMC9";
 
 export const CookieBanner = () => {
   const [showBanner, setShowBanner] = useState(false);
@@ -26,15 +26,24 @@ export const CookieBanner = () => {
   const loadGoogleAnalytics = () => {
     console.log("📊 GA: Starting to load Google Analytics...");
     
-    // Prevent loading GA twice
     if (document.getElementById("ga-script")) {
       console.log("📊 GA: Script already loaded, skipping");
       return;
     }
 
-    console.log("📊 GA: Creating script element");
+    // Initialize dataLayer FIRST (before script loads)
+    window.dataLayer = window.dataLayer || [];
     
-    // Load the gtag.js script
+    // Define gtag function GLOBALLY on window
+    window.gtag = function() {
+      window.dataLayer.push(arguments);
+    };
+    
+    console.log("📊 GA: Initializing gtag");
+    window.gtag("js", new Date());
+    window.gtag("config", GA_ID);
+
+    // Now load the script
     const script = document.createElement("script");
     script.id = "ga-script";
     script.async = true;
@@ -46,20 +55,8 @@ export const CookieBanner = () => {
       console.error("📊 GA: Failed to load script:", error);
     };
     
-    // Initialize Google Analytics once script loads
     script.onload = () => {
       console.log("📊 GA: Script loaded successfully!");
-      
-      window.dataLayer = window.dataLayer || [];
-      function gtag(...args: any[]) {
-        window.dataLayer.push(args);
-      }
-      
-      console.log("📊 GA: Initializing gtag with config:", GA_ID);
-      gtag("js", new Date());
-      gtag("config", GA_ID);
-      
-      console.log("📊 GA: Configuration complete!");
       console.log("📊 GA: dataLayer:", window.dataLayer);
     };
     
@@ -81,11 +78,8 @@ export const CookieBanner = () => {
   };
 
   if (!showBanner) {
-    console.log("🍪 CookieBanner: Banner hidden");
     return null;
   }
-
-  console.log("🍪 CookieBanner: Rendering banner");
 
   return (
     <div className="fixed bottom-4 right-4 z-50 max-w-sm">
@@ -110,9 +104,10 @@ export const CookieBanner = () => {
   );
 };
 
-// Type declaration for window.dataLayer
+// Type declarations
 declare global {
   interface Window {
     dataLayer: any[];
+    gtag: (...args: any[]) => void;
   }
 }
