@@ -46,6 +46,7 @@ const HomePage = () => {
   const beamsRef = useRef<Beam[]>([]);
   const animationFrameRef = useRef<number>(0);
   const [isDark, setIsDark] = useState(true);
+  const [isCanvasReady, setIsCanvasReady] = useState(false);
 
   const LAYERS = 3;
   const BEAMS_PER_LAYER = 8;
@@ -74,119 +75,126 @@ const HomePage = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Canvas animation
+  // Optimized Canvas animation with deferred initialization for better LCP
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const noiseCanvas = noiseRef.current;
-    if (!canvas || !noiseCanvas) return;
-    const ctx = canvas.getContext("2d");
-    const nCtx = noiseCanvas.getContext("2d");
-    if (!ctx || !nCtx) return;
+    // Defer canvas initialization slightly for better LCP
+    const initTimeout = setTimeout(() => {
+      const canvas = canvasRef.current;
+      const noiseCanvas = noiseRef.current;
+      if (!canvas || !noiseCanvas) return;
+      const ctx = canvas.getContext("2d", { alpha: false }); // Performance optimization
+      const nCtx = noiseCanvas.getContext("2d", { alpha: true });
+      if (!ctx || !nCtx) return;
 
-    const resizeCanvas = () => {
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      canvas.style.width = `${window.innerWidth}px`;
-      canvas.style.height = `${window.innerHeight}px`;
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.scale(dpr, dpr);
+      const resizeCanvas = () => {
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        canvas.style.width = `${window.innerWidth}px`;
+        canvas.style.height = `${window.innerHeight}px`;
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
 
-      noiseCanvas.width = window.innerWidth * dpr;
-      noiseCanvas.height = window.innerHeight * dpr;
-      noiseCanvas.style.width = `${window.innerWidth}px`;
-      noiseCanvas.style.height = `${window.innerHeight}px`;
-      nCtx.setTransform(1, 0, 0, 1, 0, 0);
-      nCtx.scale(dpr, dpr);
+        noiseCanvas.width = window.innerWidth * dpr;
+        noiseCanvas.height = window.innerHeight * dpr;
+        noiseCanvas.style.width = `${window.innerWidth}px`;
+        noiseCanvas.style.height = `${window.innerHeight}px`;
+        nCtx.setTransform(1, 0, 0, 1, 0, 0);
+        nCtx.scale(dpr, dpr);
 
-      beamsRef.current = [];
-      for (let layer = 1; layer <= LAYERS; layer++) {
-        for (let i = 0; i < BEAMS_PER_LAYER; i++) {
-          beamsRef.current.push(createBeam(window.innerWidth, window.innerHeight, layer));
+        beamsRef.current = [];
+        for (let layer = 1; layer <= LAYERS; layer++) {
+          for (let i = 0; i < BEAMS_PER_LAYER; i++) {
+            beamsRef.current.push(createBeam(window.innerWidth, window.innerHeight, layer));
+          }
         }
-      }
-    };
+      };
 
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
+      setIsCanvasReady(true);
+      window.addEventListener("resize", resizeCanvas);
 
-    const generateNoise = () => {
-      const imgData = nCtx.createImageData(noiseCanvas.width, noiseCanvas.height);
-      for (let i = 0; i < imgData.data.length; i += 4) {
-        const v = Math.random() * 255;
-        imgData.data[i] = v;
-        imgData.data[i + 1] = v;
-        imgData.data[i + 2] = v;
-        imgData.data[i + 3] = isDark ? 12 : 8;
-      }
-      nCtx.putImageData(imgData, 0, 0);
-    };
-
-    const drawBeam = (beam: Beam) => {
-      ctx.save();
-      ctx.translate(beam.x, beam.y);
-      ctx.rotate((beam.angle * Math.PI) / 180);
-
-      const pulsingOpacity = Math.min(1, beam.opacity * (0.8 + Math.sin(beam.pulse) * 0.4));
-      
-      const beamColor = isDark 
-        ? `rgba(120,119,198,${pulsingOpacity})`
-        : `rgba(120,119,198,${pulsingOpacity * 0.6})`;
-      
-      const gradient = ctx.createLinearGradient(0, 0, 0, beam.length);
-      gradient.addColorStop(0, isDark ? `rgba(120,119,198,0)` : `rgba(120,119,198,0)`);
-      gradient.addColorStop(0.2, isDark ? `rgba(120,119,198,${pulsingOpacity * 0.5})` : `rgba(120,119,198,${pulsingOpacity * 0.3})`);
-      gradient.addColorStop(0.5, beamColor);
-      gradient.addColorStop(0.8, isDark ? `rgba(120,119,198,${pulsingOpacity * 0.5})` : `rgba(120,119,198,${pulsingOpacity * 0.3})`);
-      gradient.addColorStop(1, isDark ? `rgba(120,119,198,0)` : `rgba(120,119,198,0)`);
-
-      ctx.fillStyle = gradient;
-      ctx.filter = `blur(${2 + beam.layer * 2}px)`;
-      ctx.fillRect(-beam.width / 2, 0, beam.width, beam.length);
-      ctx.restore();
-    };
-
-    const animate = () => {
-      if (!canvas || !ctx) return;
-
-      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      if (isDark) {
-        gradient.addColorStop(0, "#050505");
-        gradient.addColorStop(1, "#111111");
-      } else {
-        gradient.addColorStop(0, "#f8f9fa");
-        gradient.addColorStop(1, "#e9ecef");
-      }
-      
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      beamsRef.current.forEach((beam) => {
-        beam.y -= beam.speed * (beam.layer / LAYERS + 0.5);
-        beam.pulse += beam.pulseSpeed;
-        if (beam.y + beam.length < -50) {
-          beam.y = window.innerHeight + 50;
-          beam.x = Math.random() * window.innerWidth;
+      const generateNoise = () => {
+        const imgData = nCtx.createImageData(noiseCanvas.width, noiseCanvas.height);
+        for (let i = 0; i < imgData.data.length; i += 4) {
+          const v = Math.random() * 255;
+          imgData.data[i] = v;
+          imgData.data[i + 1] = v;
+          imgData.data[i + 2] = v;
+          imgData.data[i + 3] = isDark ? 12 : 8;
         }
-        drawBeam(beam);
-      });
+        nCtx.putImageData(imgData, 0, 0);
+      };
 
-      generateNoise();
-      animationFrameRef.current = requestAnimationFrame(animate);
-    };
-    animate();
+      const drawBeam = (beam: Beam) => {
+        ctx.save();
+        ctx.translate(beam.x, beam.y);
+        ctx.rotate((beam.angle * Math.PI) / 180);
 
-    return () => {
-      window.removeEventListener("resize", resizeCanvas);
-      cancelAnimationFrame(animationFrameRef.current);
-    };
+        const pulsingOpacity = Math.min(1, beam.opacity * (0.8 + Math.sin(beam.pulse) * 0.4));
+        
+        const beamColor = isDark 
+          ? `rgba(120,119,198,${pulsingOpacity})`
+          : `rgba(120,119,198,${pulsingOpacity * 0.6})`;
+        
+        const gradient = ctx.createLinearGradient(0, 0, 0, beam.length);
+        gradient.addColorStop(0, isDark ? `rgba(120,119,198,0)` : `rgba(120,119,198,0)`);
+        gradient.addColorStop(0.2, isDark ? `rgba(120,119,198,${pulsingOpacity * 0.5})` : `rgba(120,119,198,${pulsingOpacity * 0.3})`);
+        gradient.addColorStop(0.5, beamColor);
+        gradient.addColorStop(0.8, isDark ? `rgba(120,119,198,${pulsingOpacity * 0.5})` : `rgba(120,119,198,${pulsingOpacity * 0.3})`);
+        gradient.addColorStop(1, isDark ? `rgba(120,119,198,0)` : `rgba(120,119,198,0)`);
+
+        ctx.fillStyle = gradient;
+        ctx.filter = `blur(${2 + beam.layer * 2}px)`;
+        ctx.fillRect(-beam.width / 2, 0, beam.width, beam.length);
+        ctx.restore();
+      };
+
+      const animate = () => {
+        if (!canvas || !ctx) return;
+
+        const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        if (isDark) {
+          gradient.addColorStop(0, "#050505");
+          gradient.addColorStop(1, "#111111");
+        } else {
+          gradient.addColorStop(0, "#f8f9fa");
+          gradient.addColorStop(1, "#e9ecef");
+        }
+        
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        beamsRef.current.forEach((beam) => {
+          beam.y -= beam.speed * (beam.layer / LAYERS + 0.5);
+          beam.pulse += beam.pulseSpeed;
+          if (beam.y + beam.length < -50) {
+            beam.y = window.innerHeight + 50;
+            beam.x = Math.random() * window.innerWidth;
+          }
+          drawBeam(beam);
+        });
+
+        generateNoise();
+        animationFrameRef.current = requestAnimationFrame(animate);
+      };
+      animate();
+
+      return () => {
+        window.removeEventListener("resize", resizeCanvas);
+        cancelAnimationFrame(animationFrameRef.current);
+      };
+    }, 100); // Slight delay for better LCP
+
+    return () => clearTimeout(initTimeout);
   }, [isDark, LAYERS]);
 
   return (
     <div className="min-h-screen bg-background">
       <SEO 
-        title="Affordable Website Design & Hosting for Small Business"
-        description="Launch your small business online fast! Professional website design starting at $249 with hosting from $39/month. Perfect for new businesses and startups. Delivered in under 2 weeks."
+        title="Affordable Website Design & Hosting for Small Business - Starting $39/mo"
+        description="Professional small business website design from $249 with hosting from $39/month. Mobile-responsive, SEO-optimized websites delivered in 5-14 days. Free website build with annual hosting!"
+        keywords="small business website design, affordable web hosting, website builder for small business, professional website design, cheap web hosting, startup website, responsive web design, website design services"
         canonical="https://darkmesahosting.com"
         ogImage="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop"
         schemas={[organizationSchema, localBusinessSchema]}
@@ -194,9 +202,17 @@ const HomePage = () => {
 
       {/* Hero Section with Premium Animated Background */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Premium Canvas Background */}
-        <canvas ref={noiseRef} className="absolute inset-0 z-0 pointer-events-none" />
-        <canvas ref={canvasRef} className="absolute inset-0 z-10" />
+        {/* Premium Canvas Background - Deferred for LCP */}
+        <canvas 
+          ref={noiseRef} 
+          className="absolute inset-0 z-0 pointer-events-none" 
+          style={{ opacity: isCanvasReady ? 1 : 0, transition: 'opacity 0.5s' }}
+        />
+        <canvas 
+          ref={canvasRef} 
+          className="absolute inset-0 z-10"
+          style={{ opacity: isCanvasReady ? 1 : 0, transition: 'opacity 0.5s' }}
+        />
 
         <div className="relative z-20 container mx-auto px-4 sm:px-6 text-center">
           <motion.div
@@ -205,18 +221,18 @@ const HomePage = () => {
             transition={{ duration: 0.8 }}
             className="space-y-6 sm:space-y-8"
           >
-            {/* Main Value Prop */}
+            {/* Main Value Prop - Optimized for SEO with primary keywords */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight leading-tight px-2">
-              Your Website.<br />
+              Affordable Website Design for Small Business.<br />
               <span className="text-primary">Built, Hosted & Maintained.</span><br />
               <span className="text-2xl sm:text-3xl md:text-4xl text-muted-foreground font-normal">
-                One monthly price.
+                One simple monthly price.
               </span>
             </h1>
 
-            {/* Clear benefit statement */}
+            {/* Clear benefit statement with keywords */}
             <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto px-2">
-              Stop paying separately for design, hosting, updates, and support. Get everything in one simple package starting at <span className="text-primary font-bold">$39/month</span>.
+              Professional website design, reliable hosting, and ongoing support for small businesses and startups. Get everything in one package starting at <span className="text-primary font-bold">$39/month</span>.
             </p>
 
             {/* Premium CTAs with Hover Effects */}
@@ -228,7 +244,7 @@ const HomePage = () => {
             >
               <Link to="/quote" className="w-full sm:w-auto group">
                 <Button size="lg" className="h-14 sm:h-16 px-8 sm:px-10 text-base sm:text-lg font-bold bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 w-full sm:w-auto transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/40">
-                  See Your Price in 60 Seconds
+                  Get Free Quote in 60 Seconds
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
@@ -278,9 +294,8 @@ const HomePage = () => {
         </motion.div>
       </section>
 
-      {/* Why Choose Us - Condensed Version */}
+      {/* Why Choose Us - Condensed Version with SEO-rich headings */}
       <section className="relative py-16 overflow-hidden">
-        {/* Decorative gradient orbs */}
         <div className="absolute top-0 left-0 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-0 w-72 h-72 bg-accent/10 rounded-full blur-3xl" />
         
@@ -292,32 +307,32 @@ const HomePage = () => {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Why Choose Us?</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Why Choose Our Website Design Services?</h2>
             <p className="text-lg sm:text-xl text-muted-foreground">
-              We handle everything. You focus on your business.
+              Professional web design and hosting services for small businesses
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-6">
             {[
               {
-                title: "Complete Package",
-                description: "Design, hosting, security, backups, updates, and support—all in one monthly price.",
+                title: "Complete Website Package",
+                description: "Professional web design, secure hosting, daily backups, and ongoing support—all in one monthly price.",
                 icon: "💼",
               },
               {
-                title: "Lightning Fast",
-                description: "Sites load in under 2 seconds. Fast sites mean more customers and better rankings.",
+                title: "Lightning Fast Load Times",
+                description: "Websites load in under 2 seconds. Fast sites mean better Google rankings and more customers.",
                 icon: "⚡",
               },
               {
-                title: "Always Protected",
-                description: "Daily backups, SSL certificates, and 24/7 security monitoring keep your site safe.",
+                title: "Always Secure & Protected",
+                description: "Daily backups, free SSL certificates, and 24/7 security monitoring keep your website safe.",
                 icon: "🛡️",
               },
               {
-                title: "No Surprises",
-                description: "Transparent pricing. No hidden fees. No annual increases. Cancel anytime.",
+                title: "Transparent Pricing",
+                description: "No hidden fees. No annual increases. Cancel anytime. Simple, honest pricing.",
                 icon: "💎",
               },
             ].map((item, idx) => (
@@ -341,12 +356,10 @@ const HomePage = () => {
 
       {/* Cost Comparison - With Gradient Mesh Background */}
       <section className="relative py-20 bg-muted/30 overflow-hidden">
-        {/* Gradient mesh background */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
         <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-gradient-radial from-primary/10 to-transparent blur-3xl" />
         <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-accent/10 to-transparent blur-3xl" />
         
-        {/* Faded "SAVE MONEY" Text */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[6rem] md:text-[10rem] font-bold bg-gradient-to-b from-foreground/3 to-foreground/0 bg-clip-text text-transparent select-none pointer-events-none whitespace-nowrap">
           SAVE MONEY
         </div>
@@ -359,9 +372,9 @@ const HomePage = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Stop Overpaying</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Save Money on Website Design & Hosting</h2>
             <p className="text-lg sm:text-xl text-muted-foreground">
-              See how much you'll save compared to traditional agencies and freelancers
+              Compare our all-in-one pricing vs traditional web design agencies
             </p>
           </motion.div>
 
@@ -377,11 +390,11 @@ const HomePage = () => {
                 <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">
                   OLD WAY
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-bold mb-6 text-red-600 dark:text-red-400">Traditional Approach</h3>
+                <h3 className="text-2xl sm:text-3xl font-bold mb-6 text-red-600 dark:text-red-400">Traditional Web Design Agency</h3>
                 <ul className="space-y-4 mb-6">
                   {[
                     "Website design: $2,000 - $10,000",
-                    "Hosting: $20 - $100/month",
+                    "Web hosting: $20 - $100/month",
                     "Updates & maintenance: $100 - $200/month",
                     "Security & backups: $30 - $100/month",
                     "Support tickets: $75 - $150/hour"
@@ -414,15 +427,15 @@ const HomePage = () => {
                 <div className="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse">
                   SMART WAY
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-bold mb-6 text-green-600 dark:text-green-400">Our All-Inclusive Plan</h3>
+                <h3 className="text-2xl sm:text-3xl font-bold mb-6 text-green-600 dark:text-green-400">Dark Mesa All-Inclusive</h3>
                 <ul className="space-y-4 mb-6">
                   {[
-                    "Website design: FREE with annual plan",
-                    "Hosting: Included",
-                    "Unlimited updates: Included",
+                    "Professional website design: FREE with annual plan",
+                    "Fast, secure hosting: Included",
+                    "Unlimited monthly updates: Included",
                     "Security & daily backups: Included",
-                    "We monitor and fix issues proactively",
-                    "Always current and secure"
+                    "Proactive monitoring & fixes: Included",
+                    "Always current and secure: Included"
                   ].map((text, idx) => (
                     <li key={idx} className="flex items-start gap-3">
                       <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
@@ -432,7 +445,7 @@ const HomePage = () => {
                 </ul>
                 <div className="mt-6 pt-6 border-t border-green-500/20">
                   <p className="text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400">
-                    First Year Cost: $468 - $1,188
+                    First Year: $468 - $1,188
                   </p>
                   <p className="text-sm text-muted-foreground mt-1">
                     Save $2,232 - $9,812 in year one
@@ -446,7 +459,6 @@ const HomePage = () => {
 
       {/* Performance Stats - Smaller Version */}
       <section className="relative py-12 bg-muted/50 overflow-hidden">
-        {/* Background gradient overlays */}
         <div className="absolute inset-0 bg-gradient-to-b from-background via-muted/50 to-background" />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5" />
         
@@ -479,12 +491,10 @@ const HomePage = () => {
 
       {/* Pricing Preview - With Gradient Mesh Background */}
       <section className="relative py-20 overflow-hidden">
-        {/* Gradient Mesh Background */}
         <div className="absolute inset-0 bg-muted/30" />
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />
         <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-primary/20 to-transparent blur-3xl" />
         
-        {/* Faded "PRICING" Text */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[10rem] md:text-[15rem] font-bold bg-gradient-to-b from-foreground/3 to-foreground/0 bg-clip-text text-transparent select-none pointer-events-none whitespace-nowrap">
           PRICING
         </div>
@@ -497,9 +507,9 @@ const HomePage = () => {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Simple, Honest Pricing</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Website Design Pricing</h2>
             <p className="text-lg sm:text-xl text-muted-foreground">
-              Three plans. All include hosting, support, and security. Pick what fits your needs.
+              Affordable website design packages for small businesses and startups
             </p>
           </motion.div>
 
@@ -605,11 +615,10 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Final CTA - With Faded "STOP OVERPAYING" Text */}
+      {/* Final CTA */}
       <section className="relative py-20 bg-primary text-primary-foreground overflow-hidden">
-        {/* Faded Background Text */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[4rem] md:text-[8rem] font-bold opacity-5 select-none pointer-events-none whitespace-nowrap">
-          STOP OVERPAYING
+          GET STARTED
         </div>
         
         <div className="container mx-auto px-6 max-w-4xl text-center relative z-10">
@@ -620,7 +629,7 @@ const HomePage = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
-              Ready to Stop Overpaying?
+              Ready for Your Professional Website?
             </h2>
             <p className="text-lg sm:text-xl mb-8 opacity-90">
               Get your free quote in 60 seconds. See exactly what you'll pay. No pressure, no sales calls.
