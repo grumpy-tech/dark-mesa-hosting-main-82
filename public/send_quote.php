@@ -32,10 +32,7 @@ try {
     $googleBusinessUrl = isset($_POST['googleBusinessUrl']) ? sanitize($_POST['googleBusinessUrl']) : '';
     $purchaseOption = isset($_POST['purchaseOption']) ? sanitize($_POST['purchaseOption']) : '';
     $planLevel = isset($_POST['planLevel']) ? sanitize($_POST['planLevel']) : '';
-    $needsNewDomain = isset($_POST['needsNewDomain']) ? $_POST['needsNewDomain'] : 'false';
     $domainName = isset($_POST['domainName']) ? sanitize($_POST['domainName']) : '';
-    $existingWebsite = isset($_POST['existingWebsite']) ? sanitize($_POST['existingWebsite']) : '';
-    $businessUrl = isset($_POST['businessUrl']) ? sanitize($_POST['businessUrl']) : '';
     $deliverySpeed = isset($_POST['deliverySpeed']) ? sanitize($_POST['deliverySpeed']) : '';
     $companyOverview = isset($_POST['companyOverview']) ? sanitize($_POST['companyOverview']) : '';
     $services = isset($_POST['services']) ? sanitize($_POST['services']) : '';
@@ -48,8 +45,13 @@ try {
     }
 
     // Validate required fields
-    if (empty($companyName) || empty($email) || empty($phone) || empty($companyOverview)) {
+    if (empty($companyName) || empty($email) || empty($phone)) {
         throw new Exception('Missing required fields');
+    }
+
+    // Validate services field (mandatory)
+    if (empty($services) && $purchaseOption !== 'hosting-only') {
+        throw new Exception('Services/Products field is required');
     }
 
     // Validate email
@@ -59,7 +61,7 @@ try {
 
     // Map purchase options to readable text
     $purchaseOptionText = [
-        'prepay-12months' => '💰 Prepay 12 Months = FREE Build (Best Value!)',
+        'prepay-12months' => '💰 Prepay 12 Months = FREE Build + FREE Domain (Best Value!)',
         'prepay-6months' => '⭐ Prepay 6 Months = 50% Off Build',
         'website-only' => '🌐 Website Only (Client handles hosting)',
         'hosting-only' => '🖥️ Hosting Only (Client has existing website)'
@@ -86,6 +88,8 @@ try {
             .estimate-line { display: flex; justify-between; margin: 8px 0; }
             .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid #ddd; color: #666; }
             .urgent { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 10px; margin: 10px 0; }
+            .domain-highlight { background: #dcfce7; border-left: 4px solid #22c55e; padding: 10px; margin: 10px 0; }
+            .text-block { background: white; padding: 12px; border-radius: 5px; margin: 10px 0; border: 1px solid #ddd; }
         </style>
     </head>
     <body>
@@ -123,23 +127,17 @@ try {
     
     $message .= "</div>";
 
-    // Domain Information
-    if ($purchaseOption !== 'hosting-only') {
+    // Domain Information - Only for 12-month prepay
+    if ($purchaseOption === 'prepay-12months' && !empty($domainName)) {
         $message .= "
             <div class='section'>
                 <div class='section-title'>🌐 Domain Information</div>
-                <div class='field'><span class='label'>Has Existing Domain:</span> <span class='value'>" . ($existingWebsite === 'yes' ? 'Yes' : 'No') . "</span></div>";
-        
-        if ($existingWebsite === 'yes') {
-            $message .= "<div class='field'><span class='label'>Domain/Website:</span> <span class='value'>" . htmlspecialchars($businessUrl) . "</span></div>";
-        } else if (!empty($domainName)) {
-            $message .= "<div class='field'><span class='label'>Desired Domain:</span> <span class='value'>" . htmlspecialchars($domainName) . "</span></div>";
-            if ($purchaseOption !== 'website-only') {
-                $message .= "<div class='field' style='color: #16a34a;'><strong>✨ FREE domain for first year included!</strong></div>";
-            }
-        }
-        
-        $message .= "</div>";
+                <div class='domain-highlight'>
+                    <strong>✨ FREE DOMAIN INCLUDED (12-Month Plan)</strong>
+                </div>
+                <div class='field'><span class='label'>Preferred Domain:</span> <span class='value'><strong>" . htmlspecialchars($domainName) . ".com</strong></span></div>
+                <div class='field' style='color: #f59e0b;'><strong>⚠️ ACTION REQUIRED:</strong> Check domain availability and contact client with options if unavailable.</div>
+            </div>";
     }
 
     // Timeline (if applicable)
@@ -151,18 +149,23 @@ try {
             </div>";
     }
 
-    // Business Information
+    // Business Information - Services/Products (Mandatory)
     $message .= "
             <div class='section'>
-                <div class='section-title'>💼 Business Information</div>
-                <div class='field'><span class='label'>Company Overview:</span><br><span class='value'>" . nl2br(htmlspecialchars($companyOverview)) . "</span></div>";
+                <div class='section-title'>💼 What They Offer (Required)</div>
+                <div class='field'><strong>Services, Products, or Offerings:</strong></div>
+                <div class='text-block'>" . nl2br(htmlspecialchars($services)) . "</div>";
     
-    if (!empty($services)) {
-        $message .= "<div class='field'><span class='label'>Products/Services:</span><br><span class='value'>" . nl2br(htmlspecialchars($services)) . "</span></div>";
+    if (!empty($companyOverview)) {
+        $message .= "
+                <div class='field' style='margin-top: 15px;'><strong>Company Overview:</strong></div>
+                <div class='text-block'>" . nl2br(htmlspecialchars($companyOverview)) . "</div>";
     }
     
     if (!empty($specialRequirements)) {
-        $message .= "<div class='field'><span class='label'>Special Requirements:</span><br><span class='value'>" . nl2br(htmlspecialchars($specialRequirements)) . "</span></div>";
+        $message .= "
+                <div class='field' style='margin-top: 15px;'><strong>Special Requirements:</strong></div>
+                <div class='text-block'>" . nl2br(htmlspecialchars($specialRequirements)) . "</div>";
     }
     
     $message .= "</div>";
@@ -175,47 +178,71 @@ try {
                 <div class='section-title'>💰 Estimated Cost</div>";
         
         if ($isHostingOnly) {
-            $monthlyRate = round($estimate['total'] / 12);
-            $message .= "<div class='estimate-total'>$" . number_format($estimate['total'], 2) . " /year</div>";
-            $message .= "<div style='font-size: 18px; color: #666;'>($" . $monthlyRate . "/month)</div>";
-            $message .= "<div style='color: #f59e0b; margin-top: 10px;'><strong>* Final price to be determined after website review</strong></div>";
+            $message .= "<div style='color: #f59e0b; margin-bottom: 10px;'><strong>⚠️ ESTIMATE ONLY - Final price after website review</strong></div>";
+            $message .= "
+                <div style='margin-top: 15px;'>
+                    <strong>Possible Hosting Plans:</strong>
+                    <div style='margin: 10px 0; padding: 10px; background: white; border-radius: 5px;'>
+                        <div><strong>Starter:</strong> $39/mo or $468/year (up to 3 pages)</div>
+                        <div style='margin-top: 5px;'><strong>Business:</strong> $69/mo or $828/year (up to 6 pages) ⭐ Most Common</div>
+                        <div style='margin-top: 5px;'><strong>Pro:</strong> $99/mo or $1,188/year (up to 9 pages)</div>
+                    </div>
+                </div>";
         } else {
             $message .= "<div class='estimate-total'>$" . number_format($estimate['total'], 2) . "</div>";
         }
         
-        $message .= "<div style='margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;'>";
-        
-        if (!$isHostingOnly && $estimate['buildCost'] >= 0) {
-            if ($estimate['savings'] > 0) {
-                $originalBuild = $estimate['buildCost'] + $estimate['savings'];
-                $message .= "<div class='estimate-line'><span>Website Build:</span><span style='text-decoration: line-through; color: #999;'>$" . number_format($originalBuild, 2) . "</span></div>";
-                $message .= "<div class='estimate-line'><span>Discounted Build:</span><span style='color: #16a34a; font-weight: bold;'>" . ($estimate['buildCost'] === 0 ? 'FREE!' : '$' . number_format($estimate['buildCost'], 2)) . "</span></div>";
-            } else if ($estimate['buildCost'] > 0) {
-                $message .= "<div class='estimate-line'><span>Website Build:</span><span>$" . number_format($estimate['buildCost'], 2) . "</span></div>";
+        if (!$isHostingOnly) {
+            $message .= "<div style='margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;'>";
+            
+            if ($estimate['buildCost'] >= 0) {
+                if ($estimate['savings'] > 0) {
+                    $originalBuild = $estimate['buildCost'] + $estimate['savings'];
+                    $message .= "<div class='estimate-line'><span>Website Build:</span><span style='text-decoration: line-through; color: #999;'>$" . number_format($originalBuild, 2) . "</span></div>";
+                    $message .= "<div class='estimate-line'><span>Discounted Build:</span><span style='color: #16a34a; font-weight: bold;'>" . ($estimate['buildCost'] === 0 ? 'FREE!' : '$' . number_format($estimate['buildCost'], 2)) . "</span></div>";
+                } else if ($estimate['buildCost'] > 0) {
+                    $message .= "<div class='estimate-line'><span>Website Build:</span><span>$" . number_format($estimate['buildCost'], 2) . "</span></div>";
+                }
             }
+            
+            if ($estimate['hostingCost'] > 0) {
+                $message .= "<div class='estimate-line'><span>Hosting:</span><span>$" . number_format($estimate['hostingCost'], 2) . "</span></div>";
+            }
+            
+            if ($estimate['rushFee'] > 0) {
+                $message .= "<div class='estimate-line'><span>Rush Fee:</span><span>$" . number_format($estimate['rushFee'], 2) . "</span></div>";
+            }
+            
+            if ($estimate['savings'] > 0) {
+                $message .= "<div class='estimate-line' style='color: #16a34a; font-weight: bold; border-top: 1px solid #ddd; padding-top: 10px; margin-top: 10px;'><span>💰 Total Savings:</span><span>-$" . number_format($estimate['savings'], 2) . "</span></div>";
+            }
+            
+            // Highlight FREE domain for 12-month plan
+            if ($purchaseOption === 'prepay-12months') {
+                $message .= "<div class='estimate-line' style='color: #16a34a; font-weight: bold;'><span>FREE Domain (Year 1):</span><span>Included! (up to $20 value)</span></div>";
+            }
+            
+            $message .= "</div>";
         }
         
-        if ($estimate['hostingCost'] > 0) {
-            $message .= "<div class='estimate-line'><span>Hosting:</span><span>$" . number_format($estimate['hostingCost'], 2) . "</span></div>";
-        }
-        
-        if ($estimate['rushFee'] > 0) {
-            $message .= "<div class='estimate-line'><span>Rush Fee:</span><span>$" . number_format($estimate['rushFee'], 2) . "</span></div>";
-        }
-        
-        if ($estimate['savings'] > 0) {
-            $message .= "<div class='estimate-line' style='color: #16a34a; font-weight: bold; border-top: 1px solid #ddd; padding-top: 10px; margin-top: 10px;'><span>💰 Total Savings:</span><span>-$" . number_format($estimate['savings'], 2) . "</span></div>";
-        }
-        
-        $message .= "</div></div>";
+        $message .= "</div>";
     }
 
     $message .= "
             <div class='footer'>
                 <p><strong>Next Steps:</strong></p>
-                <p>1. Review client information and requirements<br>
-                2. Respond within 24 hours with any clarifying questions<br>
-                3. Send detailed proposal with payment link within 48 hours</p>
+                <p>1. Review client information and requirements<br>";
+    
+    if ($purchaseOption === 'prepay-12months' && !empty($domainName)) {
+        $message .= "2. <strong style='color: #f59e0b;'>CHECK DOMAIN AVAILABILITY: " . htmlspecialchars($domainName) . ".com</strong><br>
+                3. Respond within 24 hours with domain status and any clarifying questions<br>
+                4. Send detailed proposal with payment link within 48 hours</p>";
+    } else {
+        $message .= "2. Respond within 24 hours with any clarifying questions<br>
+                3. Send detailed proposal with payment link within 48 hours</p>";
+    }
+    
+    $message .= "
                 <p style='margin-top: 20px;'>Quote submitted on: " . date('F j, Y \a\t g:i A') . "</p>
             </div>
         </div>
@@ -231,7 +258,11 @@ try {
     // Send email
     if (mail($to_email, $subject, $message, $headers)) {
         // Log successful submission (optional)
-        $log_entry = date('Y-m-d H:i:s') . " - Quote from: " . $companyName . " (" . $email . ")\n";
+        $log_entry = date('Y-m-d H:i:s') . " - Quote from: " . $companyName . " (" . $email . ") - " . $purchaseOption . " - " . $planLevel;
+        if ($purchaseOption === 'prepay-12months' && !empty($domainName)) {
+            $log_entry .= " - Domain: " . $domainName . ".com";
+        }
+        $log_entry .= "\n";
         file_put_contents('quote_log.txt', $log_entry, FILE_APPEND);
 
         echo json_encode([
