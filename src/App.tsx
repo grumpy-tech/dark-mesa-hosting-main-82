@@ -1,10 +1,11 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
-import { ScrollToTop } from "./components/ScrollToTop";
 import { Layout } from "./components/Layout";
 import { CookieBanner } from "./components/CookieBanner";
 import Index from "./pages/Index";
@@ -20,6 +21,27 @@ import Privacy from "./pages/Privacy";
 
 const queryClient = new QueryClient();
 
+// Scroll to top on route change + GA4 tracking
+const ScrollToTopAndTrack = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Scroll to top instantly on route change
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    
+    // Track pageview in GA4 if user has consented
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'page_view', {
+        page_path: location.pathname,
+        page_location: window.location.href,
+        page_title: document.title,
+      });
+    }
+  }, [location]);
+
+  return null;
+};
+
 const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
@@ -27,8 +49,8 @@ const App = () => (
         <Toaster />
         <Sonner />
         <CookieBanner />
-        <HashRouter>
-          <ScrollToTop />
+        <BrowserRouter>
+          <ScrollToTopAndTrack />
           <Layout>
             <Routes>
               <Route path="/" element={<Index />} />
@@ -40,11 +62,10 @@ const App = () => (
               <Route path="/quote" element={<Quote />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>
-        </HashRouter>
+        </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
   </HelmetProvider>
