@@ -387,7 +387,7 @@ const Quote = () => {
                 <Select value={formData.purchaseOption} onValueChange={(v) => setFormData({ ...formData, purchaseOption: v })} required>
                   <SelectTrigger className="transition-all duration-300 focus:ring-2 focus:ring-primary/50"><SelectValue placeholder="Select" /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="prepay-12months">💰 Prepay 12 Months = FREE Build (Best Value!)</SelectItem>
+                    <SelectItem value="prepay-12months">💰 Prepay 12 Months = FREE Build + FREE Domain (Best Value!)</SelectItem>
                     <SelectItem value="prepay-6months">⭐ Prepay 6 Months = 50% Off Build</SelectItem>
                     <SelectItem value="website-only">🌐 Website Only (I'll handle hosting)</SelectItem>
                     <SelectItem value="hosting-only">🖥️ Hosting Only (I have a website)</SelectItem>
@@ -431,15 +431,158 @@ const Quote = () => {
             </div>
           </motion.div>
 
-          {/* Domain, Timeline, and Business sections would continue here with similar premium styling... */}
-          {/* For brevity, I'm showing the key sections. The rest follows the same pattern */}
+          {/* Domain Name - Only for 12-month prepay */}
+          {formData.purchaseOption === "prepay-12months" && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary text-sm font-bold">3</span>
+                Domain Name
+              </h3>
+
+              <div className="space-y-4">
+                <Alert className="bg-green-500/10 border-green-500/30 backdrop-blur-sm">
+                  <Sparkles className="h-4 w-4 text-green-600 dark:text-green-400" />
+                  <AlertDescription className="text-sm">
+                    <strong>FREE Domain Included!</strong> Your first year of domain registration is free (up to $20 value) with the 12-month plan.
+                  </AlertDescription>
+                </Alert>
+
+                <div className="group">
+                  <Label>Preferred Domain Name *</Label>
+                  <div className="flex gap-2">
+                    <Input 
+                      required 
+                      value={domainInput} 
+                      onChange={(e) => {
+                        const value = e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '');
+                        setDomainInput(value);
+                        setFormData({ ...formData, domainName: value });
+                      }}
+                      placeholder="yourbusiness" 
+                      className="transition-all duration-300 focus:ring-2 focus:ring-primary/50"
+                    />
+                    <div className="flex items-center px-3 bg-muted rounded-md border border-border">
+                      <span className="text-sm text-muted-foreground">.com</span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    We'll check availability and contact you with options
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Services & Products */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: formData.purchaseOption === "prepay-12months" ? 0.4 : 0.3 }}
+          >
+            <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+              <span className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary text-sm font-bold">
+                {formData.purchaseOption === "prepay-12months" ? "4" : "3"}
+              </span>
+              What Does Your Business Offer?
+            </h3>
+
+            <div className="space-y-4">
+              <div className="group">
+                <Label>Services, Products, or Offerings *</Label>
+                <Textarea 
+                  required
+                  value={formData.services} 
+                  onChange={(e) => setFormData({ ...formData, services: e.target.value })}
+                  placeholder="Example: We offer residential and commercial plumbing services including repairs, installations, and emergency 24/7 service. We also sell plumbing fixtures and parts."
+                  className="min-h-[120px] transition-all duration-300 focus:ring-2 focus:ring-primary/50"
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  Be specific about what you sell or provide. This helps us structure your website effectively.
+                </p>
+              </div>
+
+              <div className="group">
+                <Label>Company Overview (Optional)</Label>
+                <Textarea 
+                  value={formData.companyOverview} 
+                  onChange={(e) => setFormData({ ...formData, companyOverview: e.target.value })}
+                  placeholder="Brief description of your company, history, mission, or what makes you unique..."
+                  className="min-h-[100px] transition-all duration-300 focus:ring-2 focus:ring-primary/50"
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  This will be used for your "About" page
+                </p>
+              </div>
+
+              <div className="group">
+                <Label>Special Requirements or Features (Optional)</Label>
+                <Textarea 
+                  value={formData.specialRequirements} 
+                  onChange={(e) => setFormData({ ...formData, specialRequirements: e.target.value })}
+                  placeholder="Example: Need online booking system, photo gallery, contact forms, specific colors/branding..."
+                  className="min-h-[100px] transition-all duration-300 focus:ring-2 focus:ring-primary/50"
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  Any specific features, functionality, or design preferences
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Delivery Speed */}
+          {formData.purchaseOption !== "hosting-only" && formData.planLevel && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: formData.purchaseOption === "prepay-12months" ? 0.5 : 0.4 }}
+            >
+              <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary text-sm font-bold">
+                  {formData.purchaseOption === "prepay-12months" ? "5" : "4"}
+                </span>
+                Delivery Timeline
+              </h3>
+
+              <div className="space-y-4">
+                <div className="group">
+                  <Label>Delivery Speed *</Label>
+                  <Select value={formData.deliverySpeed} onValueChange={(v) => setFormData({ ...formData, deliverySpeed: v })} required>
+                    <SelectTrigger className="transition-all duration-300 focus:ring-2 focus:ring-primary/50">
+                      <SelectValue placeholder="Select delivery speed" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="standard">
+                        ⏱️ Standard - {getDeliveryDetails().standard} (No extra fee)
+                      </SelectItem>
+                      <SelectItem value="rush">
+                        ⚡ Rush - {getDeliveryDetails().rush.days} (+${getDeliveryDetails().rush.fee})
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {formData.deliverySpeed === "rush" && (
+                  <Alert className="bg-yellow-500/10 border-yellow-500/30 backdrop-blur-sm">
+                    <Info className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+                    <AlertDescription className="text-sm">
+                      <strong>Rush Delivery:</strong> Your project will be prioritized and delivered in {getDeliveryDetails().rush.days} for an additional ${getDeliveryDetails().rush.fee}.
+                    </AlertDescription>
+                  </Alert>
+                )}
+              </div>
+            </motion.div>
+          )}
 
           {/* Submit */}
           <motion.div 
             className="flex gap-4 pt-4 border-t border-border"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: formData.purchaseOption === "prepay-12months" ? 0.6 : 0.5 }}
           >
             <Button 
               type="button" 
@@ -552,9 +695,8 @@ const Quote = () => {
         <ul className="space-y-2 text-sm text-muted-foreground">
           {[
             "50% deposit required to start",
-            "12-month prepay = FREE website build",
+            "12-month prepay = FREE website build + FREE domain for first year (up to $20 value)",
             "6-month prepay = 50% off build",
-            "FREE domain for first year included with all hosting packages (up to $20 value)",
             "Hosting-only pricing finalized after review"
           ].map((term, idx) => (
             <li key={idx} className="flex gap-2">
