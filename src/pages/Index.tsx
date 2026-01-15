@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { CheckCircle2, ArrowRight, Zap, Shield, Clock, DollarSign, Star, ExternalLink } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { organizationSchema, localBusinessSchema } from "@/lib/structuredData";
+import { PortfolioCardWithModal } from "@/components/DemoWebsiteModal";
 
 interface Beam {
   x: number;
@@ -329,72 +330,8 @@ const HomePage = () => {
             </p>
           </motion.div>
 
-          {/* Portfolio Grid */}
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
-            {[
-              {
-                name: "Restaurant & Cafe",
-                image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop",
-                features: ["Online ordering", "Menu display", "Reservations"],
-                industry: "Food & Beverage",
-                color: "from-orange-500/20 to-red-500/20"
-              },
-              {
-                name: "Home Services",
-                image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&auto=format&fit=crop",
-                features: ["Quote requests", "Service areas", "Photo galleries"],
-                industry: "Contractors & Trades",
-                color: "from-blue-500/20 to-cyan-500/20"
-              },
-              {
-                name: "Professional Services",
-                image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&auto=format&fit=crop",
-                features: ["Appointment booking", "Client portal", "Service packages"],
-                industry: "Consultants & Advisors",
-                color: "from-purple-500/20 to-pink-500/20"
-              },
-            ].map((project, idx) => (
-              <motion.div
-                key={project.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1, duration: 0.6 }}
-                viewport={{ once: true }}
-              >
-                <Card className="overflow-hidden group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer border-2 border-border hover:border-primary/50">
-                  {/* Image */}
-                  <div className={`relative h-48 overflow-hidden bg-gradient-to-br ${project.color}`}>
-                    <img 
-                      src={project.image} 
-                      alt={`${project.name} website design example`}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      loading="lazy"
-                    />
-                    <div className="absolute top-3 right-3 bg-black/70 text-white px-3 py-1 rounded-full text-xs font-bold">
-                      {project.industry}
-                    </div>
-                  </div>
-                  
-                  {/* Content */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold mb-3">{project.name}</h3>
-                    <ul className="space-y-2 mb-4">
-                      {project.features.map((feature, i) => (
-                        <li key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                    <Button variant="ghost" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                      View Demo Site
-                      <ExternalLink className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
+          {/* Portfolio Grid - Now with Live Demo Modal */}
+          <PortfolioCardWithModal />
 
           {/* View All CTA */}
           <motion.div
