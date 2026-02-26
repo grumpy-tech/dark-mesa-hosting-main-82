@@ -1,106 +1,111 @@
-import { Instagram, Home, Globe, Server, DollarSign, HelpCircle, Mail, Shield, FileText } from "lucide-react";
-import { FooterLink } from "./FooterLink";
+import { Instagram, Mail, Shield, FileText, Globe, Server, DollarSign, HelpCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const quickLinks = [
-  { name: "Home", url: "/", icon: Home },
-  { name: "Website Building", url: "/website-building", icon: Globe },
-  { name: "Hosting", url: "/hosting", icon: Server },
-  { name: "Plans & Pricing", url: "/pricing", icon: DollarSign },
-  { name: "FAQ", url: "/faq", icon: HelpCircle },
-  { name: "Contact", url: "/contact", icon: Mail },
+  { name: "Websites", url: "/website-building" },
+  { name: "Hosting", url: "/hosting" },
+  { name: "Pricing", url: "/pricing" },
+  { name: "FAQ", url: "/faq" },
+  { name: "Contact", url: "/contact" },
 ];
 
 const legalLinks = [
-  { name: "Privacy Policy", url: "/privacy", icon: Shield },
-  { name: "Terms of Service", url: "/terms", icon: FileText },
-];
-
-const socials = [
-  { name: "Instagram", icon: Instagram, url: "#" },
+  { name: "Privacy Policy", url: "/privacy" },
+  { name: "Terms of Service", url: "/terms" },
 ];
 
 export function Footer() {
   return (
-    <footer className="py-12 bg-card border-t border-border">
-      <div className="container mx-auto px-6">
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
+    <footer className="bg-card border-t border-border">
+      <div className="container mx-auto px-4 sm:px-6 max-w-6xl py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+
           {/* Brand */}
-          <div className="text-center md:text-left">
-            <p 
-              className="text-2xl font-normal text-gradient mb-2"
-              style={{ fontFamily: 'Iceland, sans-serif' }}
-            >
-              Dark Mesa Hosting
-            </p>
-            <p className="text-sm text-muted-foreground">Design. Speed. Reliability.</p>
-          </div>
-
-          {/* Quick Links */}
           <div>
-            <h3 className="font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              {quickLinks.map((link) => {
-                const Icon = link.icon;
-                return (
-                  <li key={link.name}>
-                    <FooterLink
-                      to={link.url}
-                      className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
-                    >
-                      <Icon className="w-4 h-4" />
-                      {link.name}
-                    </FooterLink>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
-          {/* Legal Links */}
-          <div>
-            <h3 className="font-semibold mb-4">Legal</h3>
-            <ul className="space-y-2">
-              {legalLinks.map((link) => {
-                const Icon = link.icon;
-                return (
-                  <li key={link.name}>
-                    <FooterLink
-                      to={link.url}
-                      className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
-                    >
-                      <Icon className="w-4 h-4" />
-                      {link.name}
-                    </FooterLink>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
-          {/* Social Links */}
-          <div>
-            <h3 className="font-semibold mb-4">Connect With Us</h3>
-            <div className="flex gap-4">
-              {socials.map((social) => {
-                const Icon = social.icon;
-                return (
-                  <a
-                    key={social.name}
-                    href={social.url}
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                    aria-label={social.name}
-                  >
-                    <Icon className="w-5 h-5" />
-                  </a>
-                );
-              })}
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center flex-shrink-0">
+                <span className="text-primary-foreground font-bold text-xs">DM</span>
+              </div>
+              <span
+                className="text-base font-semibold"
+                style={{ fontFamily: "Iceland, sans-serif" }}
+              >
+                Dark Mesa Hosting
+              </span>
             </div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Professional websites for small businesses. Built, hosted, and maintained.
+            </p>
+            <a
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 mt-4 text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              <Instagram className="w-4 h-4" />
+              Instagram
+            </a>
+          </div>
+
+          {/* Services */}
+          <div>
+            <h3 className="text-sm font-semibold mb-3">Services</h3>
+            <ul className="space-y-2">
+              {quickLinks.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    to={link.url}
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h3 className="text-sm font-semibold mb-3">Legal</h3>
+            <ul className="space-y-2">
+              {legalLinks.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    to={link.url}
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h3 className="text-sm font-semibold mb-3">Get in Touch</h3>
+            <a
+              href="mailto:info@darkmesahosting.com"
+              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              <Mail className="w-4 h-4 flex-shrink-0" />
+              info@darkmesahosting.com
+            </a>
+            <p className="text-sm text-muted-foreground mt-3">
+              Response within 24 hours.
+            </p>
+            <Link
+              to="/quote"
+              className="inline-block mt-4 text-sm font-semibold text-primary hover:underline"
+            >
+              Get a free quote →
+            </Link>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-border text-center">
-          <p className="text-sm text-muted-foreground">
-            © 2025 Dark Mesa Hosting. All rights reserved.
+        <div className="border-t border-border pt-6 text-center">
+          <p className="text-xs text-muted-foreground">
+            © {new Date().getFullYear()} Dark Mesa Hosting. All rights reserved.
           </p>
         </div>
       </div>
