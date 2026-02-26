@@ -14,6 +14,7 @@ import Hosting from "./pages/Hosting";
 import Pricing from "./pages/Pricing";
 import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
+import About from "./pages/About";
 import Quote from "./pages/Quote";
 import NotFound from "./pages/NotFound";
 import Terms from "./pages/terms";
@@ -59,6 +60,7 @@ const App = () => (
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/about" element={<About />} />
               <Route path="/quote" element={<Quote />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
