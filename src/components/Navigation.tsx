@@ -1,98 +1,135 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, Globe, Server, DollarSign, HelpCircle, Mail } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./ThemeToggle";
+import { Button } from "@/components/ui/button";
 
 const navItems = [
-  { name: "Home", url: "/", icon: Home },
-  { name: "Website Building", url: "/website-building", icon: Globe },
-  { name: "Hosting", url: "/hosting", icon: Server },
-  { name: "Plans & Pricing", url: "/pricing", icon: DollarSign },
-  { name: "FAQ", url: "/faq", icon: HelpCircle },
-  { name: "Contact", url: "/contact", icon: Mail },
+  { name: "Home", url: "/" },
+  { name: "Websites", url: "/website-building" },
+  { name: "Hosting", url: "/hosting" },
+  { name: "Pricing", url: "/pricing" },
+  { name: "FAQ", url: "/faq" },
+  { name: "Contact", url: "/contact" },
 ];
 
 export function Navigation() {
   const location = useLocation();
-  const [isMobile, setIsMobile] = useState(false);
-  const activeTab = navItems.find((item) => item.url === location.pathname)?.name || "Home";
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Close menu on route change
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
+  const isActive = (url: string) =>
+    url === "/" ? location.pathname === "/" : location.pathname === url;
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-white/10 shadow-lg">
-      <div className="container mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16 gap-6">
+    <header
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-200",
+        scrolled || menuOpen
+          ? "bg-background/95 backdrop-blur border-b border-border shadow-sm"
+          : "bg-background/80 backdrop-blur"
+      )}
+    >
+      <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link 
-            to="/" 
-            className="flex items-center cursor-pointer hover:opacity-80 transition-opacity"
-            onClick={(e) => {
+          <Link
+            to="/"
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            onClick={() => {
               if (location.pathname === "/") {
-                e.preventDefault();
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
           >
-            <span 
-              className="text-lg sm:text-xl font-normal text-white whitespace-nowrap"
-              style={{ fontFamily: 'Iceland, sans-serif' }}
+            <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center flex-shrink-0">
+              <span className="text-primary-foreground font-bold text-xs">DM</span>
+            </div>
+            <span
+              className="text-base font-semibold text-foreground whitespace-nowrap hidden sm:block"
+              style={{ fontFamily: "Iceland, sans-serif", letterSpacing: "0.02em" }}
             >
               Dark Mesa Hosting
             </span>
           </Link>
 
-          {/* Navigation Items & Theme Toggle */}
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-1 sm:gap-2">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = activeTab === item.name;
-              return (
-                <Link
-                  key={item.name}
-                  to={item.url}
-                  className={cn(
-                    "relative cursor-pointer text-xs sm:text-sm font-medium px-2 sm:px-3 md:px-4 py-2 transition-colors",
-                    "text-white/70 hover:text-primary",
-                    isActive && "text-primary"
-                  )}
-                >
-                  <span className="hidden lg:inline whitespace-nowrap">{item.name}</span>
-                  <span className="lg:hidden">
-                    <Icon size={16} className="sm:w-[18px] sm:h-[18px]" strokeWidth={2.5} />
-                  </span>
-                  {isActive && (
-                    <motion.div
-                      layoutId="lamp"
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
-                      initial={false}
-                      transition={{
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 30,
-                      }}
-                    />
-                  )}
-                </Link>
-              );
-            })}
-            </div>
-            
-            {/* Theme Toggle */}
-            <ThemeToggle className="opacity-60 hover:opacity-100 transition-opacity" />
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.url}
+                className={cn(
+                  "px-3 py-1.5 rounded-md text-sm font-medium transition-colors",
+                  isActive(item.url)
+                    ? "text-primary bg-primary/8"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                )}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Right side */}
+          <div className="flex items-center gap-2">
+            <ThemeToggle className="hidden sm:flex" />
+            <Link to="/quote" className="hidden md:block">
+              <Button size="sm" className="font-semibold">
+                Get Free Quote
+              </Button>
+            </Link>
+            {/* Mobile menu button */}
+            <button
+              className="md:hidden p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+            >
+              {menuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {menuOpen && (
+          <div className="md:hidden border-t border-border py-3 space-y-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.url}
+                className={cn(
+                  "flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                  isActive(item.url)
+                    ? "text-primary bg-primary/8"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                )}
+              >
+                {item.name}
+              </Link>
+            ))}
+            <div className="pt-2 flex items-center justify-between px-3">
+              <ThemeToggle />
+              <Link to="/quote">
+                <Button size="sm" className="font-semibold">
+                  Get Free Quote
+                </Button>
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
-    </nav>
+    </header>
   );
 }
