@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
-  CheckCircle2, ArrowRight, Zap, Shield, Clock, DollarSign, Star, ChevronDown,
+  CheckCircle2, ArrowRight, Star, ChevronDown,
 } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { organizationSchema, localBusinessSchema } from "@/lib/structuredData";
@@ -25,12 +25,6 @@ const plans = [
   { name: "Pro", price: 99, annual: 1188, pages: "9 pages", buildPrice: 999 },
 ];
 
-const stats = [
-  { value: "99.9%", label: "Uptime", icon: Shield },
-  { value: "< 2s", label: "Load Time", icon: Zap },
-  { value: "24/7", label: "Monitoring", icon: Clock },
-  { value: "$0", label: "Setup Fees", icon: DollarSign },
-];
 
 const steps = [
   { step: 1, title: "Tell us about your business", body: "Fill out our 60-second quote form. Tell us what you need and we'll send you a custom proposal." },
@@ -63,45 +57,29 @@ const HomePage = () => {
 
       {/* ─── HERO ─── */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 text-center overflow-hidden">
-        {/* Subtle gradient bg */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-background pointer-events-none" />
-
-        <div className="relative z-10 max-w-4xl mx-auto space-y-6">
-          {/* Offer badge */}
-          <motion.div
-            variants={fade}
-            initial="hidden"
-            animate="show"
-            custom={0}
-            className="inline-flex items-center gap-2 bg-primary/10 text-primary border border-primary/20 rounded-full px-4 py-1.5 text-sm font-semibold"
-          >
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            Annual plan: website design included FREE
-          </motion.div>
-
+        <div className="relative z-10 max-w-3xl mx-auto space-y-7">
           {/* Headline */}
           <motion.h1
             variants={fade}
             initial="hidden"
             animate="show"
-            custom={1}
+            custom={0}
             className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight"
+            style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            Professional websites for small business.{" "}
-            <span className="text-gradient">Built, hosted & maintained.</span>
+            Websites That Work While You Do.
           </motion.h1>
 
-          {/* Sub */}
+          {/* Sub-headline */}
           <motion.p
             variants={fade}
             initial="hidden"
             animate="show"
-            custom={2}
-            className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto"
+            custom={1}
+            className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
           >
-            We design your site, handle all the technical work, and keep everything
-            running — so you can focus on your business. Starting at just{" "}
-            <strong className="text-foreground">$39/month</strong>.
+            Custom design, hosting, and maintenance for{" "}
+            <strong className="text-foreground">$39/mo</strong>. No technical headaches, just results.
           </motion.p>
 
           {/* CTAs */}
@@ -109,19 +87,18 @@ const HomePage = () => {
             variants={fade}
             initial="hidden"
             animate="show"
-            custom={3}
+            custom={2}
             className="flex flex-col sm:flex-row gap-3 justify-center pt-2"
           >
-            <Link to="/website-building">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto h-12 px-8 font-semibold border-2">
-                See Example Websites
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            </Link>
             <Link to="/quote">
               <Button size="lg" className="w-full sm:w-auto h-12 px-8 font-semibold shadow-md">
                 Get My Free Quote
                 <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+            </Link>
+            <Link to="/website-building">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto h-12 px-8 font-semibold border-2">
+                See Example Websites
               </Button>
             </Link>
           </motion.div>
@@ -131,10 +108,10 @@ const HomePage = () => {
             variants={fade}
             initial="hidden"
             animate="show"
-            custom={4}
-            className="flex flex-wrap justify-center gap-5 pt-4 text-sm text-muted-foreground"
+            custom={3}
+            className="flex flex-wrap justify-center gap-6 pt-4 text-sm text-muted-foreground"
           >
-            {["No credit card required", "Free consultation", "Cancel anytime"].map((t) => (
+            {["No credit card", "Free consultation", "Cancel anytime"].map((t) => (
               <span key={t} className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
                 {t}
@@ -153,31 +130,6 @@ const HomePage = () => {
         </a>
       </section>
 
-      {/* ─── STATS ─── */}
-      <section className="border-y border-border bg-muted/40">
-        <div className="container mx-auto px-4 sm:px-6 max-w-4xl py-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {stats.map((s, i) => {
-              const Icon = s.icon;
-              return (
-                <motion.div
-                  key={s.label}
-                  variants={fade}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true }}
-                  custom={i}
-                  className="text-center"
-                >
-                  <Icon className="w-5 h-5 text-primary mx-auto mb-1" />
-                  <div className="text-2xl font-bold">{s.value}</div>
-                  <div className="text-xs text-muted-foreground">{s.label}</div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
 
       {/* ─── PORTFOLIO ─── */}
       <section id="portfolio" className="py-16 md:py-24">
