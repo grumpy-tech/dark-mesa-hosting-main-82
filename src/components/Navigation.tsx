@@ -54,12 +54,9 @@ export function Navigation() {
               }
             }}
           >
-            <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center flex-shrink-0">
-              <span className="text-primary-foreground font-bold text-xs">DM</span>
-            </div>
             <span
-              className="text-base font-semibold text-foreground whitespace-nowrap hidden sm:block"
-              style={{ fontFamily: "Iceland, sans-serif", letterSpacing: "0.02em" }}
+              className="text-lg font-semibold text-foreground whitespace-nowrap"
+              style={{ fontFamily: "Iceland, sans-serif", letterSpacing: "0.04em" }}
             >
               Dark Mesa Hosting
             </span>

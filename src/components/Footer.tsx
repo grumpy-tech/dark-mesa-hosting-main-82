@@ -16,23 +16,18 @@ const legalLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-card border-t border-border">
+    <footer className="border-t border-border" style={{ background: 'hsl(var(--footer-bg))', color: 'hsl(var(--footer-foreground))' }}>
       <div className="container mx-auto px-4 sm:px-6 max-w-6xl py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-10">
 
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center flex-shrink-0">
-                <span className="text-primary-foreground font-bold text-xs">DM</span>
-              </div>
-              <span
-                className="text-base font-semibold"
-                style={{ fontFamily: "Iceland, sans-serif" }}
-              >
-                Dark Mesa Hosting
-              </span>
-            </div>
+            <span
+              className="text-lg font-semibold block mb-3"
+              style={{ fontFamily: "Iceland, sans-serif", letterSpacing: "0.04em" }}
+            >
+              Dark Mesa Hosting
+            </span>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Professional websites for small businesses. Built, hosted, and maintained.
             </p>

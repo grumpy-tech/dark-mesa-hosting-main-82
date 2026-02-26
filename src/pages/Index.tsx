@@ -56,7 +56,7 @@ const HomePage = () => {
       />
 
       {/* ─── HERO ─── */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 text-center overflow-hidden">
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 text-center overflow-hidden" style={{ background: 'radial-gradient(ellipse at center, hsl(210 14% 92%), hsl(var(--background)))' }}>
         <div className="relative z-10 max-w-3xl mx-auto space-y-7">
           {/* Headline */}
           <motion.h1
@@ -91,7 +91,7 @@ const HomePage = () => {
             className="flex flex-col sm:flex-row gap-3 justify-center pt-2"
           >
             <Link to="/quote">
-              <Button size="lg" className="w-full sm:w-auto h-12 px-8 font-semibold shadow-md">
+              <Button size="lg" className="w-full sm:w-auto h-12 px-8 font-semibold shadow-md" style={{ background: 'linear-gradient(135deg, hsl(174 70% 41%), hsl(177 50% 30%))', border: 'none' }}>
                 Get My Free Quote
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
@@ -252,7 +252,7 @@ const HomePage = () => {
               viewport={{ once: true }}
               custom={1}
             >
-              <Card className="p-6 border-2 border-primary h-full">
+              <Card className="p-6 border-2 border-primary h-full" style={{ boxShadow: '0 0 30px -5px hsl(177 60% 40% / 0.15)' }}>
                 <div className="flex items-center justify-between mb-5">
                   <h3 className="font-bold text-lg">Dark Mesa All-Inclusive</h3>
                   <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded font-semibold">SMART CHOICE</span>
@@ -327,8 +327,9 @@ const HomePage = () => {
               >
                 <Card
                   className={`p-6 relative h-full transition-shadow hover:shadow-lg ${
-                    plan.popular ? "border-2 border-primary shadow-md" : "border border-border"
+                    plan.popular ? "border-2 border-primary" : "border border-border"
                   }`}
+                  style={plan.popular ? { boxShadow: '0 0 40px -8px hsl(177 60% 40% / 0.2)' } : undefined}
                 >
                   {plan.popular && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-bold px-3 py-0.5 rounded-full flex items-center gap-1">
@@ -430,7 +431,7 @@ const HomePage = () => {
       </section>
 
       {/* ─── FINAL CTA ─── */}
-      <section className="py-16 md:py-24 bg-primary text-primary-foreground">
+      <section className="py-16 md:py-24 text-primary-foreground" style={{ background: 'linear-gradient(135deg, hsl(0 0% 20%), hsl(0 0% 15%))' }}>
         <div className="container mx-auto px-4 sm:px-6 max-w-3xl text-center">
           <motion.div
             variants={fade}
