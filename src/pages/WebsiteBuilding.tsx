@@ -6,357 +6,183 @@ import { CheckCircle2, ArrowRight, Globe, Star, Mail, FileText, Image, Smartphon
 import { SEO } from "@/components/SEO";
 import { websiteBuildingService } from "@/lib/structuredData";
 
+const fade = {
+  hidden: { opacity: 0, y: 16 },
+  show: (i = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.45, delay: i * 0.07 } }),
+};
+
 const packages = [
   {
-    id: "starter",
-    name: "Starter",
-    emoji: "🟢",
-    buildPrice: 349,
-    monthlyPrice: 39,
-    pages: "3 Pages",
-    description: "Perfect for new businesses that need a clean, professional online presence.",
-    features: [
-      "3 professionally designed pages",
-      "Works on all devices",
-      "Basic contact form",
-      "Get found on Google",
-      "Fast loading speeds",
-      "Hosting & maintenance included"
-    ]
+    id: "starter", name: "Starter", buildPrice: 349, monthlyPrice: 39, pages: "3 pages",
+    description: "Perfect for new businesses needing a clean professional presence.",
+    features: ["3 professionally designed pages", "Mobile responsive", "Contact form", "Basic SEO", "Fast loading", "Hosting included"],
   },
   {
-    id: "business",
-    name: "Business",
-    emoji: "🔵",
-    buildPrice: 599,
-    monthlyPrice: 69,
-    pages: "Up to 6 Pages",
-    description: "Best for growing businesses that want more content and stronger online visibility.",
-    features: [
-      "Up to 6 custom pages",
-      "Custom design for your brand",
-      "Advanced contact forms",
-      "Better search rankings",
-      "Analytics tracking included",
-      "Priority support"
-    ],
-    popular: true
+    id: "business", name: "Business", buildPrice: 599, monthlyPrice: 69, pages: "Up to 6 pages", popular: true,
+    description: "For growing businesses that want stronger online visibility.",
+    features: ["Up to 6 custom pages", "Custom brand design", "Advanced forms", "Enhanced SEO", "Analytics tracking", "Priority support"],
   },
   {
-    id: "pro",
-    name: "Pro",
-    emoji: "🔴",
-    buildPrice: 999,
-    monthlyPrice: 99,
-    pages: "Up to 9 Pages",
-    description: "For established businesses that want maximum performance & lead generation.",
-    features: [
-      "Up to 9 premium pages",
-      "Unique design just for you",
-      "Advanced SEO & tracking",
-      "Lead capture automation",
-      "Blog or online store included",
-      "Same-day support"
-    ]
-  }
+    id: "pro", name: "Pro", buildPrice: 999, monthlyPrice: 99, pages: "Up to 9 pages",
+    description: "For established businesses wanting maximum performance.",
+    features: ["Up to 9 premium pages", "Fully custom design", "Advanced SEO & tracking", "Lead capture automation", "Blog or online store", "Same-day support"],
+  },
 ];
 
-const includedFeatures = [
-  {
-    icon: Mail,
-    title: "Professional Email",
-    description: "Get a professional email address like you@yourbusiness.com (Business & Pro plans)"
-  },
-  {
-    icon: FileText,
-    title: "Custom Forms",
-    description: "Contact forms, quote requests, and booking forms that actually work and reach your inbox"
-  },
-  {
-    icon: Image,
-    title: "Image Optimization",
-    description: "We make your photos load lightning-fast without losing quality"
-  },
-  {
-    icon: Smartphone,
-    title: "Mobile Perfection",
-    description: "Your site looks and works great on phones, tablets, and computers — guaranteed"
-  }
+const extras = [
+  { icon: Mail, title: "Professional email", desc: "your@yourbusiness.com (Business & Pro plans)" },
+  { icon: FileText, title: "Custom forms", desc: "Contact, quote, and booking forms that reach your inbox" },
+  { icon: Image, title: "Image optimisation", desc: "Photos that load fast without losing quality" },
+  { icon: Smartphone, title: "Mobile perfect", desc: "Looks great on phones, tablets, and computers" },
 ];
 
-const WebsiteBuilding = () => {
-  return (
-    <>
-      <SEO
-        title="Professional Website Building Services"
-        description="Custom website design for small businesses starting at $349. Get a mobile-responsive, SEO-optimized website delivered in 5-14 days. Three packages available."
-        keywords="website building, custom website design, small business web design, professional website, responsive web design"
-        canonical="https://darkmesahosting.com/website-building"
-        ogImage="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&auto=format&fit=crop"
-        schemas={[websiteBuildingService]}
-      />
-      
-      {/* HERO */}
-      <section className="relative pt-32 pb-20 px-6 text-center overflow-hidden">
-        {/* Faded "WEBSITES" background text */}
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 text-[10rem] md:text-[18rem] font-bold bg-gradient-to-b from-foreground/3 to-foreground/0 bg-clip-text text-transparent select-none pointer-events-none">
-          WEBSITES
-        </div>
-        
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }} 
-          animate={{ opacity: 1, y: 0 }}
-          className="relative z-10"
-        >
-          <div className="inline-block p-4 bg-primary/10 rounded-full mb-5 hover:scale-110 transition-transform">
-            <Globe className="w-14 h-14 text-primary" />
+const WebsiteBuilding = () => (
+  <>
+    <SEO
+      title="Professional Website Design for Small Business — Dark Mesa"
+      description="Custom website design starting at $349. Mobile-responsive, SEO-optimised, delivered in 5–14 days. Three packages for every budget."
+      keywords="website building, custom website design, small business web design, professional website"
+      canonical="https://darkmesahosting.com/website-building"
+      schemas={[websiteBuildingService]}
+    />
+
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <section className="pt-24 pb-12 px-4 sm:px-6 text-center">
+        <motion.div variants={fade} initial="hidden" animate="show">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-4">
+            <Globe className="w-6 h-6 text-primary" />
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">
-            A Professional Website That Gets You Customers
+          <h1 className="text-4xl sm:text-5xl font-bold mb-3">
+            A professional website that gets you customers
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            We design, build, host, and maintain your website — so you can focus on running your business.
+          <p className="text-muted-foreground text-lg max-w-xl mx-auto mb-6">
+            We design, build, host, and maintain everything — so you can focus on running your business.
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Link to="/quote" className="group">
-              <Button size="lg" className="hover:scale-105 hover:shadow-xl transition-all duration-300">
-                Get Your Free Quote <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link to="/quote">
+              <Button className="font-semibold">Get Free Quote <ArrowRight className="ml-2 w-4 h-4" /></Button>
             </Link>
-            <Link to="/pricing" className="group">
-              <Button size="lg" variant="outline" className="hover:scale-105 hover:border-primary/50 hover:shadow-lg transition-all duration-300">
-                See All Plan Details
-              </Button>
+            <Link to="/pricing">
+              <Button variant="outline" className="font-semibold">See All Plans</Button>
             </Link>
           </div>
         </motion.div>
       </section>
 
-      {/* HOW IT WORKS */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-muted/30 via-background to-muted/30" />
-        <div className="absolute inset-0 opacity-10" style={{
-          backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
-          backgroundSize: '24px 24px'
-        }} />
-        
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
-            <p className="text-lg text-muted-foreground">
-              From idea to launch in 3 simple steps
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      {/* Steps */}
+      <section className="py-16 px-4 sm:px-6 bg-muted/30 border-y border-border">
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-2xl font-bold text-center mb-10">From idea to live in 3 steps</h2>
+          <div className="grid sm:grid-cols-3 gap-8 text-center">
             {[
-              { num: "1", title: "Tell Us About Your Business", desc: "Share your vision, we'll handle the rest" },
-              { num: "2", title: "We Build Your Website", desc: "Professional design tailored to your brand" },
-              { num: "3", title: "You Go Live & Get Customers", desc: "Launch fast and start growing" }
-            ].map((step, idx) => (
-              <motion.div
-                key={step.num}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1, duration: 0.6 }}
-                viewport={{ once: true }}
-              >
-                <Card className="p-8 text-center border-border hover:border-primary/50 hover:shadow-xl hover:scale-105 transition-all duration-300 backdrop-blur-sm bg-card/80">
-                  <div className="text-5xl font-bold text-primary mb-3">{step.num}</div>
-                  <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
-                  <p className="text-muted-foreground">{step.desc}</p>
-                </Card>
+              { n: 1, title: "Tell us about your business", desc: "Fill out our 60-second form. We send you a custom proposal." },
+              { n: 2, title: "We design & build", desc: "Professional design tailored to your brand, ready in 5–14 days." },
+              { n: 3, title: "Launch & grow", desc: "We handle hosting, maintenance, and support ongoing." },
+            ].map((s, i) => (
+              <motion.div key={s.n} variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} custom={i}>
+                <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground font-bold text-sm flex items-center justify-center mx-auto mb-3">{s.n}</div>
+                <h3 className="font-semibold text-sm mb-1">{s.title}</h3>
+                <p className="text-xs text-muted-foreground">{s.desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* WHAT'S INCLUDED */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Everything You Need Included</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Professional features that make your website work for your business
-            </p>
+      {/* Packages */}
+      <section className="py-16 px-4 sm:px-6">
+        <div className="container mx-auto max-w-5xl">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl font-bold mb-2">Choose your website package</h2>
+            <p className="text-muted-foreground text-sm">Pay 12 months upfront and the build is FREE</p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            {includedFeatures.map((feature, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Card className="p-6 h-full text-center border-border hover:border-primary/50 hover:shadow-xl hover:scale-105 transition-all duration-300 group">
-                  <div className="inline-block p-3 bg-primary/10 rounded-lg mb-4 group-hover:scale-110 group-hover:bg-primary/20 transition-all">
-                    <feature.icon className="w-8 h-8 text-primary" />
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                  <p className="text-sm text-muted-foreground">{feature.description}</p>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PLANS */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10" />
-        
-        {/* Faded plan names in background */}
-        <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 text-[8rem] font-bold bg-gradient-to-b from-green-500/5 to-green-500/0 bg-clip-text text-transparent select-none pointer-events-none rotate-[-15deg]">
-          STARTER
-        </div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[10rem] font-bold bg-gradient-to-b from-blue-500/8 to-blue-500/0 bg-clip-text text-transparent select-none pointer-events-none">
-          BUSINESS
-        </div>
-        <div className="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 text-[8rem] font-bold bg-gradient-to-b from-purple-500/5 to-purple-500/0 bg-clip-text text-transparent select-none pointer-events-none rotate-[15deg]">
-          PRO
-        </div>
-        
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Choose Your Website Package</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              One-time build + affordable monthly hosting. Pay 12 months upfront = FREE website build!
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-5">
             {packages.map((pkg, i) => (
-              <motion.div
-                key={pkg.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Card
-                  className={`p-8 border-2 ${
-                    pkg.popular ? "border-primary shadow-2xl" : "border-border"
-                  } relative flex flex-col h-full backdrop-blur-sm bg-card/80 hover:scale-105 hover:shadow-2xl transition-all duration-300`}
-                >
+              <motion.div key={pkg.id} variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} custom={i}>
+                <Card className={`p-6 h-full flex flex-col relative transition-shadow hover:shadow-lg ${pkg.popular ? "border-2 border-primary shadow-md" : "border border-border"}`}>
                   {pkg.popular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-medium flex items-center gap-1 shadow-lg animate-pulse">
-                      <Star className="w-4 h-4" /> Most Popular
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-bold px-3 py-0.5 rounded-full flex items-center gap-1">
+                      <Star className="w-3 h-3 fill-current" /> Most Popular
                     </div>
                   )}
 
-                  <div className="flex-1 space-y-6">
-                    <div className="text-center space-y-2">
-                      <div className="text-3xl mb-2">{pkg.emoji}</div>
-                      <h3 className="text-2xl font-bold">{pkg.name}</h3>
-                      <p className="text-sm text-muted-foreground">{pkg.pages}</p>
-                      <p className="text-sm text-muted-foreground">{pkg.description}</p>
-                    </div>
-
-                    {/* BUILD */}
-                    <div className="bg-muted/40 p-4 rounded-lg text-center hover:bg-muted/60 transition-colors">
-                      <div className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        One-Time Website Build
-                      </div>
-                      <div className="text-3xl font-bold">${pkg.buildPrice}</div>
-                    </div>
-
-                    {/* HOSTING */}
-                    <div className="bg-primary/10 p-4 rounded-lg text-center hover:bg-primary/20 transition-colors">
-                      <div className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        Monthly Hosting & Support
-                      </div>
-                      <div className="text-3xl font-bold text-primary">
-                        ${pkg.monthlyPrice}/mo
-                      </div>
-                    </div>
-
-                    {/* FREE BUILD OFFER */}
-                    <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-2 border-green-500/30 rounded-lg p-4 text-center hover:border-green-500/50 transition-colors">
-                      <div className="text-xs font-semibold text-green-600 dark:text-green-400 uppercase tracking-wide mb-1">
-                        💰 SPECIAL OFFER
-                      </div>
-                      <div className="text-sm font-bold mb-1">Pay 12 Months Upfront</div>
-                      <div className="text-lg font-bold text-green-600 dark:text-green-400">
-                        WEBSITE BUILD FREE
-                      </div>
-                      <div className="text-xs text-muted-foreground mt-1">
-                        (Save ${pkg.buildPrice})
-                      </div>
-                    </div>
-
-                    <ul className="space-y-3">
-                      {pkg.features.map((feature) => (
-                        <li key={feature} className="flex gap-2 items-start text-sm">
-                          <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  <div className="mb-4">
+                    <h3 className="font-bold text-lg">{pkg.name}</h3>
+                    <p className="text-xs text-muted-foreground">{pkg.description}</p>
                   </div>
 
-                  <div className="mt-6 pt-6 border-t border-border">
-                    <Link to="/quote" state={{ plan: pkg.name, serviceCategory: "bundle" }} className="group">
-                      <Button
-                        className={`w-full ${
-                          pkg.popular
-                            ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                            : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                        } hover:scale-105 hover:shadow-xl transition-all duration-300`}
-                      >
-                        Get Started
-                        <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                    </Link>
+                  <div className="grid grid-cols-2 gap-2 mb-4">
+                    <div className="bg-muted rounded-md p-3 text-center">
+                      <p className="text-xs text-muted-foreground mb-0.5">One-time build</p>
+                      <p className="font-bold text-lg">${pkg.buildPrice}</p>
+                    </div>
+                    <div className="bg-primary/8 border border-primary/20 rounded-md p-3 text-center">
+                      <p className="text-xs text-muted-foreground mb-0.5">Monthly</p>
+                      <p className="font-bold text-lg text-primary">${pkg.monthlyPrice}</p>
+                    </div>
                   </div>
+
+                  <div className="bg-primary/5 border border-primary/15 rounded-md p-2.5 mb-4 text-center">
+                    <p className="text-xs font-bold text-primary">Annual plan: build included FREE (save ${pkg.buildPrice})</p>
+                  </div>
+
+                  <ul className="space-y-2 flex-1 mb-5">
+                    {pkg.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2 text-sm">
+                        <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Link to="/quote" state={{ plan: pkg.name, serviceCategory: "bundle" }}>
+                    <Button className="w-full font-semibold" variant={pkg.popular ? "default" : "outline"}>
+                      Get Started
+                    </Button>
+                  </Link>
                 </Card>
               </motion.div>
             ))}
           </div>
-
-          <div className="text-center mt-12 space-y-4">
-            <p className="text-muted-foreground">
-              Want to see the complete feature breakdown?
-            </p>
-            <Link to="/pricing" className="group inline-block">
-              <Button size="lg" variant="outline" className="hover:scale-105 hover:border-primary/50 hover:shadow-lg transition-all duration-300">
-                View Full Pricing & Features <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
+          <div className="text-center mt-6">
+            <Link to="/pricing" className="text-sm text-primary font-semibold hover:underline">
+              View full feature comparison →
             </Link>
           </div>
         </div>
       </section>
 
-      {/* FINAL CTA */}
-      <section className="relative py-20 bg-primary text-primary-foreground overflow-hidden">
-        {/* Faded "BUILD" text */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[8rem] md:text-[15rem] font-bold opacity-5 select-none pointer-events-none">
-          BUILD
-        </div>
-        
-        <div className="container mx-auto px-6 text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Ready To Get Your Website Live?
-            </h2>
-            <p className="text-lg mb-8 opacity-90">
-              We'll handle everything — from design to launch to ongoing maintenance
-            </p>
-            <Link to="/quote" className="group inline-block">
-              <Button size="lg" variant="secondary" className="hover:scale-110 hover:shadow-2xl transition-all duration-300">
-                Get Your Free Quote <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
-          </motion.div>
+      {/* What's included */}
+      <section className="py-16 px-4 sm:px-6 bg-muted/30 border-y border-border">
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-2xl font-bold text-center mb-8">What's built into every website</h2>
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-5">
+            {extras.map((e, i) => (
+              <motion.div key={e.title} variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} custom={i} className="text-center">
+                <div className="inline-flex items-center justify-center w-10 h-10 bg-primary/10 rounded-full mb-3">
+                  <e.icon className="w-5 h-5 text-primary" />
+                </div>
+                <h3 className="font-semibold text-sm mb-1">{e.title}</h3>
+                <p className="text-xs text-muted-foreground">{e.desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
-    </>
-  );
-};
+
+      {/* CTA */}
+      <section className="py-14 px-4 sm:px-6 bg-primary text-primary-foreground text-center">
+        <h2 className="text-2xl font-bold mb-2">Ready to get your website live?</h2>
+        <p className="opacity-90 mb-6 text-sm">We handle everything — design, launch, and ongoing maintenance.</p>
+        <Link to="/quote">
+          <Button variant="secondary" className="font-bold">
+            Get a Free Quote <ArrowRight className="ml-2 w-4 h-4" />
+          </Button>
+        </Link>
+      </section>
+    </div>
+  </>
+);
 
 export default WebsiteBuilding;
