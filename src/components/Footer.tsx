@@ -1,4 +1,4 @@
-import { Instagram, Mail, Shield, FileText, Globe, Server, DollarSign, HelpCircle } from "lucide-react";
+import { Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const quickLinks = [
@@ -31,15 +31,9 @@ export function Footer() {
             <p className="text-sm text-muted-foreground leading-relaxed">
               Professional websites for small businesses. Built, hosted, and maintained.
             </p>
-            <a
-              href="https://www.instagram.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 mt-4 text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
-              <Instagram className="w-4 h-4" />
-              Instagram
-            </a>
+            <p className="text-sm text-muted-foreground mt-3">
+              Serving small businesses across Canada.
+            </p>
           </div>
 
           {/* Services */}

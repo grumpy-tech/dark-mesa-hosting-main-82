@@ -101,6 +101,9 @@ const Contact = () => {
           <div className="container mx-auto max-w-2xl">
             <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }}>
               <Card className="p-6 sm:p-8">
+                <p className="text-sm text-muted-foreground italic mb-5 border-l-2 border-primary pl-4">
+                  I'm Rowen — I read every message personally and respond within 24 hours.
+                </p>
                 <h2 className="text-xl font-bold mb-6">Send us a message</h2>
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid sm:grid-cols-2 gap-4">

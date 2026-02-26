@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
-  CheckCircle2, ArrowRight, Star, ChevronDown,
+  CheckCircle2, ArrowRight, Star, ChevronDown, MapPin,
 } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { organizationSchema, localBusinessSchema } from "@/lib/structuredData";
@@ -117,6 +117,10 @@ const HomePage = () => {
                 {t}
               </span>
             ))}
+            <span className="flex items-center gap-1.5">
+              <MapPin className="w-4 h-4 text-primary flex-shrink-0" />
+              Based in Canada
+            </span>
           </motion.div>
         </div>
 

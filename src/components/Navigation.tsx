@@ -11,6 +11,7 @@ const navItems = [
   { name: "Hosting", url: "/hosting" },
   { name: "Pricing", url: "/pricing" },
   { name: "FAQ", url: "/faq" },
+  { name: "About", url: "/about" },
   { name: "Contact", url: "/contact" },
 ];
 
