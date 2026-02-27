@@ -25,7 +25,6 @@ const plans = [
   { name: "Pro", price: 99, annual: 1188, pages: "9 pages", buildPrice: 999 },
 ];
 
-
 const steps = [
   { step: 1, title: "Tell us about your business", body: "Fill out our 60-second quote form. Tell us what you need and we'll send you a custom proposal." },
   { step: 2, title: "We build your website", body: "Our team designs and builds your website in 5–14 business days. You review and request changes." },
@@ -35,7 +34,7 @@ const steps = [
 const faqs = [
   { q: "Do I really get the website built for free?", a: "Yes — when you sign up for any annual hosting plan, we build your website at no extra charge (saves you $349–$999). Month-to-month plans carry a one-time build fee." },
   { q: "How long until my site is live?", a: "Most sites are ready in 5–14 business days depending on the plan. Simple 3-page sites are often done in 5 days." },
-  { q: "What if I need changes after launch?", a: "Minor updates (text, images, small tweaks) are included in your plan. Major new pages or redesigns are quoted separately—always before any work begins." },
+  { q: "What if I need changes after launch?", a: "Minor updates (text, images, small tweaks) are included up to 30 minutes per month. Major new pages or redesigns are quoted separately—always before any work begins." },
   { q: "Can I cancel anytime?", a: "Yes. No long-term lock-in. If you cancel you own your website and we'll help you move it." },
   { q: "Do you use templates or custom design?", a: "We use professional templates customized to your brand—giving you a custom look without the $5,000+ price tag of fully bespoke development." },
 ];
@@ -56,65 +55,26 @@ const HomePage = () => {
       />
 
       {/* ─── HERO ─── */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 text-center overflow-hidden" style={{ background: 'radial-gradient(ellipse 80% 70% at center, hsl(177 60% 40% / 0.07), hsl(210 14% 92%) 50%, hsl(var(--background)))' }}>
-
-        {/* Decorative circle outlines */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 text-center overflow-hidden bg-gradient-to-b from-primary/5 via-background to-background">
+        
+        {/* Decorative circles */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
-          {/* Outer glow orb */}
-          <div style={{
-            position: 'absolute',
-            width: '820px',
-            height: '820px',
-            borderRadius: '50%',
-            border: '1.5px solid hsl(177 60% 40% / 0.13)',
-            boxShadow: '0 0 80px 8px hsl(177 60% 40% / 0.06), inset 0 0 80px 8px hsl(177 60% 40% / 0.04)',
-            background: 'radial-gradient(circle, hsl(177 60% 40% / 0.04) 0%, transparent 70%)',
-          }} />
-          {/* Mid ring */}
-          <div style={{
-            position: 'absolute',
-            width: '560px',
-            height: '560px',
-            borderRadius: '50%',
-            border: '1.5px solid hsl(177 60% 40% / 0.18)',
-            boxShadow: '0 0 40px 4px hsl(177 60% 40% / 0.07), inset 0 0 40px 4px hsl(177 60% 40% / 0.05)',
-            background: 'radial-gradient(circle, hsl(177 60% 40% / 0.06) 0%, transparent 70%)',
-          }} />
-          {/* Inner ring */}
-          <div style={{
-            position: 'absolute',
-            width: '320px',
-            height: '320px',
-            borderRadius: '50%',
-            border: '1px solid hsl(177 60% 40% / 0.22)',
-            boxShadow: '0 0 24px 2px hsl(177 60% 40% / 0.09), inset 0 0 24px 2px hsl(177 60% 40% / 0.07)',
-            background: 'radial-gradient(circle, hsl(177 60% 40% / 0.08) 0%, transparent 65%)',
-          }} />
-          {/* Core glow */}
-          <div style={{
-            position: 'absolute',
-            width: '140px',
-            height: '140px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, hsl(177 60% 40% / 0.14) 0%, transparent 80%)',
-            filter: 'blur(8px)',
-          }} />
+          <div className="absolute w-[820px] h-[820px] rounded-full border border-primary/10 shadow-[0_0_80px_8px_rgba(0,200,200,0.06)]" />
+          <div className="absolute w-[560px] h-[560px] rounded-full border border-primary/20 shadow-[0_0_40px_4px_rgba(0,200,200,0.07)]" />
+          <div className="absolute w-[320px] h-[320px] rounded-full bg-primary/5 blur-sm" />
         </div>
 
         <div className="relative z-10 max-w-3xl mx-auto space-y-7">
-          {/* Headline */}
           <motion.h1
             variants={fade}
             initial="hidden"
             animate="show"
             custom={0}
             className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight"
-            style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Websites That Work While You Do.
           </motion.h1>
 
-          {/* Sub-headline */}
           <motion.p
             variants={fade}
             initial="hidden"
@@ -126,7 +86,6 @@ const HomePage = () => {
             <strong className="text-foreground">$39/mo</strong>. No technical headaches, just results.
           </motion.p>
 
-          {/* CTAs */}
           <motion.div
             variants={fade}
             initial="hidden"
@@ -135,7 +94,7 @@ const HomePage = () => {
             className="flex flex-col sm:flex-row gap-3 justify-center pt-2"
           >
             <Link to="/quote">
-              <Button size="lg" className="w-full sm:w-auto h-12 px-8 font-semibold shadow-md" style={{ background: 'linear-gradient(135deg, hsl(174 70% 41%), hsl(177 50% 30%))', border: 'none' }}>
+              <Button size="lg" className="w-full sm:w-auto h-12 px-8 font-semibold shadow-md bg-primary text-primary-foreground hover:bg-primary/90">
                 Get My Free Quote
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
@@ -147,13 +106,12 @@ const HomePage = () => {
             </Link>
           </motion.div>
 
-          {/* Trust strip */}
           <motion.div
             variants={fade}
             initial="hidden"
             animate="show"
             custom={3}
-            className="flex flex-wrap justify-center gap-6 pt-4 text-sm text-muted-foreground"
+            className="flex flex-wrap justify-center gap-6 pt-4 text-sm font-medium text-muted-foreground"
           >
             {["No credit card", "Free consultation", "Cancel anytime"].map((t) => (
               <span key={t} className="flex items-center gap-1.5">
@@ -164,7 +122,6 @@ const HomePage = () => {
           </motion.div>
         </div>
 
-        {/* Scroll cue */}
         <a
           href="#portfolio"
           className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-primary transition-colors animate-bounce"
@@ -296,7 +253,7 @@ const HomePage = () => {
               viewport={{ once: true }}
               custom={1}
             >
-              <Card className="p-6 border-2 border-primary h-full" style={{ boxShadow: '0 0 30px -5px hsl(177 60% 40% / 0.15)' }}>
+              <Card className="p-6 border-2 border-primary h-full shadow-[0_0_30px_-5px_hsl(var(--primary)/0.15)]">
                 <div className="flex items-center justify-between mb-5">
                   <h3 className="font-bold text-lg">Dark Mesa All-Inclusive</h3>
                   <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded font-semibold">SMART CHOICE</span>
@@ -371,9 +328,8 @@ const HomePage = () => {
               >
                 <Card
                   className={`p-6 relative h-full transition-shadow hover:shadow-lg ${
-                    plan.popular ? "border-2 border-primary" : "border border-border"
+                    plan.popular ? "border-2 border-primary shadow-[0_0_40px_-8px_hsl(var(--primary)/0.2)]" : "border border-border"
                   }`}
-                  style={plan.popular ? { boxShadow: '0 0 40px -8px hsl(177 60% 40% / 0.2)' } : undefined}
                 >
                   {plan.popular && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-bold px-3 py-0.5 rounded-full flex items-center gap-1">
@@ -388,7 +344,7 @@ const HomePage = () => {
                   <p className="text-sm text-muted-foreground mb-4">{plan.pages}</p>
 
                   {billing === "annual" ? (
-                    <div className="bg-primary/8 border border-primary/20 rounded-md p-2.5 mb-5 text-center">
+                    <div className="bg-primary/10 border border-primary/20 rounded-md p-2.5 mb-5 text-center">
                       <p className="text-sm font-bold text-primary">Website design included FREE</p>
                       <p className="text-xs text-muted-foreground">${plan.annual}/year billed annually</p>
                     </div>
@@ -475,7 +431,7 @@ const HomePage = () => {
       </section>
 
       {/* ─── FINAL CTA ─── */}
-      <section className="py-16 md:py-24 text-primary-foreground" style={{ background: 'linear-gradient(135deg, hsl(0 0% 20%), hsl(0 0% 15%))' }}>
+      <section className="py-16 md:py-24 text-primary-foreground bg-gradient-to-br from-slate-800 to-slate-900">
         <div className="container mx-auto px-4 sm:px-6 max-w-3xl text-center">
           <motion.div
             variants={fade}
