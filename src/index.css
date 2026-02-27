@@ -2,12 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Iceland';
-  src: url('/fonts/iceland-regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
+/* Added Inter Font Import for professional typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 @layer base {
   :root {
@@ -20,6 +16,7 @@
     --popover: 210 17% 97%;
     --popover-foreground: 0 0% 20%;
 
+    /* Your Brand Color (Teal) */
     --primary: 177 60% 40%;
     --primary-foreground: 0 0% 100%;
     --primary-deep: 177 50% 30%;
