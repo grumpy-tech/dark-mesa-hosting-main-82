@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
-  CheckCircle2, ArrowRight, Star, ChevronDown, MapPin,
+  CheckCircle2, ArrowRight, Star, ChevronDown,
 } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { organizationSchema, localBusinessSchema } from "@/lib/structuredData";
@@ -56,45 +56,49 @@ const HomePage = () => {
       />
 
       {/* ─── HERO ─── */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 text-center overflow-hidden" style={{ background: 'radial-gradient(ellipse at center, hsl(210 14% 92%), hsl(var(--background)))' }}>
-        {/* Subtle floating gradient orbs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-          <motion.div
-            className="absolute rounded-full opacity-[0.12] blur-3xl"
-            style={{
-              width: 420,
-              height: 420,
-              top: '10%',
-              left: '-5%',
-              background: 'radial-gradient(circle, hsl(177 60% 50%), hsl(177 60% 50% / 0))',
-            }}
-            animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
-            transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <motion.div
-            className="absolute rounded-full opacity-[0.10] blur-3xl"
-            style={{
-              width: 350,
-              height: 350,
-              top: '25%',
-              right: '-8%',
-              background: 'radial-gradient(circle, hsl(204 70% 55%), hsl(204 70% 55% / 0))',
-            }}
-            animate={{ x: [0, -25, 0], y: [0, 25, 0] }}
-            transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <motion.div
-            className="absolute rounded-full opacity-[0.08] blur-3xl"
-            style={{
-              width: 300,
-              height: 300,
-              bottom: '5%',
-              left: '30%',
-              background: 'radial-gradient(circle, hsl(177 50% 45%), hsl(177 50% 45% / 0))',
-            }}
-            animate={{ x: [0, 20, 0], y: [0, -15, 0] }}
-            transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
-          />
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 text-center overflow-hidden" style={{ background: 'radial-gradient(ellipse 80% 70% at center, hsl(177 60% 40% / 0.07), hsl(210 14% 92%) 50%, hsl(var(--background)))' }}>
+
+        {/* Decorative circle outlines */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
+          {/* Outer glow orb */}
+          <div style={{
+            position: 'absolute',
+            width: '820px',
+            height: '820px',
+            borderRadius: '50%',
+            border: '1.5px solid hsl(177 60% 40% / 0.13)',
+            boxShadow: '0 0 80px 8px hsl(177 60% 40% / 0.06), inset 0 0 80px 8px hsl(177 60% 40% / 0.04)',
+            background: 'radial-gradient(circle, hsl(177 60% 40% / 0.04) 0%, transparent 70%)',
+          }} />
+          {/* Mid ring */}
+          <div style={{
+            position: 'absolute',
+            width: '560px',
+            height: '560px',
+            borderRadius: '50%',
+            border: '1.5px solid hsl(177 60% 40% / 0.18)',
+            boxShadow: '0 0 40px 4px hsl(177 60% 40% / 0.07), inset 0 0 40px 4px hsl(177 60% 40% / 0.05)',
+            background: 'radial-gradient(circle, hsl(177 60% 40% / 0.06) 0%, transparent 70%)',
+          }} />
+          {/* Inner ring */}
+          <div style={{
+            position: 'absolute',
+            width: '320px',
+            height: '320px',
+            borderRadius: '50%',
+            border: '1px solid hsl(177 60% 40% / 0.22)',
+            boxShadow: '0 0 24px 2px hsl(177 60% 40% / 0.09), inset 0 0 24px 2px hsl(177 60% 40% / 0.07)',
+            background: 'radial-gradient(circle, hsl(177 60% 40% / 0.08) 0%, transparent 65%)',
+          }} />
+          {/* Core glow */}
+          <div style={{
+            position: 'absolute',
+            width: '140px',
+            height: '140px',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, hsl(177 60% 40% / 0.14) 0%, transparent 80%)',
+            filter: 'blur(8px)',
+          }} />
         </div>
 
         <div className="relative z-10 max-w-3xl mx-auto space-y-7">
@@ -157,10 +161,6 @@ const HomePage = () => {
                 {t}
               </span>
             ))}
-            <span className="flex items-center gap-1.5">
-              <MapPin className="w-4 h-4 text-primary flex-shrink-0" />
-              Based in Canada
-            </span>
           </motion.div>
         </div>
 
