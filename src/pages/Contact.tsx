@@ -68,25 +68,25 @@ const Contact = () => {
         {/* Info cards */}
         <section className="pb-10 px-4 sm:px-6">
           <div className="container mx-auto max-w-3xl">
-            <div className="grid sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-3">
               {[
                 { icon: Mail, label: "Email", value: "info@darkmesahosting.com", href: "mailto:info@darkmesahosting.com" },
                 { icon: Clock, label: "Response time", value: "Within 24 hours" },
-                { icon: MapPin, label: "Location", value: "Remote — serving clients worldwide" },
+                { icon: MapPin, label: "Location", value: "British Columbia, Canada" },
               ].map((item, i) => (
                 <motion.div key={item.label} variants={fade} initial="hidden" animate="show" custom={i}>
-                  <Card className="p-4 flex items-start gap-3">
-                    <div className="p-2 bg-primary/10 rounded-md flex-shrink-0">
-                      <item.icon className="w-4 h-4 text-primary" />
+                  <Card className="p-3 sm:p-4 flex items-center gap-2 sm:gap-3 h-full">
+                    <div className="p-1.5 sm:p-2 bg-primary/10 rounded-md flex-shrink-0">
+                      <item.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs text-muted-foreground font-medium">{item.label}</p>
+                      <p className="text-xs text-muted-foreground font-medium leading-tight">{item.label}</p>
                       {item.href ? (
-                        <a href={item.href} className="text-sm font-semibold text-primary hover:underline break-all">
+                        <a href={item.href} className="text-xs sm:text-sm font-semibold text-primary hover:underline whitespace-nowrap block overflow-hidden text-ellipsis">
                           {item.value}
                         </a>
                       ) : (
-                        <p className="text-sm font-semibold">{item.value}</p>
+                        <p className="text-xs sm:text-sm font-semibold leading-tight">{item.value}</p>
                       )}
                     </div>
                   </Card>
@@ -101,9 +101,6 @@ const Contact = () => {
           <div className="container mx-auto max-w-2xl">
             <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }}>
               <Card className="p-6 sm:p-8">
-                <p className="text-sm text-muted-foreground italic mb-5 border-l-2 border-primary pl-4">
-                  I'm Rowen — I read every message personally and respond within 24 hours.
-                </p>
                 <h2 className="text-xl font-bold mb-6">Send us a message</h2>
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid sm:grid-cols-2 gap-4">
