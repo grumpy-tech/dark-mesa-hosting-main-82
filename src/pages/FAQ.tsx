@@ -164,39 +164,22 @@ const FAQ = () => {
         schemas={[faqStructuredData]}
       />
       
-      {/* Hero */}
-      <section className="relative pt-32 pb-20 px-6 overflow-hidden">
-        {/* Faded "FAQ" background text */}
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 text-[15rem] md:text-[25rem] font-bold bg-gradient-to-b from-foreground/3 to-foreground/0 bg-clip-text text-transparent select-none pointer-events-none">
-          FAQ
-        </div>
-        
-        <div className="container mx-auto max-w-4xl relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center space-y-6"
-          >
-            <div className="inline-block p-4 bg-primary/10 rounded-full mb-4 hover:scale-110 transition-transform">
-              <HelpCircle className="w-12 h-12 text-primary" />
-            </div>
-            <h1 className="text-4xl md:text-6xl font-bold">Frequently Asked Questions</h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Got questions? We've got answers. Find everything you need to know about our services.
-            </p>
-          </motion.div>
-        </div>
+      {/* Header */}
+      <section className="pt-24 pb-12 px-4 sm:px-6 text-center">
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-4">
+            <HelpCircle className="w-6 h-6 text-primary" />
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-bold mb-3">Frequently Asked Questions</h1>
+          <p className="text-muted-foreground text-lg max-w-xl mx-auto">
+            Got questions? We've got answers. Find everything you need to know about our services.
+          </p>
+        </motion.div>
       </section>
 
       {/* FAQ Sections */}
-      <section className="relative py-20 bg-background overflow-hidden">
-        {/* Subtle dot grid texture */}
-        <div className="absolute inset-0 opacity-10" style={{
-          backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
-          backgroundSize: '24px 24px'
-        }} />
-        
-        <div className="container mx-auto px-6 max-w-4xl relative z-10">
+      <section className="pb-16 bg-background">
+        <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
           {faqs.map((category, i) => (
             <motion.div
               key={i}
